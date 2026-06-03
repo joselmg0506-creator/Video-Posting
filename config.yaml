@@ -1,0 +1,45 @@
+sources:
+  twitch:
+    enabled: true
+    broadcasters:
+      - shroud
+      - pokimane
+    clips_per_broadcaster: 3
+    period_days: 1
+    min_views: 500
+
+  youtube:
+    enabled: true
+    urls:
+      - https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+processing:
+  max_duration_seconds: 60
+  target_width: 1080
+  target_height: 1920
+  fit_mode: blur_pad   # blur_pad | crop | letterbox
+
+posting:
+  enabled: false
+  target: youtube_shorts    # youtube_shorts | tiktok
+
+  # TikTok-only fields
+  tiktok:
+    privacy: SELF_ONLY      # SELF_ONLY | MUTUAL_FOLLOW_FRIENDS | PUBLIC_TO_EVERYONE
+    disable_comment: false
+    disable_duet: false
+    disable_stitch: false
+
+  # YouTube-Shorts-only fields
+  youtube_shorts:
+    privacy: private        # private | unlisted | public
+    category_id: "24"       # 24 = Entertainment; see YouTube API videoCategories
+    tags: [shorts, clips, fyp]
+
+  caption_template: "{title} #Shorts"
+  description_template: "{title}\nClip by {creator}\n\n#Shorts"
+
+paths:
+  downloads: ./data/downloads
+  processed: ./data/processed
+  state: ./data/state.json
