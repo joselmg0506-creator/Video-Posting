@@ -1,53 +1,66 @@
 """
-Transform stage: turns a bare 9:16 streamer clip into a *transformative* Short.
+Transform stage: turns a bare 9:16 clip into a finished, on-style Short.
 
 Pipeline position:  sources -> processor (9:16) -> [transform] -> poster
 
-Per clip it produces:
-  - AI commentary + a varied AI title/description/hashtags
-  - a per-clip DECISION on whether to narrate at all — clips where the streamer is
-    already talking/reacting are left alone (we don't talk over them); only clips that
-    genuinely benefit get a voiceover
-  - when narrating: an AI-PICKED neural voice matched to the clip's tone
-  - a short on-screen text HOOK + burned captions
-  - a "Subscribe & Like" end card (visual CTA, never narrated)
-  - an AI-disclosure flag the posters set natively (containsSyntheticMedia / is_aigc)
+To make titles/labels actually match the moment, the AI WATCHES the clip (a few frames,
+vision) and READS what was said (Whisper transcript), then writes:
+  - a narrate-or-NOT decision (don't talk over clips that carry themselves)
+  - a varied title / description / hashtags
+  - a hook banner + a few editorial "action labels" (the *HE LOST IT* AMP-clip style)
+When narrating, it also writes commentary spoken by an AI-picked neural voice.
 
-Everything here runs unattended; nothing requires a human in the loop.
+Captions/labels are centered, bold, colored; clips are crop-to-fill; a loop-back outro
+keeps the rewatch loop. Everything runs unattended.
 """
+import base64
+import subprocess
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
-import shutil
-import tempfile
 
 from ..sources import Clip
+from ..processor.video import _duration
 
 
 @dataclass
 class ScriptResult:
     commentary: str          # spoken voiceover text (used only when narrate is True)
     title: str               # platform title / caption headline
-    description: str          # longer description (YouTube) — varied per clip
+    description: str
     hashtags: list[str] = field(default_factory=list)   # WITHOUT leading '#'
-    voice: str = ""          # AI-picked voice id from the roster ("" if not chosen/invalid)
-    narrate: bool = True     # False = clip stands on its own, don't talk over it
-    hook: str = ""           # short on-screen text hook (shown even when not narrating)
+    voice: str = ""          # AI-picked voice id ("" if not chosen/invalid)
+    narrate: bool = True
+    hook: str = ""           # opening banner line
+    labels: list[str] = field(default_factory=list)     # editorial on-screen hype labels
 
 
 @dataclass
 class Transformed:
-    path: Path               # the finished, ready-to-post video
+    path: Path
     script: ScriptResult
-    ai_label: bool           # disclose as AI-assisted on post
-    voice: str = ""          # the voice actually used ("" if the clip wasn't narrated)
+    ai_label: bool
+    voice: str = ""
     narrated: bool = False
 
 
-def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
-    """Generate commentary (+ maybe voiceover) + captions + end card and render the Short.
+def _extract_frames(video: Path, n: int = 4) -> list[str]:
+    """Return up to n evenly-spaced frames as base64 JPEGs (for the vision model)."""
+    dur = _duration(video) or 0
+    if dur <= 0:
+        return []
+    with tempfile.TemporaryDirectory(prefix="vp_frames_") as td:
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", str(video),
+             "-vf", f"fps={n}/{dur:.2f},scale=512:-1", "-frames:v", str(n),
+             str(Path(td) / "f_%02d.jpg")],
+            capture_output=True,
+        )
+        return [base64.b64encode(f.read_bytes()).decode()
+                for f in sorted(Path(td).glob("f_*.jpg"))[:n]]
 
-    `processed` is the 9:16 file from the processor stage. `out` is the final file.
-    """
+
+def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
     from . import script as _script
     from . import tts as _tts
     from . import compose as _compose
@@ -57,21 +70,33 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
     vcfg = tcfg["voiceover"]
     ccfg = tcfg["captions"]
     ecfg = tcfg.get("endcard", {})
+    lcfg = tcfg["llm"]
     backend = vcfg.get("backend", "edge")
 
+    # --- understand the clip: transcript (what was said) + frames (what's shown) ---
+    transcript = ""
+    acfg = ccfg.get("asr", {})
+    if acfg.get("enabled"):
+        try:
+            from . import transcribe as _transcribe
+            words = _transcribe.transcribe(processed, model=acfg.get("model", "base"),
+                                           language=acfg.get("language", "en"))
+            transcript = " ".join(w[0] for w in words)
+        except Exception as e:
+            print(f"    [understand] transcript skipped: {e}")
+    frames = _extract_frames(processed, int(lcfg.get("vision_frames", 4))) if lcfg.get("use_vision", True) else []
+
     roster = vcfg.get("roster") if (backend == "edge" and vcfg.get("auto_select")) else None
-    result = _script.generate(clip, tcfg["llm"], roster=roster)
+    result = _script.generate(clip, lcfg, roster=roster, transcript=transcript, frames=frames)
 
-    # Narrate only if the AI decided it adds value AND voiceover is enabled.
     do_narrate = bool(vcfg["enabled"] and result.narrate and result.commentary.strip())
+    used_voice, narrated = "", False
 
-    used_voice = ""
-    narrated = False
     with tempfile.TemporaryDirectory(prefix="vp_transform_") as tmp:
         tmp_dir = Path(tmp)
 
         voice_audio: Path | None = None
-        caption_words = None          # (word, start, end) timings for karaoke captions
+        caption_words = None
         if do_narrate:
             used_voice = result.voice or vcfg.get("default_voice", "")
             voice_audio, caption_words = _tts.synthesize(
@@ -81,46 +106,28 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
             )
             narrated = True
 
-        # Hook banner is always shown (the sound-off scroll-stopper). Captions: word-by-word
-        # karaoke of our commentary when narrating, else of the STREAMER's own speech (ASR).
-        hook_text = None
-        captions_text = None
-        if ccfg["enabled"]:
-            hook_text = result.hook or None
-            if narrated:
-                captions_text = result.commentary if not caption_words else None
-            else:
-                acfg = ccfg.get("asr", {})
-                if acfg.get("enabled"):
-                    try:
-                        from . import transcribe as _transcribe
-                        caption_words = _transcribe.transcribe(
-                            processed,
-                            model=acfg.get("model", "base"),
-                            language=acfg.get("language", "en"),
-                        ) or None
-                    except Exception as e:
-                        print(f"    [captions] ASR skipped: {e}")
+        # Hook banner always; when narrating caption the commentary, else show the
+        # editorial hype labels (the AMP-clip look).
+        hook_text = (result.hook or None) if ccfg["enabled"] else None
+        labels = None if (narrated or not ccfg["enabled"]) else (result.labels or None)
+        if narrated and not caption_words:
+            caption_words = None
 
-        # Render the body, then append the end card (if enabled) for the final file.
         endcard_on = bool(ecfg.get("enabled"))
         body = (tmp_dir / "body.mp4") if endcard_on else out
         _compose.compose(
             video=processed, out=body, voiceover=voice_audio,
             duck_db=vcfg["duck_db"],
-            captions_text=captions_text, caption_words=caption_words,
-            hook_text=hook_text, font_size=ccfg["font_size"],
+            caption_words=caption_words, labels=labels, hook_text=hook_text,
+            font_size=ccfg["font_size"], hook_duration=float(ccfg.get("hook_seconds", 3.0)),
         )
         if endcard_on:
             _endcard.append(
                 body, out,
-                cta_text=ecfg.get("cta_text", "SUBSCRIBE"),
+                cta_text=ecfg.get("cta_text", ""),
                 loop_seconds=float(ecfg.get("loop_seconds", 0.5)),
                 cta_font=int(ecfg.get("cta_font_size", 46)),
             )
 
-    return Transformed(
-        path=out, script=result,
-        ai_label=bool(tcfg.get("ai_label", True)),
-        voice=used_voice, narrated=narrated,
-    )
+    return Transformed(path=out, script=result, ai_label=bool(tcfg.get("ai_label", True)),
+                       voice=used_voice, narrated=narrated)

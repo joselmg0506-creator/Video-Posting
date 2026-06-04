@@ -44,7 +44,7 @@ processing:
   max_duration_seconds: 35   # 15-35s is the Shorts retention sweet spot (was 60)
   target_width: 1080
   target_height: 1920
-  fit_mode: blur_pad   # blur_pad | crop | letterbox
+  fit_mode: crop       # crop = full-bleed fill (the AMP-clip look) | blur_pad | letterbox
   peak_trim: true      # cold-open on the loudest moment instead of the clip's first seconds
 
 # Transformative layer: AI commentary + voiceover + captions per clip.
@@ -59,6 +59,8 @@ transform:
     model: claude-haiku-4-5-20251001
     persona: "an energetic, witty hype-caster reacting to a viral streamer clip"
     max_words: 25            # short setup line, not a full read (~9s of TTS)
+    use_vision: true         # let the AI WATCH a few frames for accurate titles + hype labels
+    vision_frames: 4
 
   # Voiceover narration.
   voiceover:
@@ -89,6 +91,7 @@ transform:
   captions:
     enabled: true
     font_size: 72            # px at 1080x1920 (karaoke pops larger)
+    hook_seconds: 4.0        # how long the hook/title banner stays on screen
     asr:
       enabled: true          # caption the streamer's own audio on non-narrated clips
       model: small           # tiny | base | small (bigger = more accurate, slower)

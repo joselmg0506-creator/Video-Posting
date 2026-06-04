@@ -97,10 +97,17 @@ def _ass_header(caption_font: int, hook_font: int) -> str:
         f"Style: Caption,Arial,{caption_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
         "1,0,0,0,100,100,0,0,1,4,1,2,80,80,520,1\n"
         f"Style: Hook,Arial,{hook_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
-        "1,0,0,0,100,100,0,0,1,5,2,8,60,60,300,1\n\n"
+        "1,0,0,0,100,100,0,0,1,5,2,8,60,60,300,1\n"
+        # Label: big, bold, CENTER, heavy outline (AMP hype-label look; colour set inline).
+        "Style: Label,Arial,96,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,"
+        "1,0,0,0,100,100,0,0,1,6,2,5,90,90,0,1\n\n"
         "[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
     )
+
+
+# Inline colours (ASS &HBBGGRR): yellow, white, green — cycled across labels.
+_LABEL_COLORS = ["&H0000FFFF&", "&H00FFFFFF&", "&H0000FF00&"]
 
 
 def _build_ass(
@@ -111,10 +118,24 @@ def _build_ass(
     caption_words: list[tuple[str, float, float]] | None = None,
     captions_text: str | None = None,
     captions_dur: float = 0.0,
+    labels: list[str] | None = None,
+    total_dur: float = 0.0,
 ) -> str:
     events: list[str] = []
     if hook_text:
         events.append(f"Dialogue: 0,{_fmt_ts(0)},{_fmt_ts(hook_dur)},Hook,,0,0,0,,{_safe(hook_text)}")
+
+    if labels:
+        win_start = hook_dur + 0.3
+        span = max((total_dur or len(labels) * 2.0) - win_start, len(labels) * 1.2)
+        per = span / len(labels)
+        for i, lab in enumerate(labels):
+            st = win_start + i * per
+            en = st + min(per, 2.4)
+            color = _LABEL_COLORS[i % len(_LABEL_COLORS)]
+            events.append(
+                f"Dialogue: 0,{_fmt_ts(st)},{_fmt_ts(en)},Label,,0,0,0,,{{\\c{color}}}{_safe(lab)}"
+            )
 
     if caption_words:
         for phrase in _phrases(caption_words):
@@ -145,6 +166,7 @@ def compose(
     duck_db: float = -10,
     captions_text: str | None = None,
     caption_words: list[tuple[str, float, float]] | None = None,
+    labels: list[str] | None = None,
     hook_text: str | None = None,
     font_size: int = 64,
     hook_font_size: int = 74,
@@ -155,7 +177,7 @@ def compose(
     out.parent.mkdir(parents=True, exist_ok=True)
     voiceover = Path(voiceover).resolve() if voiceover else None
 
-    need_subs = bool(captions_text or caption_words or hook_text)
+    need_subs = bool(captions_text or caption_words or labels or hook_text)
     if voiceover is None and not need_subs:
         shutil.copyfile(video, out)
         return out
@@ -176,7 +198,7 @@ def compose(
                 _build_ass(
                     hook_text, hook_duration, font_size, hook_font_size,
                     caption_words=caption_words, captions_text=captions_text,
-                    captions_dur=captions_dur,
+                    captions_dur=captions_dur, labels=labels, total_dur=(vdur or 0.0),
                 ),
                 encoding="utf-8",
             )
