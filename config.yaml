@@ -88,14 +88,13 @@ transform:
     enabled: true
     font_size: 64            # px at 1080x1920
 
-  # "Subscribe & Like" end card appended to every video (visual CTA — never narrated).
+  # Loop-back outro: echo the opening frame for a seamless autoplay loop (protects the
+  # rewatch signal) + a small persistent corner "SUBSCRIBE" tag. Never narrated.
   endcard:
     enabled: true
-    text: "SUBSCRIBE & LIKE"
-    subtext: "for daily clips"
-    duration: 2.0            # seconds
-    font_size: 96
-    bg_color: black
+    cta_text: "SUBSCRIBE"
+    loop_seconds: 0.5        # how long to echo frame 1 at the end
+    cta_font_size: 46
 
   # Disclose as AI-assisted on every post (YouTube containsSyntheticMedia / TikTok is_aigc).
   # Labeling has no reach/monetization penalty and avoids strikes for non-disclosure.

@@ -98,11 +98,9 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
         if endcard_on:
             _endcard.append(
                 body, out,
-                text=ecfg.get("text", "SUBSCRIBE & LIKE"),
-                subtext=ecfg.get("subtext", ""),
-                duration=float(ecfg.get("duration", 2.0)),
-                font_size=int(ecfg.get("font_size", 96)),
-                bg=ecfg.get("bg_color", "black"),
+                cta_text=ecfg.get("cta_text", "SUBSCRIBE"),
+                loop_seconds=float(ecfg.get("loop_seconds", 0.5)),
+                cta_font=int(ecfg.get("cta_font_size", 46)),
             )
 
     return Transformed(
