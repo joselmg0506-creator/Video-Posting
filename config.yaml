@@ -1,23 +1,105 @@
 sources:
+  # Publish at most this many of the best NEW clips per run. Keep it small (~3) and run a
+  # few times/day rather than one big batch — avoids the "mass-produced daily" pattern.
+  max_per_run: 3
+
   twitch:
     enabled: true
-    broadcasters:
-      - shroud
-      - pokimane
-    clips_per_broadcaster: 3
-    period_days: 1
+    period_days: 1            # look back this many days for "top of the day"
     min_views: 500
+    clips_per_broadcaster: 2   # top N clips pulled per streamer
+    clips_per_game: 5          # top N clips pulled per game (streamer-agnostic)
+    # Streamers who actually stream on Twitch (login = twitch.tv/<name>).
+    broadcasters:
+      - jynxzi          # your pick — R6/FPS variety
+      - 2xrakai         # your pick (RaKai) — current handle after a rename/ban...
+      - rakai           # ...older handle, kept as a fallback (returns nothing if dead)
+      - ddg             # your pick — also streams on Kick these days
+      # similar big, clip-friendly streamers in the same scene:
+      - kaicenat
+      - dukedennis
+      - caseoh_
+      - plaqueboymax
+    # Top clips pulled per GAME (streamer-agnostic) — the daily "best of <game>" feed.
+    games:
+      - Fortnite
+      - Roblox
+      - Minecraft
+      - Apex Legends
+      - Grand Theft Auto V    # exact Twitch category name
+      - VALORANT
 
   youtube:
     enabled: true
-    urls:
-      - https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    channel_uploads_per: 2     # recent uploads pulled per channel
+    tab: videos                # videos = long-form to clip | shorts = already-vertical highlights
+    # YouTube-FIRST creators (don't stream on Twitch). Speed is the main one; DDG is
+    # pulled from Twitch above instead (his YouTube is mostly music).
+    channels:
+      - "@IShowSpeed"
+    # Optional one-off video URLs.
+    urls: []
 
 processing:
-  max_duration_seconds: 60
+  max_duration_seconds: 35   # 15-35s is the Shorts retention sweet spot (was 60)
   target_width: 1080
   target_height: 1920
   fit_mode: blur_pad   # blur_pad | crop | letterbox
+
+# Transformative layer: AI commentary + voiceover + captions per clip.
+# This is what moves the content out of YouTube's "reused/inauthentic content" and
+# TikTok's "unoriginal content" demonetization buckets. Set enabled: false to revert
+# to bare clip reposting (not recommended for monetization).
+transform:
+  enabled: true
+
+  # AI commentary + metadata writer (Anthropic Messages API; needs ANTHROPIC_API_KEY).
+  llm:
+    model: claude-haiku-4-5-20251001
+    persona: "an energetic, witty hype-caster reacting to a viral streamer clip"
+    max_words: 25            # short setup line, not a full read (~9s of TTS)
+
+  # Voiceover narration.
+  voiceover:
+    enabled: true
+    backend: edge            # edge = natural neural voices, free, needs internet
+                             # offline = robotic SAPI5/espeak, no internet, no key
+    auto_select: true        # let the AI pick the best-fitting voice per clip from the roster
+    default_voice: en-US-AndrewNeural   # fallback, and used when auto_select is false
+    rate: 175                # words/min (offline backend only; edge uses natural pacing)
+    duck_db: -10             # how far to lower the ORIGINAL clip audio under the voiceover
+
+    # Voices the AI can choose from per clip (edge-tts neural voices). Keep the styles
+    # distinct — matching voice to clip mood is what makes the variety feel intentional.
+    roster:
+      - id: en-US-AndrewNeural
+        style: "warm, conversational guy — wholesome, funny, or storytime moments"
+      - id: en-US-GuyNeural
+        style: "high-energy hype — insane plays, clutch moments, big highlights"
+      - id: en-US-BrianNeural
+        style: "relaxed, sarcastic, casual — chill or comedic clips"
+      - id: en-US-AvaNeural
+        style: "friendly, natural woman — reactions, lifestyle, wholesome"
+      - id: en-US-AriaNeural
+        style: "upbeat, versatile woman — trending, pop-culture, news-y clips"
+
+  # Burned-in captions: the spoken line when narrating, else just the short text hook.
+  captions:
+    enabled: true
+    font_size: 64            # px at 1080x1920
+
+  # "Subscribe & Like" end card appended to every video (visual CTA — never narrated).
+  endcard:
+    enabled: true
+    text: "SUBSCRIBE & LIKE"
+    subtext: "for daily clips"
+    duration: 2.0            # seconds
+    font_size: 96
+    bg_color: black
+
+  # Disclose as AI-assisted on every post (YouTube containsSyntheticMedia / TikTok is_aigc).
+  # Labeling has no reach/monetization penalty and avoids strikes for non-disclosure.
+  ai_label: true
 
 posting:
   enabled: false

@@ -47,6 +47,7 @@ class YouTubeShortsPoster:
         privacy: str = "private",
         category_id: str = "24",
         tags: list[str] | None = None,
+        contains_synthetic_media: bool = False,
     ) -> str:
         body = {
             "snippet": {
@@ -58,6 +59,8 @@ class YouTubeShortsPoster:
             "status": {
                 "privacyStatus": privacy,
                 "selfDeclaredMadeForKids": False,
+                # AI/altered-content disclosure (Data API v3, since 2024-10-30).
+                "containsSyntheticMedia": contains_synthetic_media,
             },
         }
         media = MediaFileUpload(str(video_path), mimetype="video/mp4", resumable=True)

@@ -5,3 +5,6 @@ python-dotenv>=1.0
 google-api-python-client>=2.120
 google-auth-oauthlib>=1.2
 google-auth-httplib2>=0.2
+anthropic>=0.40         # AI commentary/metadata for the transform stage
+edge-tts>=6.1           # neural voiceover (free, no API key, needs internet)
+pyttsx3>=2.90           # offline text-to-speech fallback (no internet, robotic)

@@ -65,6 +65,7 @@ class TikTokPoster:
         disable_comment: bool = False,
         disable_duet: bool = False,
         disable_stitch: bool = False,
+        is_aigc: bool = False,
     ) -> str:
         """Direct-post a video. Returns the publish_id."""
         size = video_path.stat().st_size
@@ -78,6 +79,8 @@ class TikTokPoster:
                 "disable_comment": disable_comment,
                 "disable_duet": disable_duet,
                 "disable_stitch": disable_stitch,
+                # AI-generated content disclosure → "Creator labeled as AI-generated" tag.
+                "is_aigc": is_aigc,
             },
             "source_info": {
                 "source": "FILE_UPLOAD",

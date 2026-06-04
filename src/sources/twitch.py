@@ -12,6 +12,28 @@ HELIX = "https://api.twitch.tv/helix"
 OAUTH = "https://id.twitch.tv/oauth2/token"
 
 
+def _parse_clips(data: list[dict], limit: int, min_views: int) -> list[Clip]:
+    """Turn raw Helix clip objects (already most-viewed first) into Clips."""
+    clips: list[Clip] = []
+    for c in data:
+        if c.get("view_count", 0) < min_views:
+            continue
+        clips.append(
+            Clip(
+                id=f"twitch:{c['id']}",
+                title=c["title"],
+                source="twitch",
+                creator=c["broadcaster_name"],
+                download_url=c["url"],   # Twitch clip page; yt-dlp resolves the mp4
+                duration=c.get("duration"),
+                view_count=c.get("view_count"),
+            )
+        )
+        if len(clips) >= limit:
+            break
+    return clips
+
+
 class TwitchClient:
     def __init__(self):
         self.client_id = env("TWITCH_CLIENT_ID", required=True)
@@ -54,6 +76,20 @@ class TwitchClient:
         data = r.json()["data"]
         return data[0]["id"] if data else None
 
+    def _fetch_clips(self, selector: dict, limit: int, period_days: int) -> list[dict]:
+        """Raw Helix clips (most-viewed first) for a broadcaster_id or game_id selector
+        over the last `period_days`."""
+        now = datetime.now(timezone.utc)
+        params = {
+            **selector,
+            "first": min(max(limit * 3, limit), 100),
+            "started_at": (now - timedelta(days=period_days)).isoformat(),
+            "ended_at": now.isoformat(),
+        }
+        r = requests.get(f"{HELIX}/clips", headers=self._headers(), params=params, timeout=15)
+        r.raise_for_status()
+        return r.json()["data"]
+
     def get_top_clips(
         self,
         broadcaster_login: str,
@@ -64,36 +100,40 @@ class TwitchClient:
         user_id = self.get_user_id(broadcaster_login)
         if not user_id:
             return []
-        started_at = (datetime.now(timezone.utc) - timedelta(days=period_days)).isoformat()
+        return _parse_clips(
+            self._fetch_clips({"broadcaster_id": user_id}, limit, period_days),
+            limit,
+            min_views,
+        )
+
+    def get_game_id(self, game_name: str) -> str | None:
         r = requests.get(
-            f"{HELIX}/clips",
+            f"{HELIX}/games",
             headers=self._headers(),
-            params={
-                "broadcaster_id": user_id,
-                "first": min(limit * 3, 100),
-                "started_at": started_at,
-            },
+            params={"name": game_name},
             timeout=15,
         )
         r.raise_for_status()
-        clips = []
-        for c in r.json()["data"]:
-            if c.get("view_count", 0) < min_views:
-                continue
-            clips.append(
-                Clip(
-                    id=f"twitch:{c['id']}",
-                    title=c["title"],
-                    source="twitch",
-                    creator=c["broadcaster_name"],
-                    download_url=c["url"],   # Twitch clip page; yt-dlp resolves the mp4
-                    duration=c.get("duration"),
-                    view_count=c.get("view_count"),
-                )
-            )
-            if len(clips) >= limit:
-                break
-        return clips
+        data = r.json()["data"]
+        return data[0]["id"] if data else None
+
+    def get_top_clips_by_game(
+        self,
+        game_name: str,
+        limit: int = 5,
+        period_days: int = 1,
+        min_views: int = 0,
+    ) -> list[Clip]:
+        """Top clips for an entire game (streamer-agnostic) — the engine for a daily
+        'best of <game>' highlights feed."""
+        game_id = self.get_game_id(game_name)
+        if not game_id:
+            return []
+        return _parse_clips(
+            self._fetch_clips({"game_id": game_id}, limit, period_days),
+            limit,
+            min_views,
+        )
 
 
 def download_clip(clip: Clip, dest_dir: Path) -> Path:

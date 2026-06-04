@@ -3,9 +3,16 @@
 For-fun Python pipeline that pulls clips from Twitch and videos from YouTube, converts them to vertical 9:16, and posts them to **YouTube Shorts** (default) or **TikTok**.
 
 ```
-sources ──► download ──► ffmpeg 9:16 ──► post ──► dedupe state
-(Twitch, YouTube)                       (Shorts / TikTok)
+sources ──► download ──► ffmpeg 9:16 ──► transform ──────────► post ──► dedupe state
+(Twitch, YouTube)                        (AI commentary +      (Shorts / TikTok)
+                                          voiceover + captions)
 ```
+
+The **transform** stage is what keeps the channel monetizable: both YouTube ("reused" /
+"inauthentic" content) and TikTok ("unoriginal" content) demonetize bare clip reposts.
+It adds genuinely-varied AI commentary, an offline voiceover, and burned-in captions per
+clip — and discloses the content as AI-assisted on every post. Disable it with
+`transform.enabled: false` to revert to plain reposting (not recommended).
 
 ## Layout
 
@@ -19,6 +26,10 @@ src/
     twitch.py            # Twitch Helix API + yt-dlp download
     youtube.py           # yt-dlp wrapper
   processor/video.py     # ffmpeg → 1080x1920 (blur_pad / crop / letterbox)
+  transform/
+    script.py            # AI commentary + title/desc/hashtags (Anthropic API)
+    tts.py               # offline voiceover (pyttsx3 / SAPI5, no API key)
+    compose.py           # ffmpeg: mix voiceover + burn captions
   poster/
     youtube.py           # YouTube Data API v3 uploader
     tiktok.py            # TikTok Content Posting API client
@@ -41,6 +52,22 @@ Create an app at https://dev.twitch.tv/console (instant). Put the client id + se
 TWITCH_CLIENT_ID=...
 TWITCH_CLIENT_SECRET=...
 ```
+
+### Transform stage (AI commentary)
+
+On by default. The voiceover and captions are **fully offline** (no API key), but writing
+the per-clip commentary uses the Anthropic API, so add one key to `.env`:
+
+```
+ANTHROPIC_API_KEY=...
+```
+
+Tune the voice/persona/length under `transform:` in `config.yaml`. On Windows the
+voiceover uses built-in SAPI5 voices; on Linux install `espeak`/`espeak-ng`. Set a
+specific `transform.voiceover.voice` substring to pick a particular installed voice.
+`transform.ai_label: true` sets the native AI-disclosure flag on each post
+(YouTube `containsSyntheticMedia`, TikTok `is_aigc`) — labeling carries no reach or
+monetization penalty and avoids strikes for non-disclosure.
 
 ### Posting target
 
@@ -69,6 +96,7 @@ Outputs land in `data/processed/` as ready-to-post MP4s. Posted clip IDs are tra
 
 ## Caveats
 
-- **Copyright**: reposting other creators' content without permission can get the account struck. Prefer creators who allow clips, your own streams, or transformative edits.
+- **Copyright**: the transform stage adds commentary but the underlying footage is still someone else's — it lowers, not eliminates, copyright-strike risk. Prefer creators who allow clips, your own streams, or footage you have rights to.
+- **AI disclosure**: commentary about *real* streamers should stay accurate and non-defamatory; the stage runs unattended, so spot-check occasionally if you post about real people. Keep `transform.ai_label: true` so posts are labeled as AI-assisted.
 - **YouTube quota**: a video upload costs 1600 units against the default 10,000/day quota — about 6 uploads/day per project before you need a quota increase.
 - **TikTok approval**: real reviews can take weeks and apps that look like generic reposting bots get rejected. Frame the use case carefully if you apply.
