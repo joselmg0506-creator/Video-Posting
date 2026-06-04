@@ -5,10 +5,11 @@ sources:
 
   twitch:
     enabled: true
-    period_days: 1            # look back this many days for "top of the day"
+    period_days: 7            # streamers don't all stream daily, so "top of the WEEK"
+                             # + dedup keeps a steady supply (1 starved the niche)
     min_views: 500
     languages: [en]          # keep only clips in these stream languages ([] = no filter)
-    clips_per_broadcaster: 2   # top N clips pulled per streamer
+    clips_per_broadcaster: 3   # top N clips pulled per streamer
     clips_per_game: 5          # top N clips pulled per game (streamer-agnostic)
     # MAIN NICHE: RaKai + the AMP / Streamer-University Just-Chatting / IRL crew
     # (loud reaction clips — the hook is their own reaction, so we don't narrate them).
@@ -32,10 +33,9 @@ sources:
     enabled: true
     channel_uploads_per: 2     # recent uploads pulled per channel
     tab: videos                # videos = long-form to clip | shorts = already-vertical highlights
-    # YouTube-FIRST creators (don't stream on Twitch). Speed is the main one; DDG is
-    # pulled from Twitch above instead (his YouTube is mostly music).
-    channels:
-      - "@IShowSpeed"
+    # Off for the Twitch AMP niche. (Also: YouTube now bot-blocks yt-dlp downloads without
+    # browser cookies, so channel pulls need cookie auth to be reliable.)
+    channels: []
     # Optional one-off video URLs.
     urls: []
 
