@@ -10,7 +10,8 @@
 param(
     [string[]]$Times = @("09:00", "13:00", "19:00"),
     [int]$PerRun = 1,
-    [string]$MetricsTime = "23:00",
+    [string]$MetricsTime = "22:00",
+    [switch]$MetricsOnly,    # register ONLY the daily dashboard task (no posting runs)
     [switch]$DryRun
 )
 $ErrorActionPreference = "Stop"
@@ -20,14 +21,16 @@ $runner = Join-Path $proj "scripts\run.ps1"
 $dry = if ($DryRun) { " -DryRun" } else { "" }
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Hours 1)
 
-for ($i = 0; $i -lt $Times.Count; $i++) {
-    $name = "VideoPOsting_Run_$($i + 1)"
-    $argLine = "-NoProfile -ExecutionPolicy Bypass -File `"$runner`" -Max $PerRun$dry"
-    $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument $argLine -WorkingDirectory $proj
-    $trigger = New-ScheduledTaskTrigger -Daily -At $Times[$i]
-    Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings `
-        -Description "VideoPOsting: generate + post a YouTube Short" -Force | Out-Null
-    Write-Host "Registered $name -> daily at $($Times[$i])  (Max $PerRun$dry)"
+if (-not $MetricsOnly) {
+    for ($i = 0; $i -lt $Times.Count; $i++) {
+        $name = "VideoPOsting_Run_$($i + 1)"
+        $argLine = "-NoProfile -ExecutionPolicy Bypass -File `"$runner`" -Max $PerRun$dry"
+        $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument $argLine -WorkingDirectory $proj
+        $trigger = New-ScheduledTaskTrigger -Daily -At $Times[$i]
+        Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings `
+            -Description "VideoPOsting: generate + post a YouTube Short" -Force | Out-Null
+        Write-Host "Registered $name -> daily at $($Times[$i])  (Max $PerRun$dry)"
+    }
 }
 
 # Daily metrics digest (end of day).

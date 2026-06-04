@@ -111,7 +111,8 @@ Run the pipeline a few times a day via Windows Task Scheduler:
 
 Each slot posts **1** clip; the default morning/lunch/evening times = **3 Shorts/day**,
 spaced out — the research sweet spot, and under YouTube's ~6-upload/day quota. The setup
-also registers a **daily metrics digest** (`VideoPOsting_Metrics`, 11pm) — `run.ps1` is the
+also registers a **daily metrics dashboard** (`VideoPOsting_Metrics`, 10pm; or just that
+task via `setup_schedule.ps1 -MetricsOnly`) — `run.ps1` is the
 underlying runner (handles venv + ffmpeg). **Nothing posts until `posting.enabled: true`**
 in `config.yaml` (+ a one-time `python -m src.auth_youtube`), so a non-`-DryRun` schedule is
 still safe to register early — it just stages files until you flip the switch.
