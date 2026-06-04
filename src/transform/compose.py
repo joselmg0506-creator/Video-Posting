@@ -88,7 +88,7 @@ def _ass_header(caption_font: int, hook_font: int) -> str:
         "ScriptType: v4.00+\n"
         "PlayResX: 1080\n"
         "PlayResY: 1920\n"
-        "WrapStyle: 2\n"
+        "WrapStyle: 0\n"          # smart-wrap long lines instead of running off-frame
         "ScaledBorderAndShadow: yes\n\n"
         "[V4+ Styles]\n"
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
@@ -147,7 +147,7 @@ def compose(
     caption_words: list[tuple[str, float, float]] | None = None,
     hook_text: str | None = None,
     font_size: int = 64,
-    hook_font_size: int = 84,
+    hook_font_size: int = 74,
     hook_duration: float = 2.5,
 ) -> Path:
     video = Path(video).resolve()

@@ -10,25 +10,23 @@ sources:
     languages: [en]          # keep only clips in these stream languages ([] = no filter)
     clips_per_broadcaster: 2   # top N clips pulled per streamer
     clips_per_game: 5          # top N clips pulled per game (streamer-agnostic)
-    # Streamers who actually stream on Twitch (login = twitch.tv/<name>).
+    # MAIN NICHE: RaKai + the AMP / Streamer-University Just-Chatting / IRL crew
+    # (loud reaction clips — the hook is their own reaction, so we don't narrate them).
     broadcasters:
-      - jynxzi          # your pick — R6/FPS variety
-      - 2xrakai         # your pick (RaKai) — current handle after a rename/ban...
-      - rakai           # ...older handle, kept as a fallback (returns nothing if dead)
-      - ddg             # your pick — also streams on Kick these days
-      # similar big, clip-friendly streamers in the same scene:
+      - 2xrakai          # RaKai (your pick) — current handle
+      - rakai            # RaKai older handle (fallback)
       - kaicenat
       - dukedennis
-      - caseoh_
+      - fanum
+      - agent00
       - plaqueboymax
-    # Top clips pulled per GAME (streamer-agnostic) — the daily "best of <game>" feed.
-    games:
-      - Fortnite
-      - Roblox
-      - Minecraft
-      - Apex Legends
-      - Grand Theft Auto V    # exact Twitch category name
-      - VALORANT
+      - chrisnxtdoor
+      - imdavisss
+      - ray
+      - silky
+    # Games disabled to keep the niche tight. Re-add categories here for a gaming lane,
+    # or spin up a separate channel for that once this one is proven.
+    games: []
 
   youtube:
     enabled: true
@@ -92,7 +90,7 @@ transform:
     font_size: 72            # px at 1080x1920 (karaoke pops larger)
     asr:
       enabled: true          # caption the streamer's own audio on non-narrated clips
-      model: base            # tiny | base | small (bigger = more accurate, slower)
+      model: small           # tiny | base | small (bigger = more accurate, slower)
       language: en
 
   # Loop-back outro: echo the opening frame for a seamless autoplay loop (protects the
@@ -137,9 +135,9 @@ music_edit:
     - "https://www.youtube.com/watch?v=8C3we1FSAA0"          # Iconic FIFA WC Moments Part 1
     - "https://www.youtube.com/watch?v=_RD6s35qC4g"          # Iconic FIFA WC Moments Part 2
   duration: 30           # length of the edit (s)
-  song_start: 0          # where in the song to start (try the drop/chorus)
-  beats_per_cut: 2       # cut every N beats (1 = very fast)
-  fit: crop              # crop = full-bleed fill (the example's look) | letterbox
+  song_start: auto       # auto = highest-energy section (skips the intro) | a number (seconds)
+  beats_per_cut: 1       # cut every N beats (1 = on every beat)
+  fit: blur_pad          # blur_pad = whole frame visible (soccer not cropped) | crop | letterbox
   hook_text: ""          # optional top banner, e.g. "WORLD CUP"
   broll_max_seconds: 240 # only download the first N seconds of each b-roll
   broll_dir: ./data/broll

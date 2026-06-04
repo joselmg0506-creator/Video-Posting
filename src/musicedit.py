@@ -68,14 +68,36 @@ def _cut_points(beats: list[float], duration: float, beats_per_cut: int) -> list
     return out
 
 
-def _segment(broll: Path, seg_len: float, out: Path, fit: str = "crop") -> None:
-    """Extract a random `seg_len` window from a b-roll file, crop-to-fill 9:16, color-punched, silent."""
+def _best_window(wav: Path, duration: float) -> float:
+    """Start time of the highest-energy `duration`-second window — skips the quiet
+    intro (e.g. the country-naming part) and lands on the drop/chorus."""
+    import librosa
+    y, sr = librosa.load(str(wav), sr=22050, mono=True)
+    total = len(y) / sr
+    if total <= duration + 1:
+        return 0.0
+    rms = librosa.feature.rms(y=y)[0]
+    times = librosa.frames_to_time(range(len(rms)), sr=sr)
+    best_t, best_e, t = 0.0, -1.0, 0.0
+    while t + duration <= total:
+        mask = (times >= t) & (times < t + duration)
+        e = float(rms[mask].mean()) if mask.any() else 0.0
+        if e > best_e:
+            best_e, best_t = e, t
+        t += 2.0
+    return best_t
+
+
+def _segment(broll: Path, seg_len: float, out: Path, fit: str = "blur_pad") -> None:
+    """Extract a random `seg_len` window from a b-roll file, fit to 9:16, color-punched, silent.
+    blur_pad keeps the WHOLE frame (so soccer action isn't cropped out of frame)."""
     dur = _duration(broll) or 0
     start = random.uniform(5, max(6, dur - seg_len - 5)) if dur > seg_len + 12 else 0.0
-    vf = _build_filter(1080, 1920, fit) + ",eq=contrast=1.04:saturation=1.3"
+    graph = _build_filter(1080, 1920, fit) + ",eq=contrast=1.04:saturation=1.25"
+    flag = "-filter_complex" if fit == "blur_pad" else "-vf"
     subprocess.run(
         ["ffmpeg", "-y", "-ss", f"{start:.2f}", "-t", f"{seg_len:.2f}", "-i", str(broll),
-         "-vf", vf, "-an",
+         flag, graph, "-an",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-r", "30", "-pix_fmt", "yuv420p",
          str(out)],
         check=True, capture_output=True,
@@ -88,15 +110,17 @@ def make(cfg: dict) -> Path:
     broll_dir = Path(mc.get("broll_dir", "./data/broll"))
     out = Path(cfg["paths"]["processed"]) / "music_edit.mp4"
     duration = float(mc.get("duration", 30))
-    song_start = float(mc.get("song_start", 0))
-    bpc = int(mc.get("beats_per_cut", 2))
-    fit = mc.get("fit", "crop")
+    bpc = int(mc.get("beats_per_cut", 1))
+    fit = mc.get("fit", "blur_pad")
 
     print("  fetching song video…")
     song_video = broll_dir / "speed_song.mp4"
     if not song_video.exists():
         song_video = _download(mc["song_url"], broll_dir / "speed_song")
     song_wav = _extract_wav(song_video, work / "song")
+    ss = mc.get("song_start", "auto")
+    song_start = _best_window(song_wav, duration) if ss in (None, "auto") else float(ss)
+    print(f"  song window starts at {song_start:.0f}s")
 
     print("  fetching b-roll…")
     brolls: list[Path] = []
@@ -107,8 +131,6 @@ def make(cfg: dict) -> Path:
         brolls.append(f)
     if not brolls:
         raise RuntimeError("no b-roll downloaded")
-    # Intercut Speed's own footage with the World Cup b-roll (weight him so he recurs).
-    pool = brolls + [song_video] * max(1, len(brolls) // 2 + 1)
 
     print("  detecting beats…")
     beats = _beats(song_wav, song_start, duration)
@@ -119,8 +141,10 @@ def make(cfg: dict) -> Path:
         tmp_dir = Path(tmp)
         seg_files = []
         for j in range(len(cuts) - 1):
+            # Alternate Speed's footage with the World Cup b-roll for a deliberate intercut.
+            src = song_video if j % 2 == 0 else random.choice(brolls)
             seg = tmp_dir / f"seg_{j:03d}.mp4"
-            _segment(random.choice(pool), cuts[j + 1] - cuts[j], seg, fit=fit)
+            _segment(src, cuts[j + 1] - cuts[j], seg, fit=fit)
             seg_files.append(seg)
 
         listf = tmp_dir / "list.txt"
