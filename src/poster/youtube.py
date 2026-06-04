@@ -18,7 +18,10 @@ from googleapiclient.http import MediaFileUpload
 
 from ..config import env
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.readonly",   # read stats for the metrics digest
+]
 
 
 def _load_credentials() -> Credentials:

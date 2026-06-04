@@ -7,9 +7,11 @@ Entry point. Usage:
 import argparse
 import sys
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from itertools import zip_longest
 from pathlib import Path
 
+from src import notify
 from src.config import load_config
 from src.state import State
 from src.sources import Clip
@@ -157,12 +159,19 @@ def main() -> None:
     ap.add_argument("--dry-run", "--no-post", dest="dry_run", action="store_true")
     ap.add_argument("--max-per-run", type=int, default=None,
                     help="override sources.max_per_run for this run (e.g. 1 per scheduled slot)")
+    ap.add_argument("--metrics", action="store_true",
+                    help="post a metrics digest of recent videos instead of running the pipeline")
     args = ap.parse_args()
 
     cfg = load_config()
     if args.max_per_run is not None:
         cfg["sources"]["max_per_run"] = args.max_per_run
     state = State(cfg["paths"]["state"])
+
+    if args.metrics:
+        from src.metrics import digest
+        digest(state, cfg)
+        return
     downloads = Path(cfg["paths"]["downloads"])
     processed = Path(cfg["paths"]["processed"])
     transform_on = bool(cfg.get("transform", {}).get("enabled"))
@@ -211,6 +220,7 @@ def main() -> None:
         return
 
     target = cfg["posting"]["target"]
+    notif_on = cfg.get("notifications", {}).get("discord", {}).get("enabled", False)
 
     if target == "tiktok":
         from src.poster.tiktok import TikTokPoster
@@ -241,6 +251,7 @@ def main() -> None:
         from src.poster.youtube import YouTubeShortsPoster
         ycfg = cfg["posting"]["youtube_shorts"]
         poster = YouTubeShortsPoster()
+        posted = 0
         for it in items:
             title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
             title = title[:100]
@@ -256,10 +267,24 @@ def main() -> None:
                     tags=tags,
                     contains_synthetic_media=it.ai_label,
                 )
-                print(f"    uploaded: https://youtube.com/shorts/{video_id}")
-                state.mark_posted(it.clip.id)
+                url = f"https://youtube.com/shorts/{video_id}"
+                print(f"    uploaded: {url}")
+                state.record_post(
+                    it.clip.id, video_id=video_id, url=url, title=title,
+                    creator=it.clip.creator, source=it.clip.source,
+                    narrated=bool(it.voice), voice=it.voice,
+                    posted_at=datetime.now(timezone.utc).isoformat(),
+                )
+                notify.send(
+                    embeds=[notify.posted_embed(title, url, it.clip.creator, it.clip.source,
+                                                bool(it.voice), it.voice)],
+                    enabled=notif_on,
+                )
+                posted += 1
             except Exception as e:
                 print(f"    upload failed: {e}")
+                notify.send(content=f"❌ Upload failed: {title[:80]} — {e}", enabled=notif_on)
+        notify.send(content=f"▶️ Run complete — {posted} Short(s) posted to YouTube.", enabled=notif_on)
 
     else:
         raise ValueError(f"Unknown posting.target: {target}")

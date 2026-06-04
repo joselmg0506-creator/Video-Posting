@@ -110,10 +110,19 @@ Run the pipeline a few times a day via Windows Task Scheduler:
 ```
 
 Each slot posts **1** clip; the default morning/lunch/evening times = **3 Shorts/day**,
-spaced out — the research sweet spot, and under YouTube's ~6-upload/day quota. `run.ps1`
-is the underlying runner (handles venv + ffmpeg). **Nothing posts until `posting.enabled:
-true`** in `config.yaml` (+ a one-time `python -m src.auth_youtube`), so a non-`-DryRun`
-schedule is still safe to register early — it just stages files until you flip the switch.
+spaced out — the research sweet spot, and under YouTube's ~6-upload/day quota. The setup
+also registers a **daily metrics digest** (`VideoPOsting_Metrics`, 11pm) — `run.ps1` is the
+underlying runner (handles venv + ffmpeg). **Nothing posts until `posting.enabled: true`**
+in `config.yaml` (+ a one-time `python -m src.auth_youtube`), so a non-`-DryRun` schedule is
+still safe to register early — it just stages files until you flip the switch.
+
+## Notifications & metrics
+
+Set `DISCORD_WEBHOOK_URL` in `.env` (Discord → Server Settings → Integrations → Webhooks)
+and the pipeline posts to Discord: a card per published Short, upload failures, a per-run
+summary, and a daily digest (`python main.py --metrics`) with a top-clips leaderboard plus
+**per-creator and narrated-vs-raw average views** so you can see what's working. Toggle with
+`notifications.discord.enabled`; it's a no-op if the webhook is unset.
 
 ## Caveats
 

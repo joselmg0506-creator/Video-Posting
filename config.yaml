@@ -126,6 +126,10 @@ posting:
   caption_template: "{title} #Shorts"
   description_template: "{title}\nClip by {creator}\n\n#Shorts"
 
+notifications:
+  discord:
+    enabled: true        # post / failure / daily-metrics alerts (needs DISCORD_WEBHOOK_URL)
+
 paths:
   downloads: ./data/downloads
   processed: ./data/processed

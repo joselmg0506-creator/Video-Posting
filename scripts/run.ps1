@@ -5,7 +5,8 @@
 #   .\scripts\run.ps1 -DryRun         # generate + stage only, never post
 param(
     [int]$Max = 1,
-    [switch]$DryRun
+    [switch]$DryRun,
+    [switch]$Metrics      # run the daily metrics digest instead of the pipeline
 )
 $ErrorActionPreference = "Stop"
 
@@ -20,8 +21,12 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 $env:HF_HUB_DISABLE_SYMLINKS_WARNING = "1"
 
 $py = Join-Path $proj ".venv\Scripts\python.exe"
-$pyArgs = @("main.py", "--max-per-run", "$Max")
-if ($DryRun) { $pyArgs += "--dry-run" }
+if ($Metrics) {
+    $pyArgs = @("main.py", "--metrics")
+} else {
+    $pyArgs = @("main.py", "--max-per-run", "$Max")
+    if ($DryRun) { $pyArgs += "--dry-run" }
+}
 
 Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] running: python $($pyArgs -join ' ')"
 & $py @pyArgs
