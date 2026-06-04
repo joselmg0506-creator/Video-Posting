@@ -32,6 +32,21 @@ def send(content: str = "", embeds: list[dict] | None = None, enabled: bool = Tr
         print(f"  [discord] notify failed: {e}")
 
 
+def send_file(path, content: str = "", enabled: bool = True) -> None:
+    """Post an image/file attachment (e.g. the dashboard PNG) to the webhook."""
+    from pathlib import Path
+    url = env("DISCORD_WEBHOOK_URL")
+    if not enabled or not url:
+        return
+    try:
+        with open(path, "rb") as fh:
+            files = {"file": (Path(path).name, fh, "image/png")}
+            data = {"content": content[:2000]} if content else None
+            requests.post(url, data=data, files=files, timeout=30)
+    except Exception as e:
+        print(f"  [discord] file notify failed: {e}")
+
+
 def posted_embed(title: str, url: str, creator: str, source: str,
                  narrated: bool, voice: str) -> dict:
     return {

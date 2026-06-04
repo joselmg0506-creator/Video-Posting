@@ -164,12 +164,20 @@ def main() -> None:
                     help="override sources.max_per_run for this run (e.g. 1 per scheduled slot)")
     ap.add_argument("--metrics", action="store_true",
                     help="post a metrics digest of recent videos instead of running the pipeline")
+    ap.add_argument("--music-edit", dest="music_edit", action="store_true",
+                    help="render the beat-synced music edit instead of the clip pipeline")
     args = ap.parse_args()
 
     cfg = load_config()
     if args.max_per_run is not None:
         cfg["sources"]["max_per_run"] = args.max_per_run
     state = State(cfg["paths"]["state"])
+
+    if args.music_edit:
+        from src.musicedit import make
+        print("Rendering music edit…")
+        make(cfg)
+        return
 
     if args.metrics:
         from src.metrics import digest

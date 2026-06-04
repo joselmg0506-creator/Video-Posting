@@ -7,11 +7,16 @@ Discord webhook is configured, posts the same digest there.
 Run it with `python main.py --metrics` (or on a daily schedule).
 """
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from googleapiclient.discovery import build
 
 from .poster.youtube import _load_credentials
 from . import notify
+
+
+def _when_label(hours: int) -> str:
+    return f"{datetime.now().strftime('%b %d, %Y')} · last {hours}h"
 
 
 def _parse(ts: str):
@@ -71,28 +76,30 @@ def digest(state, cfg: dict, hours: int = 24) -> str:
     tv = sum(r["views"] for r in rows)
     tl = sum(r["likes"] for r in rows)
     tc = sum(r["comments"] for r in rows)
-
-    lines = [
-        f"📊 **Daily digest** — {len(rows)} Shorts in the last {hours}h",
-        f"**{tv:,}** views · {tl:,} likes · {tc:,} comments",
-        "",
-        "🏆 Top:",
-    ]
-    for i, r in enumerate(rows[:5], 1):
-        lines.append(f"{i}. {str(r.get('title', '?'))[:50]} — {r['views']:,} views ({r.get('creator', '?')})")
-
     by_creator = _avg_by(rows, "creator")
-    lines.append("")
-    lines.append("By creator (avg views): " +
-                 " · ".join(f"{k} {int(v):,}" for k, v in sorted(by_creator.items(), key=lambda x: -x[1])))
-
     narr = {"narrated": [], "raw": []}
     for r in rows:
         narr["narrated" if r.get("narrated") else "raw"].append(r["views"])
-    fmt = [f"{k} {int(sum(v) / len(v)):,}" for k, v in narr.items() if v]
-    lines.append("By format (avg views): " + " · ".join(fmt))
+    by_format = {k: (sum(v) / len(v) if v else None) for k, v in narr.items()}
 
-    msg = "\n".join(lines)
-    print(msg)
-    notify.send(content=msg, enabled=notif_on)
-    return msg
+    top_line = " | ".join(f"{str(r.get('title', '?'))[:30]} {r['views']:,}" for r in rows[:3])
+    print(f"📊 {len(rows)} Shorts · {tv:,} views · {tl:,} likes · {tc:,} comments | top: {top_line}")
+
+    label = _when_label(hours)
+    sd = {
+        "when": label,
+        "totals": {"views": tv, "likes": tl, "comments": tc, "count": len(rows)},
+        "top": [{"title": str(r.get("title", "?")), "views": r["views"],
+                 "creator": str(r.get("creator", "?"))} for r in rows],
+        "by_creator": by_creator,
+        "by_format": by_format,
+    }
+    try:
+        from . import dashboard
+        png = Path(cfg["paths"]["state"]).parent / "dashboard.png"
+        dashboard.render(sd, png)
+        notify.send_file(png, content=f"📊 **Daily Dashboard** — {label}", enabled=notif_on)
+    except Exception as e:
+        print(f"  [dashboard] skipped ({e}); sending text")
+        notify.send(content=f"📊 {len(rows)} Shorts · {tv:,} views · top: {top_line}", enabled=notif_on)
+    return "ok"

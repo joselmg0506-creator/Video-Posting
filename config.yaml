@@ -127,6 +127,23 @@ posting:
   caption_template: "{title} #Shorts"
   description_template: "{title}\nClip by {creator}\n\n#Shorts"
 
+# Beat-synced music edit (separate mode): `python main.py --music-edit`.
+# A song over b-roll cut on the beat (e.g. Speed's World Cup song over WC moments + his
+# own footage). Note: FIFA footage + the song are rights-managed — for-fun / unlisted.
+music_edit:
+  song_url: "https://www.youtube.com/watch?v=vrY1THC_NQE"    # Speed - World Cup (Champions)
+  broll_urls:
+    - "https://www.youtube.com/watch?v=phCws4VKPyY"          # Most Iconic World Cup Moments
+    - "https://www.youtube.com/watch?v=8C3we1FSAA0"          # Iconic FIFA WC Moments Part 1
+    - "https://www.youtube.com/watch?v=_RD6s35qC4g"          # Iconic FIFA WC Moments Part 2
+  duration: 30           # length of the edit (s)
+  song_start: 0          # where in the song to start (try the drop/chorus)
+  beats_per_cut: 2       # cut every N beats (1 = very fast)
+  fit: crop              # crop = full-bleed fill (the example's look) | letterbox
+  hook_text: ""          # optional top banner, e.g. "WORLD CUP"
+  broll_max_seconds: 240 # only download the first N seconds of each b-roll
+  broll_dir: ./data/broll
+
 notifications:
   discord:
     enabled: true        # post / failure / daily-metrics alerts (needs DISCORD_WEBHOOK_URL)
