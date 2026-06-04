@@ -7,6 +7,7 @@ sources:
     enabled: true
     period_days: 1            # look back this many days for "top of the day"
     min_views: 500
+    languages: [en]          # keep only clips in these stream languages ([] = no filter)
     clips_per_broadcaster: 2   # top N clips pulled per streamer
     clips_per_game: 5          # top N clips pulled per game (streamer-agnostic)
     # Streamers who actually stream on Twitch (login = twitch.tv/<name>).

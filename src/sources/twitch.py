@@ -12,11 +12,15 @@ HELIX = "https://api.twitch.tv/helix"
 OAUTH = "https://id.twitch.tv/oauth2/token"
 
 
-def _parse_clips(data: list[dict], limit: int, min_views: int) -> list[Clip]:
-    """Turn raw Helix clip objects (already most-viewed first) into Clips."""
+def _parse_clips(data: list[dict], limit: int, min_views: int,
+                 languages: set[str] | None = None) -> list[Clip]:
+    """Turn raw Helix clip objects (already most-viewed first) into Clips.
+    languages (e.g. {"en"}) keeps only clips whose stream language matches."""
     clips: list[Clip] = []
     for c in data:
         if c.get("view_count", 0) < min_views:
+            continue
+        if languages and (c.get("language", "")[:2].lower() not in languages):
             continue
         clips.append(
             Clip(
@@ -96,6 +100,7 @@ class TwitchClient:
         limit: int = 5,
         period_days: int = 1,
         min_views: int = 0,
+        languages: set[str] | None = None,
     ) -> list[Clip]:
         user_id = self.get_user_id(broadcaster_login)
         if not user_id:
@@ -104,6 +109,7 @@ class TwitchClient:
             self._fetch_clips({"broadcaster_id": user_id}, limit, period_days),
             limit,
             min_views,
+            languages,
         )
 
     def get_game_id(self, game_name: str) -> str | None:
@@ -123,6 +129,7 @@ class TwitchClient:
         limit: int = 5,
         period_days: int = 1,
         min_views: int = 0,
+        languages: set[str] | None = None,
     ) -> list[Clip]:
         """Top clips for an entire game (streamer-agnostic) — the engine for a daily
         'best of <game>' highlights feed."""
@@ -133,6 +140,7 @@ class TwitchClient:
             self._fetch_clips({"game_id": game_id}, limit, period_days),
             limit,
             min_views,
+            languages,
         )
 
 

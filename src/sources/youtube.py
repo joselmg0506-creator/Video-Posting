@@ -1,9 +1,20 @@
 import hashlib
+import re
 from pathlib import Path
 
 import yt_dlp
 
 from . import Clip
+
+# Uploads that are produced content, not clippable stream highlights.
+_PRODUCED_RE = re.compile(
+    r"(?i)\b(official\s+(music\s+)?video|official\s+audio|lyric\s+video|music\s+video)\b"
+    r"|\((?:official\s+)?audio\)|\[(?:official\s+)?audio\]"
+)
+
+
+def _looks_produced(title: str) -> bool:
+    return bool(_PRODUCED_RE.search(title or ""))
 
 
 def _id_for(url: str) -> str:
@@ -44,13 +55,18 @@ def recent_uploads(channel: str, limit: int = 5, tab: str = "videos") -> list[Cl
         "no_warnings": True,
         "skip_download": True,
         "extract_flat": True,     # list playlist entries without resolving each video
-        "playlistend": limit,
+        "playlistend": limit + 6,  # buffer so we still hit `limit` after filtering
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
 
     clips: list[Clip] = []
-    for e in (info.get("entries") or [])[:limit]:
+    for e in (info.get("entries") or []):
+        if len(clips) >= limit:
+            break
+        title = e.get("title", "untitled")
+        if _looks_produced(title):     # skip music videos etc. — not clippable highlights
+            continue
         vid = e.get("url") or e.get("id")
         if not vid:
             continue
@@ -58,7 +74,7 @@ def recent_uploads(channel: str, limit: int = 5, tab: str = "videos") -> list[Cl
         clips.append(
             Clip(
                 id=_id_for(watch),
-                title=e.get("title", "untitled"),
+                title=title,
                 source="youtube",
                 creator=e.get("uploader") or e.get("channel") or info.get("title", "unknown"),
                 download_url=watch,

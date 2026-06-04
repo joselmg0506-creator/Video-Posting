@@ -55,6 +55,7 @@ def gather_clips(cfg: dict) -> list[Clip]:
     youtube_buckets: list[list[Clip]] = []
 
     tw = cfg["sources"]["twitch"]
+    langs = {s[:2].lower() for s in tw.get("languages", ["en"]) if s} or None
     client = None
     if tw["enabled"] and (tw.get("broadcasters") or tw.get("games")):
         try:
@@ -71,6 +72,7 @@ def gather_clips(cfg: dict) -> list[Clip]:
                         limit=tw["clips_per_broadcaster"],
                         period_days=tw["period_days"],
                         min_views=tw["min_views"],
+                        languages=langs,
                     )
                 )
             except Exception as e:
@@ -83,6 +85,7 @@ def gather_clips(cfg: dict) -> list[Clip]:
                         limit=tw["clips_per_game"],
                         period_days=tw["period_days"],
                         min_views=tw["min_views"],
+                        languages=langs,
                     )
                 )
             except Exception as e:
