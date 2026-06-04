@@ -94,10 +94,10 @@ transform:
       language: en
 
   # Loop-back outro: echo the opening frame for a seamless autoplay loop (protects the
-  # rewatch signal) + a small persistent corner "SUBSCRIBE" tag. Never narrated.
+  # rewatch signal). cta_text is the small corner tag — leave "" for none. Never narrated.
   endcard:
     enabled: true
-    cta_text: "SUBSCRIBE"
+    cta_text: ""             # e.g. "SUBSCRIBE" to show a small corner tag; "" = off
     loop_seconds: 0.5        # how long to echo frame 1 at the end
     cta_font_size: 46
 

@@ -53,27 +53,33 @@ def append(
     out = Path(out).resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
 
+    cta = (cta_text or "").strip()
     with tempfile.TemporaryDirectory(prefix="vp_loopback_") as tmp:
         tmp_dir = Path(tmp)
         frame0 = tmp_dir / "frame0.png"
         _run(["ffmpeg", "-y", "-i", str(body), "-frames:v", "1", "-update", "1", str(frame0)])
-        (tmp_dir / "cta.ass").write_text(_cta_ass(cta_text, cta_font), encoding="utf-8")
 
         fc = (
             "[0:v]fps=30,scale=1080:1920,setsar=1,format=yuv420p[bv];"
             "[0:a]aresample=44100,aformat=channel_layouts=stereo:sample_fmts=fltp[ba];"
             "[1:v]fps=30,scale=1080:1920,setsar=1,format=yuv420p[fv];"
             "[2:a]aresample=44100,aformat=channel_layouts=stereo:sample_fmts=fltp[fa];"
-            "[bv][ba][fv][fa]concat=n=2:v=1:a=1[cv][ca];"
-            "[cv]subtitles=cta.ass[outv]"
+            "[bv][ba][fv][fa]concat=n=2:v=1:a=1[cv][ca]"
         )
+        if cta:
+            (tmp_dir / "cta.ass").write_text(_cta_ass(cta, cta_font), encoding="utf-8")
+            fc += ";[cv]subtitles=cta.ass[outv]"
+            vmap = "[outv]"
+        else:
+            vmap = "[cv]"
+
         cmd = [
             "ffmpeg", "-y",
             "-i", str(body),
             "-loop", "1", "-t", str(loop_seconds), "-i", str(frame0),
             "-f", "lavfi", "-t", str(loop_seconds), "-i", "anullsrc=r=44100:cl=stereo",
             "-filter_complex", fc,
-            "-map", "[outv]", "-map", "[ca]",
+            "-map", vmap, "-map", "[ca]",
             "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "128k", "-ar", "44100",
             "-movflags", "+faststart",
