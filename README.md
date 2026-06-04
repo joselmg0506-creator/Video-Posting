@@ -98,6 +98,23 @@ python main.py               # full pipeline (requires posting.enabled: true)
 
 Outputs land in `data/processed/` as ready-to-post MP4s. Posted clip IDs are tracked in `data/state.json` so the same clip won't go up twice.
 
+## Scheduling (post automatically)
+
+Run the pipeline a few times a day via Windows Task Scheduler:
+
+```powershell
+.\scripts\setup_schedule.ps1 -DryRun     # 3x/day, PREVIEW only (renders, never posts)
+.\scripts\setup_schedule.ps1             # 3x/day, posts if posting.enabled: true
+.\scripts\setup_schedule.ps1 -Times 10:00,20:00   # custom times
+.\scripts\remove_schedule.ps1            # remove the schedule
+```
+
+Each slot posts **1** clip; the default morning/lunch/evening times = **3 Shorts/day**,
+spaced out — the research sweet spot, and under YouTube's ~6-upload/day quota. `run.ps1`
+is the underlying runner (handles venv + ffmpeg). **Nothing posts until `posting.enabled:
+true`** in `config.yaml` (+ a one-time `python -m src.auth_youtube`), so a non-`-DryRun`
+schedule is still safe to register early — it just stages files until you flip the switch.
+
 ## Caveats
 
 - **Copyright**: the transform stage adds commentary but the underlying footage is still someone else's — it lowers, not eliminates, copyright-strike risk. Prefer creators who allow clips, your own streams, or footage you have rights to.

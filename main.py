@@ -155,9 +155,13 @@ def main() -> None:
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", "--no-post", dest="dry_run", action="store_true")
+    ap.add_argument("--max-per-run", type=int, default=None,
+                    help="override sources.max_per_run for this run (e.g. 1 per scheduled slot)")
     args = ap.parse_args()
 
     cfg = load_config()
+    if args.max_per_run is not None:
+        cfg["sources"]["max_per_run"] = args.max_per_run
     state = State(cfg["paths"]["state"])
     downloads = Path(cfg["paths"]["downloads"])
     processed = Path(cfg["paths"]["processed"])
