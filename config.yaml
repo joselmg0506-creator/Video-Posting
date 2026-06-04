@@ -45,6 +45,7 @@ processing:
   target_width: 1080
   target_height: 1920
   fit_mode: blur_pad   # blur_pad | crop | letterbox
+  peak_trim: true      # cold-open on the loudest moment instead of the clip's first seconds
 
 # Transformative layer: AI commentary + voiceover + captions per clip.
 # This is what moves the content out of YouTube's "reused/inauthentic content" and

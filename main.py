@@ -187,6 +187,7 @@ def main() -> None:
                 height=cfg["processing"]["target_height"],
                 fit=cfg["processing"]["fit_mode"],
                 max_duration=cfg["processing"]["max_duration_seconds"],
+                peak_trim=cfg["processing"].get("peak_trim", True),
             )
             if transform_on:
                 print("  transforming (AI commentary + voiceover + captions)…")
