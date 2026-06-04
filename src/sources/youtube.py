@@ -5,6 +5,19 @@ from pathlib import Path
 import yt_dlp
 
 from . import Clip
+from ..config import env
+
+
+def _cookie_opts() -> dict:
+    """yt-dlp cookie options so YouTube downloads aren't bot-blocked. Set one in .env:
+    YOUTUBE_COOKIES_FILE (a cookies.txt export — most reliable) or YOUTUBE_COOKIES_BROWSER."""
+    cf = env("YOUTUBE_COOKIES_FILE")
+    if cf and Path(cf).exists():
+        return {"cookiefile": cf}
+    cb = env("YOUTUBE_COOKIES_BROWSER")
+    if cb:
+        return {"cookiesfrombrowser": (cb,)}
+    return {}
 
 # Uploads that are produced content, not clippable stream highlights.
 _PRODUCED_RE = re.compile(
@@ -22,7 +35,7 @@ def _id_for(url: str) -> str:
 
 
 def fetch_metadata(url: str) -> Clip:
-    opts = {"quiet": True, "no_warnings": True, "skip_download": True}
+    opts = {"quiet": True, "no_warnings": True, "skip_download": True, **_cookie_opts()}
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
     return Clip(
@@ -56,6 +69,7 @@ def recent_uploads(channel: str, limit: int = 5, tab: str = "videos") -> list[Cl
         "skip_download": True,
         "extract_flat": True,     # list playlist entries without resolving each video
         "playlistend": limit + 6,  # buffer so we still hit `limit` after filtering
+        **_cookie_opts(),
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
@@ -95,6 +109,7 @@ def download(clip: Clip, dest_dir: Path) -> Path:
         "merge_output_format": "mp4",
         "quiet": True,
         "no_warnings": True,
+        **_cookie_opts(),
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(clip.download_url, download=True)

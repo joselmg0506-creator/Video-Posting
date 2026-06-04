@@ -32,10 +32,11 @@ sources:
   youtube:
     enabled: true
     channel_uploads_per: 2     # recent uploads pulled per channel
-    tab: videos                # videos = long-form to clip | shorts = already-vertical highlights
-    # Off for the Twitch AMP niche. (Also: YouTube now bot-blocks yt-dlp downloads without
-    # browser cookies, so channel pulls need cookie auth to be reliable.)
-    channels: []
+    tab: videos                # videos = clip from full uploads | shorts = already-vertical
+    # Creators whose YouTube uploads we clip (Speed + add streamers' channels here).
+    # REQUIRES cookies — set YOUTUBE_COOKIES_FILE in .env, else YouTube bot-blocks downloads.
+    channels:
+      - "@IShowSpeed"
     # Optional one-off video URLs.
     urls: []
 
