@@ -71,21 +71,36 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
         tmp_dir = Path(tmp)
 
         voice_audio: Path | None = None
+        caption_words = None          # (word, start, end) timings for karaoke captions
         if do_narrate:
             used_voice = result.voice or vcfg.get("default_voice", "")
-            voice_audio = _tts.synthesize(
+            voice_audio, caption_words = _tts.synthesize(
                 result.commentary, tmp_dir / "voice",
                 backend=backend, voice=used_voice, rate=vcfg.get("rate", 175),
+                return_timings=True,
             )
             narrated = True
 
-        # Hook banner is always shown (the sound-off scroll-stopper); the spoken line is
-        # only captioned when we actually narrate.
+        # Hook banner is always shown (the sound-off scroll-stopper). Captions: word-by-word
+        # karaoke of our commentary when narrating, else of the STREAMER's own speech (ASR).
         hook_text = None
         captions_text = None
         if ccfg["enabled"]:
             hook_text = result.hook or None
-            captions_text = result.commentary if narrated else None
+            if narrated:
+                captions_text = result.commentary if not caption_words else None
+            else:
+                acfg = ccfg.get("asr", {})
+                if acfg.get("enabled"):
+                    try:
+                        from . import transcribe as _transcribe
+                        caption_words = _transcribe.transcribe(
+                            processed,
+                            model=acfg.get("model", "base"),
+                            language=acfg.get("language", "en"),
+                        ) or None
+                    except Exception as e:
+                        print(f"    [captions] ASR skipped: {e}")
 
         # Render the body, then append the end card (if enabled) for the final file.
         endcard_on = bool(ecfg.get("enabled"))
@@ -93,7 +108,8 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
         _compose.compose(
             video=processed, out=body, voiceover=voice_audio,
             duck_db=vcfg["duck_db"],
-            captions_text=captions_text, hook_text=hook_text, font_size=ccfg["font_size"],
+            captions_text=captions_text, caption_words=caption_words,
+            hook_text=hook_text, font_size=ccfg["font_size"],
         )
         if endcard_on:
             _endcard.append(

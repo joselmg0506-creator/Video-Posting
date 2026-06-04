@@ -83,10 +83,15 @@ transform:
       - id: en-US-AriaNeural
         style: "upbeat, versatile woman — trending, pop-culture, news-y clips"
 
-  # Burned-in captions: the spoken line when narrating, else just the short text hook.
+  # Burned-in word-by-word "karaoke" captions (the 2026 standard). When narrating, timed
+  # to our voiceover; when not, the streamer's OWN speech is captioned via local Whisper.
   captions:
     enabled: true
-    font_size: 64            # px at 1080x1920
+    font_size: 72            # px at 1080x1920 (karaoke pops larger)
+    asr:
+      enabled: true          # caption the streamer's own audio on non-narrated clips
+      model: base            # tiny | base | small (bigger = more accurate, slower)
+      language: en
 
   # Loop-back outro: echo the opening frame for a seamless autoplay loop (protects the
   # rewatch signal) + a small persistent corner "SUBSCRIBE" tag. Never narrated.

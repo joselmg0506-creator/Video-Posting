@@ -19,16 +19,21 @@ def synthesize(
     backend: str = "edge",
     voice: str = "en-US-AndrewNeural",
     rate: int = 175,
-) -> Path:
+    return_timings: bool = False,
+):
+    """Synthesize speech. Returns the audio Path, or (Path, word_timings) when
+    return_timings is True — word_timings is a list of (word, start, end) seconds
+    (empty for the offline backend, which has no word boundaries)."""
     out_path = Path(out_path)
     if backend == "edge":
-        return _edge(text, out_path.with_suffix(".mp3"), voice)
+        return _edge(text, out_path.with_suffix(".mp3"), voice, return_timings)
     if backend == "offline":
-        return _offline(text, out_path.with_suffix(".wav"), rate, voice)
+        p = _offline(text, out_path.with_suffix(".wav"), rate, voice)
+        return (p, []) if return_timings else p
     raise ValueError(f"Unknown voiceover backend: {backend!r} (use 'edge' or 'offline')")
 
 
-def _edge(text: str, out_path: Path, voice: str) -> Path:
+def _edge(text: str, out_path: Path, voice: str, want_timings: bool = False):
     import asyncio
     import edge_tts
 
@@ -36,11 +41,20 @@ def _edge(text: str, out_path: Path, voice: str) -> Path:
     if not voice:
         voice = "en-US-AndrewNeural"
 
-    async def _run() -> None:
-        await edge_tts.Communicate(text, voice).save(str(out_path))
+    words: list[tuple[str, float, float]] = []
 
-    # Use a private selector loop: avoids the deprecated global policy and the Windows
-    # ProactorEventLoop shutdown noise, without disturbing any caller's loop.
+    async def _run() -> None:
+        # boundary="WordBoundary" makes the service emit per-word timing metadata.
+        comm = edge_tts.Communicate(text, voice, boundary="WordBoundary")
+        with open(out_path, "wb") as f:
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    f.write(chunk["data"])
+                elif chunk["type"] == "WordBoundary":
+                    start = chunk["offset"] / 1e7        # 100ns units -> seconds
+                    words.append((chunk["text"], start, start + chunk["duration"] / 1e7))
+
+    # Private selector loop: avoids the deprecated global policy and Windows Proactor noise.
     loop = asyncio.SelectorEventLoop()
     try:
         loop.run_until_complete(_run())
@@ -52,7 +66,7 @@ def _edge(text: str, out_path: Path, voice: str) -> Path:
             f"edge-tts produced no audio for voice {voice!r}. "
             "Check the internet connection and that the voice id is valid."
         )
-    return out_path
+    return (out_path, words) if want_timings else out_path
 
 
 def _offline(text: str, out_path: Path, rate: int, voice_substr: str) -> Path:

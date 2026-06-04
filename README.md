@@ -27,9 +27,11 @@ src/
     youtube.py           # yt-dlp wrapper
   processor/video.py     # ffmpeg → 1080x1920 (blur_pad / crop / letterbox)
   transform/
-    script.py            # AI commentary + title/desc/hashtags (Anthropic API)
-    tts.py               # offline voiceover (pyttsx3 / SAPI5, no API key)
-    compose.py           # ffmpeg: mix voiceover + burn captions
+    script.py            # AI commentary + title/desc/hashtags + narrate decision (Anthropic)
+    tts.py               # neural voiceover w/ word timings (edge-tts) + offline fallback
+    transcribe.py        # local Whisper ASR — word timings for the streamer's own speech
+    compose.py           # ffmpeg: mix voiceover + burn hook banner + karaoke captions
+    endcard.py           # loop-back outro + corner CTA
   poster/
     youtube.py           # YouTube Data API v3 uploader
     tiktok.py            # TikTok Content Posting API client
@@ -62,9 +64,11 @@ the per-clip commentary uses the Anthropic API, so add one key to `.env`:
 ANTHROPIC_API_KEY=...
 ```
 
-Tune the voice/persona/length under `transform:` in `config.yaml`. On Windows the
-voiceover uses built-in SAPI5 voices; on Linux install `espeak`/`espeak-ng`. Set a
-specific `transform.voiceover.voice` substring to pick a particular installed voice.
+Tune the voice/persona/length under `transform:` in `config.yaml`. Voiceover uses free
+neural voices (edge-tts, needs internet); set `voiceover.backend: offline` for keyless
+SAPI5/espeak. Captions are word-by-word "karaoke": timed to the voiceover when narrating,
+or to the streamer's own speech via local Whisper (`captions.asr`) when not — the Whisper
+model (~145 MB for `base`) downloads once on first run and is cached.
 `transform.ai_label: true` sets the native AI-disclosure flag on each post
 (YouTube `containsSyntheticMedia`, TikTok `is_aigc`) — labeling carries no reach or
 monetization penalty and avoids strikes for non-disclosure.

@@ -66,15 +66,24 @@ def _safe(s: str) -> str:
     return s.replace("{", "(").replace("}", ")").replace("\n", " ").strip()
 
 
-def _build_ass(
-    captions_text: str | None,
-    captions_dur: float,
-    hook_text: str | None,
-    hook_dur: float,
-    caption_font: int,
-    hook_font: int,
-) -> str:
-    header = (
+def _phrases(words: list[tuple[str, float, float]], max_words: int = 4, max_gap: float = 0.7):
+    """Group word timings into short caption phrases, breaking on length or a speech gap."""
+    out: list[list[tuple[str, float, float]]] = []
+    cur: list[tuple[str, float, float]] = []
+    for w in words:
+        if cur and (len(cur) >= max_words or w[1] - cur[-1][2] > max_gap):
+            out.append(cur)
+            cur = []
+        cur.append(w)
+    if cur:
+        out.append(cur)
+    return out
+
+
+def _ass_header(caption_font: int, hook_font: int) -> str:
+    # Caption style: Secondary (white) = upcoming word, Primary (yellow) = highlighted word,
+    # so \k karaoke pops each word yellow as it's spoken. Lifted to MarginV=520 (clear of UI).
+    return (
         "[Script Info]\n"
         "ScriptType: v4.00+\n"
         "PlayResX: 1080\n"
@@ -82,31 +91,51 @@ def _build_ass(
         "WrapStyle: 2\n"
         "ScaledBorderAndShadow: yes\n\n"
         "[V4+ Styles]\n"
-        "Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, BackColour, "
-        "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, "
-        "Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        # Captions: bottom-center but lifted to MarginV=520 — clear of TikTok's UI stack.
-        f"Style: Caption,Arial,{caption_font},&H00FFFFFF,&H00000000,&H64000000,"
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
+        "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
+        "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
+        f"Style: Caption,Arial,{caption_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
         "1,0,0,0,100,100,0,0,1,4,1,2,80,80,520,1\n"
-        # Hook: yellow top-center banner (Alignment 8), high in frame, big.
-        f"Style: Hook,Arial,{hook_font},&H0000FFFF,&H00000000,&H64000000,"
+        f"Style: Hook,Arial,{hook_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
         "1,0,0,0,100,100,0,0,1,5,2,8,60,60,300,1\n\n"
         "[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
     )
+
+
+def _build_ass(
+    hook_text: str | None,
+    hook_dur: float,
+    caption_font: int,
+    hook_font: int,
+    caption_words: list[tuple[str, float, float]] | None = None,
+    captions_text: str | None = None,
+    captions_dur: float = 0.0,
+) -> str:
     events: list[str] = []
     if hook_text:
-        events.append(
-            f"Dialogue: 0,{_fmt_ts(0)},{_fmt_ts(hook_dur)},Hook,,0,0,0,,{_safe(hook_text)}"
-        )
-    if captions_text:
+        events.append(f"Dialogue: 0,{_fmt_ts(0)},{_fmt_ts(hook_dur)},Hook,,0,0,0,,{_safe(hook_text)}")
+
+    if caption_words:
+        for phrase in _phrases(caption_words):
+            start, end = phrase[0][1], phrase[-1][2] + 0.1
+            parts = []
+            for j, (word, ws, _we) in enumerate(phrase):
+                nxt = phrase[j + 1][1] if j + 1 < len(phrase) else phrase[j][2]
+                k = max(1, int(round((nxt - ws) * 100)))     # centiseconds for \k
+                parts.append(f"{{\\k{k}}}{_safe(word)} ")
+            events.append(
+                f"Dialogue: 0,{_fmt_ts(start)},{_fmt_ts(end)},Caption,,0,0,0,,{''.join(parts).strip()}"
+            )
+    elif captions_text:
         chunks = _chunk(captions_text, 5)
         per = max(captions_dur, 0.5) / len(chunks)
         for i, ch in enumerate(chunks):
             events.append(
                 f"Dialogue: 0,{_fmt_ts(i * per)},{_fmt_ts((i + 1) * per)},Caption,,0,0,0,,{_safe(ch)}"
             )
-    return header + "\n".join(events) + "\n"
+
+    return _ass_header(caption_font, hook_font) + "\n".join(events) + "\n"
 
 
 def compose(
@@ -115,6 +144,7 @@ def compose(
     voiceover: Path | None = None,
     duck_db: float = -10,
     captions_text: str | None = None,
+    caption_words: list[tuple[str, float, float]] | None = None,
     hook_text: str | None = None,
     font_size: int = 64,
     hook_font_size: int = 84,
@@ -125,7 +155,7 @@ def compose(
     out.parent.mkdir(parents=True, exist_ok=True)
     voiceover = Path(voiceover).resolve() if voiceover else None
 
-    need_subs = bool(captions_text or hook_text)
+    need_subs = bool(captions_text or caption_words or hook_text)
     if voiceover is None and not need_subs:
         shutil.copyfile(video, out)
         return out
@@ -143,7 +173,11 @@ def compose(
         if need_subs:
             captions_dur = adur or vdur or max(2.0, len((captions_text or "").split()) / 165 * 60)
             (tmp_dir / "subs.ass").write_text(
-                _build_ass(captions_text, captions_dur, hook_text, hook_duration, font_size, hook_font_size),
+                _build_ass(
+                    hook_text, hook_duration, font_size, hook_font_size,
+                    caption_words=caption_words, captions_text=captions_text,
+                    captions_dur=captions_dur,
+                ),
                 encoding="utf-8",
             )
             vchain.append("subtitles=subs.ass")
