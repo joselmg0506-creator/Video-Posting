@@ -149,12 +149,12 @@ posting:
 channels:
   - name: clips
     content_type: clips
-    enabled: true               # authorized to "Jose Mendoza" 2026-06-23; privacy private for first posts
+    enabled: true               # authorized to "Jose Mendoza" 2026-06-23; public
     target: youtube_shorts
     token_file: ./secrets/youtube_token.json        # this channel's OAuth token
     max_per_run: 3
     youtube:
-      privacy: private          # private | unlisted | public
+      privacy: public           # going live — scheduled clips publish publicly
       category_id: "24"         # 24 = Entertainment
       tags: [shorts, clips, fyp]
 
