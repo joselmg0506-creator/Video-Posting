@@ -144,7 +144,7 @@ posting:
 channels:
   - name: clips
     content_type: clips
-    enabled: true
+    enabled: false              # re-enable after authorizing its YouTube channel (no token yet)
     target: youtube_shorts
     token_file: ./secrets/youtube_token.json        # this channel's OAuth token
     max_per_run: 3
@@ -212,13 +212,13 @@ channels:
   #  animated film version, set content_type: story_film — that producer still ships.)
 
   - name: characters
-    content_type: brainrot_movie   # ACTUAL animated brainrot mini-films (image-to-video)
-    enabled: false                 # needs FAL_KEY; image-to-video costs ~$0.10-0.40/film
+    content_type: brainrot_movie   # Italian-brainrot picture-stories (stills by default)
+    enabled: true                  # authorized to "Jose Mendoza" 2026-06-23; public
     target: youtube_shorts
     token_file: ./secrets/youtube_token_characters.json
     max_per_run: 1
     youtube:
-      privacy: private
+      privacy: public           # going live — scheduled posts publish publicly
       category_id: "24"
       tags: [shorts, brainrot, italianbrainrot, ai, meme, fyp]
     brainrot_movie:
