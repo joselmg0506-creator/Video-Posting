@@ -115,7 +115,7 @@ transform:
   ai_label: true
 
 posting:
-  enabled: false
+  enabled: true             # master switch ON — channels marked enabled will upload
   target: youtube_shorts    # youtube_shorts | tiktok
 
   # TikTok-only fields
@@ -155,19 +155,30 @@ channels:
 
   - name: stories
     content_type: reddit_story  # original AI storytime narrated over gameplay (UnlimitedStories style)
-    enabled: false              # flip on once its channel + token_file + gameplay b-roll exist
+    enabled: true               # @elmendoza1995 (El Mendoza) authorized 2026-06-23
     target: youtube_shorts
     token_file: ./secrets/youtube_token_stories.json
     max_per_run: 2
     youtube:
-      privacy: private
+      privacy: public           # going live — scheduled posts publish publicly
       category_id: "24"         # 24 = Entertainment
       tags: [shorts, story, storytime, fyp, reels]
     reddit_story:
       source: original          # original (AI writes its own) | reddit (rewrite top posts)
       visual: gameplay          # gameplay (looped b-roll) | ai_illustrated (per-scene Flux)
-      target_seconds: 50        # narration length
-      voice: en-US-AnaNeural    # young, upbeat voice that fits a kid/school audience
+      target_seconds: 45        # narration length (kept short/punchy for Shorts)
+      # Narrator voices split by gender so the voice MATCHES the kid telling the story.
+      # The AI tags each first-person story's narrator boy/girl; a random voice from that
+      # pool is used (so a boy's story gets a boy voice, a girl's gets a girl voice).
+      voices_girl:
+        - en-US-AnaNeural       # young girl
+        - en-US-JennyNeural     # friendly girl/young woman
+        - en-US-AriaNeural      # upbeat girl/young woman
+      voices_boy:
+        - en-US-GuyNeural       # energetic boy/young guy
+        - en-US-BrianNeural     # casual boy/young guy
+        - en-US-EricNeural      # calm boy/young guy
+      voice: en-US-AnaNeural    # fallback
       # Who the stories are for — steers tone, vocabulary, and setting.
       audience: "elementary and middle-school kids (ages 8-13)"
       # Clean gameplay loops go here (Subway Surfers / Minecraft parkour / GTA / mobile games).
@@ -188,6 +199,15 @@ channels:
         - "the smallest kid in class became the school hero in one day"
         - "I traded lunches with the new girl and it changed everything"
         - "the kid who always got blamed finally proved the truth"
+        # — funny bathroom-emergency comedy (silly, clean — Captain-Underpants vibe) —
+        - "the kid who ALWAYS needed the bathroom at the worst possible moment"
+        - "I had to poop SO bad during the biggest test of the whole year"
+        - "the legendary bathroom emergency that somehow saved our field trip"
+        - "my stomach growled so loud during quiet time the entire class lost it"
+        - "the great bathroom race when only ONE stall in the school worked"
+        - "the new kid set the record for most bathroom trips in a single day"
+        - "I ate the mystery cafeteria taco and learned my lesson the hard way"
+        - "the day my tummy rumble became a legend at summer camp"
   # (For per-scene Flux ILLUSTRATED stories set visual: ai_illustrated; for the cinematic
   #  animated film version, set content_type: story_film — that producer still ships.)
 

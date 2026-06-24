@@ -112,7 +112,9 @@ def _keys_tail(target_words: int, illustrated: bool, scenes: int) -> str:
 - "title": a YouTube-Shorts title, <= 80 chars, hooky, NO '#'.
 - "description": 1-2 sentences.
 - "hashtags": 3-6 lowercase tags, no '#'.
-- "hook": a 3-6 word ALL-CAPS-friendly on-screen banner."""
+- "hook": a 3-6 word ALL-CAPS-friendly on-screen banner.
+- "narrator": "boy" or "girl" — the gender of the kid telling this first-person story (used
+  to pick a matching narrator voice)."""
     if illustrated:
         tail += f"""
 - "scene_prompts": an array of EXACTLY {scenes} one-sentence image prompts illustrating the
@@ -158,8 +160,10 @@ def _invent_original(llm_cfg: dict, theme: str, target_words: int,
     if audience:
         aud = (f" Write it FOR {audience}: keep the language simple and age-appropriate, set it "
                "in their world (school, friends, recess, home), keep it clean and kind-hearted "
-               "(no graphic violence, romance, or scary content), and make the hook and payoff "
-               "easy to follow.")
+               "(no graphic violence, romance, or scary content). Silly, goofy humor — including "
+               "funny bathroom/poop/fart emergencies — is great and hilarious for this age, so "
+               "lean into the comedy and embarrassment without being gross or mean. Make the hook "
+               "and payoff easy to follow.")
     system = ("You write ORIGINAL short-form stories for a faceless story-time channel — "
               "fictional, engaging, with a strong curiosity hook and a satisfying twist. The "
               "story is your own invention (not copied from anywhere)." + aud +
@@ -178,7 +182,20 @@ def _render_one(story: dict, item_id: str, channel: dict, cfg: dict) -> "object"
     ccfg = tcfg.get("captions", {})
     ecfg = tcfg.get("endcard", {})
     visual = rc.get("visual", "gameplay")
-    voice = rc.get("voice") or "en-US-AndrewNeural"
+    # Pick a narrator voice that matches the story's first-person teller (boy/girl), so the
+    # voice fits the story; random within the matching gender for variety.
+    girl = rc.get("voices_girl") or []
+    boy = rc.get("voices_boy") or []
+    g = str(story.get("narrator", "")).strip().lower()
+    if g.startswith("b") or "male" in g:
+        pool = boy or girl
+    elif g.startswith("g") or "female" in g:
+        pool = girl or boy
+    else:
+        pool = girl + boy
+    if not pool:
+        pool = rc.get("voices") or [rc.get("voice") or "en-US-AnaNeural"]
+    voice = random.choice(pool)
     narration = (story.get("narration") or "").strip()
     if not narration:
         raise RuntimeError("empty narration")
