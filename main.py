@@ -231,6 +231,9 @@ def produce(channel: dict, cfg: dict, state: State, cap: int) -> list[PostItem]:
     if ct == "ai_character":
         from src.producers.ai_character import produce as produce_character
         return produce_character(channel, cfg, state, cap)
+    if ct == "brainrot_movie":
+        from src.producers.brainrot_movie import produce as produce_brmovie
+        return produce_brmovie(channel, cfg, state, cap)
     raise ValueError(f"Unknown content_type: {ct!r}")
 
 

@@ -9,11 +9,12 @@ The three channels (defined under `channels:` in `config.yaml`):
 | name | content_type | token file | what it posts |
 |---|---|---|---|
 | `clips` | `clips` | `secrets/youtube_token.json` | Twitch/YouTube streamer clips (already working) |
-| `movies` | `story_film` | `secrets/youtube_token_movies.json` | original AI story films (Pixar-style animated shorts) |
-| `characters` | `ai_character` | `secrets/youtube_token_characters.json` | recurring AI-character "brainrot" episodes |
+| `stories` | `reddit_story` | `secrets/youtube_token_stories.json` | original AI storytime narrated over gameplay (UnlimitedStories style) |
+| `characters` | `brainrot_movie` | `secrets/youtube_token_characters.json` | actual ANIMATED Italian-brainrot mini-films (image-to-video) |
 
-> The Reddit-story brainrot producer still ships (set a channel's `content_type: reddit_story`)
-> but channel #2's default is now the cinematic **`story_film`** mode.
+> Producer options that still ship if you want to switch a channel: `story_film` (cinematic
+> Flux animated story films), `ai_character` (single-character brainrot intros), and
+> `reddit_story` with `visual: ai_illustrated` (per-scene Flux art) or `source: reddit`.
 
 ---
 
@@ -53,47 +54,46 @@ Smoke-test without posting at any time:
 
 ---
 
-## 2. Channel #2 — `movies` (AI story films)
+## 2. Channel #2 — `stories` (AI storytime over gameplay)
 
-Original AI stories told like short animated movies: the AI writes a self-contained story +
-a cast with locked looks, generates each scene with Flux (default Pixar-style 3D), and narrates
-it over a cinematic slideshow with captions. Fully original → no reused-content/licensing risk.
+Original AI-written storytime narrated over looping gameplay, with karaoke captions
+(UnlimitedStories style). Fully original → no reused-content/licensing risk. Cheapest channel
+(~$0.008/video: just the LLM script; TTS + gameplay are free).
 
-- [ ] **Flux key**: set `FAL_KEY` in `.env` (https://fal.ai) — this channel generates every
-      scene image. *(Alt: `REPLICATE_API_TOKEN` + `story_film.image_provider: replicate`.)*
-- [ ] *(optional)* Drop Content-ID-safe score tracks (YouTube Audio Library) into `data/music/`
-- [ ] *(optional)* Tune `config.yaml → channels[movies].story_film`: `style`
-      (`3d_animated` | `anime` | `cinematic_realistic` | `storybook`), `scenes`, `themes`, `voice`
-- [ ] **Create the YouTube channel** for this content (a Brand Account under your Google login
-      lets all 3 channels share one login)
+- [ ] **Gameplay b-roll**: drop a few clean looping clips (Subway Surfers / Minecraft parkour /
+      GTA / mobile games) into `data/broll_gameplay/` — **not** `data/broll/` (that's World Cup
+      footage for music-edit). This is the one asset this channel needs.
+- [ ] *(no Flux key needed)* — `source: original` writes its own stories; `visual: gameplay`
+      uses your loops. *(Switch to `visual: ai_illustrated` for per-scene Flux art — needs FAL_KEY.)*
+- [ ] *(optional)* Tune `config.yaml → channels[stories].reddit_story`: `themes`, `voice`,
+      `target_seconds`. *(Switch `source: reddit` to rewrite real Reddit posts — needs Reddit keys.)*
+- [ ] **Create the YouTube channel** (a Brand Account under your Google login lets all 3 share one login)
 - [ ] **Authorize it** (pick that channel/brand account in the consent screen):
       ```powershell
-      .\.venv\Scripts\python -m src.auth_youtube --token-file ./secrets/youtube_token_movies.json
+      .\.venv\Scripts\python -m src.auth_youtube --token-file ./secrets/youtube_token_stories.json
       ```
-- [ ] Dry-run: `.\scripts\run.ps1 -DryRun -Channel movies` (makes real Flux calls — small cost)
-- [ ] Flip `channels[movies].enabled: true` in `config.yaml`
-
-> Character consistency is by **locked descriptions**: the AI fixes each character's appearance
-> once and reuses that exact text in every scene. Good and free to start; if faces drift too
-> much, the upgrade is reference-image conditioning (more cost) — ask when you want it.
+- [ ] Dry-run: `.\scripts\run.ps1 -DryRun -Channel stories`
+- [ ] Flip `channels[stories].enabled: true` in `config.yaml`
 
 ---
 
-## 3. Channel #3 — `characters` (AI-character brainrot)
+## 3. Channel #3 — `characters` (animated brainrot films)
 
-- [ ] **Flux key**: set `FAL_KEY` in `.env` (https://fal.ai) — *or* `REPLICATE_API_TOKEN` and
-      set `image_provider: replicate`
+Actual ANIMATED Italian-brainrot mini-films: the AI writes a brainrot story + cast, Flux
+renders each scene, then **fal image-to-video animates each scene into a moving clip**, stitched
+into a film with a hyped narrator + captions. **Costs ~$0.10–0.40/film** (the image-to-video step).
+
+- [ ] **Flux key**: set `FAL_KEY` in `.env` (https://fal.ai) — used for both the stills and the
+      image-to-video. Make sure the account has **credit** (image-to-video is the paid part).
 - [ ] *(optional)* Content-ID-safe music: drop YouTube Audio Library tracks into `data/music/`
-      (leave empty for narration-only)
+- [ ] *(optional)* Tune `config.yaml → channels[characters].brainrot_movie`: `scenes`,
+      `num_frames` (clip length), `video_model` (budget LTX by default), `voice`
 - [ ] **Create the YouTube channel**, then **authorize it**:
       ```powershell
       .\.venv\Scripts\python -m src.auth_youtube --token-file ./secrets/youtube_token_characters.json
       ```
-- [ ] Dry-run: `.\scripts\run.ps1 -DryRun -Channel characters` (this makes the first real Flux call)
+- [ ] Dry-run: `.\scripts\run.ps1 -DryRun -Channel characters` (makes real Flux + video calls — costs credit)
 - [ ] Flip `channels[characters].enabled: true`
-
-The cast persists in `data/character_bible.json` — characters recur (`recurring_rate: 0.4`) so
-the universe builds over time. Delete that file to start the cast fresh.
 
 ---
 
@@ -101,11 +101,14 @@ the universe builds over time. Delete that file to start the cast fresh.
 
 | Key | Needed by | Notes |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | all channels | titles / scripts / screenwriting / quality score |
+| `ANTHROPIC_API_KEY` | all channels | titles / scripts / storywriting / quality score |
 | `TWITCH_CLIENT_ID` / `_SECRET` | clips | Twitch Helix |
 | `YOUTUBE_COOKIES_FILE` | clips (YT source) | cookies.txt to dodge bot-block |
-| `FAL_KEY` *(or `REPLICATE_API_TOKEN`)* | movies, characters | Flux scene/character image gen |
+| `FAL_KEY` *(or `REPLICATE_API_TOKEN`)* | characters (always); stories only if `visual: ai_illustrated` | Flux stills + image-to-video |
 | `DISCORD_WEBHOOK_URL` | optional | per-post + crash + metrics alerts |
+
+> The `stories` channel needs **no** Flux key by default (gameplay + free TTS) — just gameplay
+> loops in `data/broll_gameplay/`. The `characters` channel needs `FAL_KEY` **with credit**.
 
 ---
 

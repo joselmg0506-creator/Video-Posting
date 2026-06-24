@@ -153,11 +153,18 @@ def _write_from_post(post: dict, llm_cfg: dict, target_words: int,
 
 
 def _invent_original(llm_cfg: dict, theme: str, target_words: int,
-                     illustrated: bool, scenes: int) -> dict:
+                     illustrated: bool, scenes: int, audience: str = "") -> dict:
+    aud = ""
+    if audience:
+        aud = (f" Write it FOR {audience}: keep the language simple and age-appropriate, set it "
+               "in their world (school, friends, recess, home), keep it clean and kind-hearted "
+               "(no graphic violence, romance, or scary content), and make the hook and payoff "
+               "easy to follow.")
     system = ("You write ORIGINAL short-form stories for a faceless story-time channel — "
               "fictional, engaging, with a strong curiosity hook and a satisfying twist. The "
-              "story is your own invention (not copied from anywhere). Return ONLY a JSON "
-              "object with these keys:" + _keys_tail(target_words, illustrated, scenes))
+              "story is your own invention (not copied from anywhere)." + aud +
+              " Return ONLY a JSON object with these keys:" +
+              _keys_tail(target_words, illustrated, scenes))
     user = (f"Write a fresh, surprising original story on the theme: {theme}. "
             "Make it specific and vivid, not generic.")
     return _llm_json(system, user, llm_cfg, temperature=1.0)
@@ -262,7 +269,8 @@ def produce(channel: dict, cfg: dict, state, cap: int) -> list:
             attempts += 1
             theme = random.choice(themes)
             try:
-                story = _invent_original(lcfg, theme, target_words, illustrated, scenes)
+                story = _invent_original(lcfg, theme, target_words, illustrated, scenes,
+                                         audience=rc.get("audience", ""))
                 story["source"] = "original"
                 story["creator"] = ""
                 item_id = "story:" + hashlib.sha1(
