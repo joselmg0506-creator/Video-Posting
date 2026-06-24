@@ -1,0 +1,66 @@
+name: dashboard
+
+# Builds the analytics dashboard in the cloud and publishes it to GitHub Pages, so you can
+# check your numbers from your phone at:  https://joselmg0506-creator.github.io/Video-Posting/
+# It refreshes automatically after every posting run, plus once nightly as a backstop.
+
+on:
+  workflow_run:
+    workflows: ["post-shorts"]   # rebuild right after the pipeline posts
+    types: [completed]
+  schedule:
+    - cron: '30 1 * * *'         # ~8:30 PM CT nightly backstop (after the evening post)
+  workflow_dispatch: {}          # manual refresh button
+
+permissions:
+  contents: read
+  pages: write                   # publish to GitHub Pages
+  id-token: write                # required by deploy-pages
+
+concurrency:
+  group: pages
+  cancel-in-progress: true       # only the newest dashboard matters
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python deps
+        run: pip install -r requirements.txt
+
+      - name: Restore secrets (.env + secrets/)
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+          SECRETS_TAR_B64: ${{ secrets.SECRETS_TAR_B64 }}
+        run: |
+          printf '%s' "$ENV_FILE" > .env
+          printf '%s' "$SECRETS_TAR_B64" | base64 -d > /tmp/secrets.tgz
+          tar xzf /tmp/secrets.tgz
+          rm -f /tmp/secrets.tgz
+
+      - name: Build dashboard (queries live YouTube stats per channel)
+        run: |
+          python main.py --dashboard --no-open
+          mkdir -p _site
+          cp data/dashboard.html _site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

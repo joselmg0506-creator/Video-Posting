@@ -5,10 +5,12 @@ name: post-shorts
 
 on:
   schedule:
-    # Times are UTC — adjust to your audience's timezone (see DEPLOY.md "Schedule").
-    - cron: '0 14 * * *'   # ~morning (US)
-    - cron: '0 19 * * *'   # ~afternoon (US)
-    - cron: '0 0  * * *'   # ~evening (US)
+    # 3x/day, tuned for a TEXAS (US Central) audience. GitHub cron is always in UTC and does
+    # NOT follow daylight saving, so these are pinned to Central DAYLIGHT time (CDT, Mar–Nov).
+    # During winter (CST, Nov–Mar) every slot lands one hour earlier — still fine.
+    - cron: '0 13 * * *'   # 8:00 AM  CT  (7:00 AM in winter) — morning
+    - cron: '0 20 * * *'   # 3:00 PM  CT  (2:00 PM in winter) — after-school / afternoon
+    - cron: '0 1  * * *'   # 8:00 PM  CT  (7:00 PM in winter) — evening prime time
   workflow_dispatch: {}    # manual "Run workflow" button in the Actions tab (for testing)
 
 permissions:

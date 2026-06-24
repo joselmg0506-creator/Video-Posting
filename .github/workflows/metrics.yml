@@ -4,7 +4,7 @@ name: metrics
 
 on:
   schedule:
-    - cron: '0 4 * * *'    # daily, UTC (adjust if you like)
+    - cron: '0 3 * * *'    # 10:00 PM CT nightly recap (UTC; shifts to 9 PM in winter)
   workflow_dispatch: {}
 
 permissions:

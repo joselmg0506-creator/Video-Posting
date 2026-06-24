@@ -102,6 +102,7 @@ def build(state, cfg: dict, open_after: bool = True) -> Path:
 
     page = f"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="900">
 <title>VideoPOsting — Analytics</title>
 <style>
  body{{background:#0d1117;color:#e6edf3;font-family:Segoe UI,system-ui,Arial,sans-serif;margin:0;padding:24px}}
