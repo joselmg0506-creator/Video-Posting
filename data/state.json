@@ -9,7 +9,10 @@
     "brmovie:a027d5884c22",
     "twitch:ObliviousBoringHamKappaClaus-pJyoK7490LmoAnLx",
     "story:8b18ba102893",
-    "brmovie:1931f61e2045"
+    "brmovie:1931f61e2045",
+    "twitch:FunnyCaringHabaneroBlargNaut-rcQ__7IziqR5Q5Qp",
+    "story:876fef387ffe",
+    "brmovie:59f3fcc30b78"
   ],
   "uploading": [],
   "posts": [
@@ -132,6 +135,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-24T17:22:12.038050+00:00"
+    },
+    {
+      "clip_id": "twitch:FunnyCaringHabaneroBlargNaut-rcQ__7IziqR5Q5Qp",
+      "video_id": "Mzl1_GaXHZg",
+      "url": "https://youtube.com/shorts/Mzl1_GaXHZg",
+      "title": "Silky Respects Real Loyalty #Shorts",
+      "creator": "Silky",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-24T17:42:08.768203+00:00"
+    },
+    {
+      "clip_id": "story:876fef387ffe",
+      "video_id": "jIs6L5yq3tc",
+      "url": "https://youtube.com/shorts/jIs6L5yq3tc",
+      "title": "My Stomach Growled During Silent Reading and Everyone Lost It #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-BrianNeural",
+      "posted_at": "2026-06-24T17:45:54.097027+00:00"
+    },
+    {
+      "clip_id": "brmovie:59f3fcc30b78",
+      "video_id": "-ouf9pTwQuw",
+      "url": "https://youtube.com/shorts/-ouf9pTwQuw",
+      "title": "Tung Tung's Cappuccino Catastrophe: A Love Gone Wrong #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-24T17:47:46.301054+00:00"
     }
   ]
 }
