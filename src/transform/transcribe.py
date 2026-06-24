@@ -25,6 +25,7 @@ def transcribe(audio: Path, model: str = "base", language: str = "en") -> list[t
         language=language,
         word_timestamps=True,
         vad_filter=True,          # skip non-speech (gameplay noise/music) to cut hallucinations
+        condition_on_previous_text=False,   # don't let earlier text seed repetition/hallucination
     )
     words: list[tuple[str, float, float]] = []
     for seg in segments:

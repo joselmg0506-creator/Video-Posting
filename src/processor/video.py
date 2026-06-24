@@ -1,5 +1,6 @@
 import re
 import subprocess
+import tempfile
 from pathlib import Path
 
 
@@ -44,13 +45,62 @@ def _find_peak(src: Path) -> float | None:
         return None
 
 
+def _score_peak(src: Path) -> float | None:
+    """Time (s) of the highest-"excitement" 1s window, combining loudness (RMS) with
+    spectral-flux onset strength (spikes on reactions/laughs/hits/SFX) — a better highlight
+    cue than loudness alone. z-scores each envelope so neither dominates by raw scale.
+    Returns None (→ caller falls back to the plain RMS pass) if librosa isn't usable."""
+    try:
+        import numpy as np
+        import librosa
+
+        sr = 22050
+        # Decode to a temp WAV with ffmpeg first: soundfile can't read MP4/AAC (every Twitch
+        # clip), so a direct librosa.load would fall back to the slow, deprecated audioread
+        # path. A WAV loads natively — faster and warning-free.
+        with tempfile.TemporaryDirectory(prefix="vp_peak_") as td:
+            wav = Path(td) / "a.wav"
+            r = subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-vn", "-ac", "1", "-ar", str(sr), str(wav)],
+                capture_output=True,
+            )
+            if r.returncode != 0 or not wav.exists():
+                return None
+            y, sr = librosa.load(str(wav), sr=sr, mono=True)
+        if y.size == 0:
+            return None
+        hop = 512
+        onset = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+        rms = librosa.feature.rms(y=y, hop_length=hop)[0]
+        n = min(len(onset), len(rms))
+        if n == 0:
+            return None
+        onset, rms = onset[:n], rms[:n]
+        secs = librosa.frames_to_time(np.arange(n), sr=sr, hop_length=hop).astype(int)
+        buckets = sorted(set(secs.tolist()))
+
+        def _bin(env):
+            return np.array([env[secs == s].mean() for s in buckets])
+
+        def _z(a):
+            sd = a.std()
+            return (a - a.mean()) / sd if sd > 1e-9 else np.zeros_like(a)
+
+        score = 1.0 * _z(_bin(onset)) + 0.8 * _z(_bin(rms))
+        return float(buckets[int(np.argmax(score))])
+    except Exception:
+        return None
+
+
 def _peak_start(src: Path, max_duration: int) -> float:
     """Where to start the cut so the clip cold-opens on the highlight (a short lead-in
-    before the loudest moment). 0 if the clip is shorter than the window or has no peak."""
+    before the peak). 0 if the clip is shorter than the window or has no peak."""
     dur = _duration(src)
     if not dur or dur <= max_duration:
         return 0.0
-    peak = _find_peak(src)
+    peak = _score_peak(src)        # multi-signal (onset+RMS); falls back to plain RMS
+    if peak is None:
+        peak = _find_peak(src)
     if peak is None:
         return 0.0
     lead = min(2.0, 0.15 * max_duration)

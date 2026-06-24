@@ -32,7 +32,10 @@ Return ONLY a JSON object, no prose, with these keys:
   words, plain spoken sentences specific to this clip.
 - "title": a punchy title (<= 80 chars) matching the moment.
 - "description": a 1-2 sentence varied description.
-- "hashtags": an array of 3-6 lowercase tags, no '#' symbol."""
+- "hashtags": an array of 3-6 lowercase tags, no '#' symbol.
+- "quality": an integer 1-10 — how strong this is as a STANDALONE Short. 10 = grabbing hook
+  in the first 2s, a clear payoff, and it makes sense to someone who didn't see the stream;
+  1 = boring, confusing, no payoff, or needs context. Be honest and critical, not generous."""
 
     if roster:
         lines = "\n".join(f'    - {v["id"]}: {v["style"]}' for v in roster)
@@ -97,6 +100,10 @@ def generate(clip: Clip, llm_cfg: dict, roster: list[dict] | None = None,
     voice = str(data.get("voice", "")).strip()
     if voice not in valid_voices:
         voice = ""
+    try:
+        quality = max(1, min(10, int(data.get("quality", 10))))
+    except (TypeError, ValueError):
+        quality = 10   # unparseable score → don't let the gate reject on a parse glitch
     return ScriptResult(
         commentary=str(data.get("commentary", "")).strip(),
         title=data["title"].strip(),
@@ -106,4 +113,5 @@ def generate(clip: Clip, llm_cfg: dict, roster: list[dict] | None = None,
         narrate=bool(data.get("narrate", False)),
         hook=str(data.get("hook", "")).strip(),
         labels=labels,
+        quality=quality,
     )

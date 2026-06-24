@@ -1,0 +1,214 @@
+# Making Each Clip Genuinely Good: Concrete Upgrades for a Python + FFmpeg Short-Form Pipeline
+
+## TL;DR
+- **The single highest-impact change is architectural: transcribe the SOURCE before you cut.** Move faster-whisper (with `vad_filter=True`, `word_timestamps=True`) ahead of the trim so word-level timestamps can (a) snap clip in/out points to sentence boundaries and (b) feed a multi-signal highlight scorer. This alone fixes "cold-opens 2s before a loudness peak and hard-cuts at 35s," which is the biggest quality leak.
+- **Replace loudness-argmax with a candidate-generate-then-rank architecture:** compute a per-second combined "excitement" score (librosa `onset_strength` + RMS + spectral flux + pitch via `pyin` + laughter + transcript keyword/exclamation density + FFmpeg `scene` density), generate overlapping candidate windows anchored on score peaks, apply non-maximum suppression, then rank the top 3 with a Claude vision+transcript pass, and apply a quality gate that DISCARDS weak clips.
+- **Three cheap polish passes raise perceived quality immediately:** two-pass EBU R128 `loudnorm` to −14 LUFS at the end of the chain; silence/dead-air removal via word timestamps or `silencedetect`; and active-speaker-aware cropping (MediaPipe on CPU or S3FD+TalkNet on GPU) with an EMA-smoothed crop path instead of static center crop.
+
+## Key Findings
+
+1. **The current pipeline has two structural flaws, not just a weak detector.** (a) Whisper runs *after* the trim, so transcripts can't inform the cut — this must be reversed. (b) A single loudness argmax + fixed 35s window has no notion of setup/payoff, sentence boundaries, or "is this a standalone moment." Both are fixable with code you already have the libraries for.
+2. **ClipsAI is the most directly relevant open-source reference**, but it is transcript/topic-segmentation-based (TextTiling on Whisper transcripts), tuned for podcasts/sermons — not loud streamer reactions. Use its *architecture* (transcribe → segment → per-segment crop), not its detector, for Twitch content.
+3. **Commercial "virality scores" (Opus Clip, Vizard, Klap, Submagic) converge on the same published signals:** Hook, Flow, Value, Trend (Opus Clip's four explicit axes), plus transcript sentiment, voice emphasis/pacing, and face-tracking. None publish a validated algorithm; treat scores as prioritization heuristics, not guarantees.
+4. **Active-speaker reframing is a solved problem in open source** (TalkNet-ASD + S3FD, or MediaPipe BlazeFace on CPU), and the smoothing recipe is concrete: median filter or EMA on the crop center + velocity clamping + clamp-to-bounds + never pan across a scene cut.
+5. **Final loudness normalization is the cheapest single quality win** and is currently missing entirely. Two-pass `loudnorm` to a consistent −14 LUFS is the industry target for Shorts/TikTok.
+
+## Details
+
+### Priority order (highest impact / lowest effort first)
+1. **Add final two-pass loudnorm** (1–2 hrs work, big perceived-quality jump).
+2. **Move transcription before the cut + snap in/out points to sentences** (architectural, highest quality-per-effort).
+3. **Multi-signal highlight scoring + candidate ranking** (replaces argmax).
+4. **Dead-air removal / pacing** (the defining short-form edit).
+5. **LLM quality gate** (stop posting mediocre clips).
+6. **Active-speaker dynamic crop** (most code, do last).
+7. **Light audio cleanup + subtle punch-in** (finishing touches).
+
+---
+
+### 1. Multi-signal "good moment" detection
+
+Replace the single `astats` RMS argmax with a **combined per-second highlight score**. Compute several envelopes on the source audio (decode once to 16 kHz mono), normalize each to z-scores, and sum with weights.
+
+**librosa features (all operate on `y, sr = librosa.load(path, sr=22050)`):**
+- `librosa.onset.onset_strength(y=y, sr=sr)` — spectral-flux novelty; spikes on sudden onsets (reactions, hits, laughter starts). This is literally "a spectral flux onset strength envelope" per the librosa docs.
+- `librosa.feature.rms(y=y)` — loudness (what you already use, now just one term).
+- **Spectral flux** explicitly: `onset_strength` IS spectral flux; for a sharper version use the superflux params (`lag=2, max_size=3`) which the librosa gallery shows reduces vibrato false-positives.
+- Pitch/excitement: `f0 = librosa.pyin(y, fmin=80, fmax=400)` — rising/peaking F0 plus high energy indicates excitement/yelling.
+- `librosa.feature.spectral_centroid` / `spectral_contrast` — brightness spikes correlate with excited speech and SFX.
+
+**Combine:** resample each envelope to a common 1 Hz (or 2 Hz) grid, z-score, then
+`score[t] = 1.0*z(onset) + 0.8*z(rms) + 0.6*z(pitch_energy) + 1.2*laughter[t] + 1.5*keyword_density[t] + 0.5*scene_density[t]`.
+Weights are a starting point; tune on a few known-good clips.
+
+**Laughter / reaction detection (audio):**
+- **jrgillick/laughter-detection** — Jon Gillick, Wesley Deng, Kimiko Ryokai & David Bamman, "Robust Laughter Detection in Noisy Environments," Interspeech 2021, pp. 2481–2485 (doi:10.21437/Interspeech.2021-353). ResNet on librosa features; ships pretrained `resnet_with_augmentation`. Run: `python segment_laughter.py --input_audio_file=tst_wave.wav --output_dir=./out --min_length=0.2 --threshold=0.5`, which outputs `(start, end)` segments. The paper itself flags that "performance drops precipitously in real-world settings with background noise," so tune the threshold for streamer audio.
+- **omine-me/LaughterSegmentation** (Interspeech 2024, "Robust Laughter Segmentation with Automatic Diverse Data Synthesis") — newer, more robust, HuggingFace `model.safetensors` (~1.26 GB), outputs JSON segments; pretrained model is research-use-only.
+- **FunAudioLLM/SenseVoice** — does ASR + emotion + audio-event detection (incl. laughter/applause) in one pass; non-autoregressive, ~70 ms per 10 s audio (≈15× faster than Whisper-Large per its README). Good if you want one model for transcript + events.
+
+**Transcript as signal** (now available because you transcribe first):
+- Keyword/profanity/exclamation density per window (streamer vocab: "no way," "let's go," "what," plus profanity).
+- Speech-rate spikes: words-per-second from word timestamps; sudden acceleration = excitement.
+- Question→reaction pattern: a "?" followed by a laugh/exclamation within ~3s.
+- Sentiment spike: a cheap lexicon (VADER) or a Claude pass on the transcript.
+- This mirrors the open-source **TwitchHack** and **dscig/twitch-highlight-detection** approach (chat-emote + audio peak scoring; the latter reports 0.826 accuracy classifying popular vs ordinary moments using multimodal chat+video).
+
+**Scene-change density (FFmpeg):**
+`ffmpeg -i src.mp4 -vf "select='gt(scene,0.3)',metadata=print:file=scenes.txt" -f null -` → parse `pts_time`. Density of scene cuts per window is a motion/action proxy. Talking-head: 0.3–0.4; action/gameplay: 0.2–0.25. The `scdet` filter (`scdet=s=1:t=10`) is the modern equivalent.
+
+**Vision-based scoring (Claude) — RANK, don't free-score:**
+- Best practice: give Claude **N candidate windows at once** (sampled frames + the window transcript) and ask it to **rank** them and pick the best 1–3, returning JSON `{rank, start, end, reason, hook_strength_1_5}`. Relative ranking is far more reliable than absolute 1–100 scoring (the LLM-as-judge literature shows pairwise/relative judgments are more stable than absolute scores, which drift and cluster).
+- Prompt for Opus Clip's published axes explicitly. Per Opus Clip's official help doc: the Virality Score is 0–99 and the AI evaluates **Hook** ("Does the introduction grab attention and directly relate to the main topic"), **Flow** ("Does the video flow logically from one part to the next, with a satisfying conclusion"), **Value** ("Does the video offer value, resonate emotionally, and create a personal connection"), and **Trend** ("Is the video aligned with current trends and audience interests"). Also ask for standalone-ness ("would this make sense to someone who didn't see the stream?").
+- **Pitfalls:** (1) LLMs answer from transcript text alone ignoring the frames ("language prior" problem documented in video-LLM benchmarks like VBenchComp) — force it to reference a visual detail. (2) Temporal blindness: sampled frames lose ordering; state timestamps per frame. (3) Self-consistency bias / verbosity bias in scoring; mitigate with ranking + a fixed rubric. (4) Validate the judge against your own human picks on ~20 clips and check agreement before trusting it (target ≥85–90% agreement, per LLM-judge guidance).
+
+---
+
+### 2. Candidate-generation + ranking architecture
+
+**Pattern (replaces argmax):**
+```
+events = peaks(combined_score) ∪ laughter_starts ∪ scene_cuts ∪ keyword_hits
+for each event: propose window [event-setup, event+payoff]   # e.g. -8s..+12s, then snapped to sentences
+score each candidate = aggregate(combined_score over window) + bonuses
+candidates = non_max_suppression(candidates, iou_thresh=0.5)   # drop overlaps
+top = candidates[:k]              # k=3
+ranked = claude_rank(top)         # vision+transcript
+final = [c for c in ranked if quality_gate(c)]
+```
+**Non-maximum suppression:** sort candidates by score; greedily keep the highest, discard any later candidate whose temporal overlap (IoU on the time interval) with a kept one exceeds ~0.5. This is the same greedy-IoU logic TalkNet uses for face tracks (`iouThres=0.5`).
+
+**How open-source tools do it:**
+- **ClipsAI** (`pip install clipsai`, uses WhisperX under the hood): `ClipFinder().find_clips(transcription)` segments via the **TextTiling algorithm** (Hearst, 1990s) enhanced with **BERT embeddings** to detect topic shifts; returns `Clip(start_time, end_time)` objects of varying length. It's transcript-only — good for narrative, weak for pure-reaction streamer moments, so use it as a complementary "this is a coherent topic block" signal, not the sole detector.
+- **VadlapatiKarthik/autoclipper**, **TwitchHack**, **DennisPing/Twitch-Autoclip** — audio peak + chat/keyword scoring; FFmpeg cuts; Whisper subtitles. Confirms the "audio peak + keyword density" combo is the standard open-source baseline you're upgrading.
+- **artkulak/twitch-stream-highlights-detection** — ML over sound + motion + live chat for real-time highlights.
+
+**Commercial signal claims (to approximate):**
+- **Opus Clip "Virality Score" (0–99):** explicitly **Hook, Flow, Value, Trend**; by default clips are "sorted by Virality Score, from highest to lowest." Their newer "ClipAnything" claims to use "visual, audio and sentiment cues." Note: Opus's own docs do not prescribe a publish threshold; third-party guidance (Espressio.ai) suggests prioritizing clips scoring **≥70** and reworking lower ones rather than discarding.
+- **Vizard:** "analyzes speech patterns, pacing, and engagement signals"; reviewers note it relies mainly on **transcript analysis + keyword detection** and can miss emotional/contextual cues, producing "mechanical" clips that sometimes need manual cleanup of abrupt starts/ends.
+- **Klap:** markets "content intent" — "evaluates sentence meaning, delivery pace, topic shifts, and emotional tone."
+- **Submagic:** does NOT find moments — it styles already-cut clips (best-in-class captions, auto-zoom, B-roll); its "Magic Clips" add-on is the only detection piece.
+- Cross-tool takeaway: **multi-signal (audio emphasis + transcript sentiment/keywords + pacing + face) beats single-signal**, which is exactly the combined score above.
+
+---
+
+### 3. Content-aware in/out points (cheapest high-impact edit)
+
+**Architectural fix first:** transcribe the source (or a coarse pass) before cutting. Cheap options that fit your stack:
+- Run faster-whisper on the **whole source** with `vad_filter=True` (Silero VAD) and a small/distil model on CPU first to get rough segments, then a higher-quality pass only on candidate regions. Per the SYSTRAN/faster-whisper README, the library is "up to 4 times faster than openai/whisper for the same accuracy while using less memory," and "can be further improved with 8-bit quantization on both CPU and GPU."
+- Or VAD-segment first (Silero via faster-whisper's `vad_parameters=dict(min_silence_duration_ms=500)`), transcribe only speech regions.
+- Get word timestamps: `segments,_ = model.transcribe(path, word_timestamps=True)` → each `word.start`, `word.end`.
+
+**Snap START to the sentence/utterance that sets up the peak; snap END to the end of a sentence or laugh.**
+- **Detect utterance boundaries from word timings:** a gap `word[i+1].start - word[i].end > 0.4–0.6s` is a likely sentence/utterance boundary; also break on terminal punctuation (`. ? !`) which Whisper attaches to the word. (WhisperX/stable-ts give cleaner sentence grouping if you want it; stable-ts has `split_by_gap`/`merge_by_gap` and `clamp_max` helpers.)
+- **Start point:** from the scored peak, walk backwards to the start of the utterance containing the setup (often 1–2 sentences before the payoff). This is what gives the clip a hook instead of dropping the viewer mid-thought.
+- **End point:** walk forward to the end of the current sentence; if a laughter segment overlaps or immediately follows, extend to the end of the laugh so the reaction lands. Never cut mid-word — clamp the out-point to the nearest `word.end`.
+
+This snap-to-speech logic is the same reason ClipsAI cuts on transcript segment boundaries rather than fixed durations.
+
+---
+
+### 4. Pacing / dead-air removal (the defining short-form edit)
+
+**Two implementation paths:**
+
+**(a) FFmpeg `silencedetect` → keep-segments → concat (no extra deps):**
+```
+ffmpeg -i in.mp4 -af silencedetect=n=-30dB:d=0.4 -f null - 2>&1 | grep silence_
+```
+Parse `silence_start`/`silence_end`, invert to get "speech" intervals, then build a `concat` of the kept pieces. Use a threshold around −30 dB and `d=0.3–0.5s`. For audio-only there's `silenceremove` with `stop_periods=-1:...:middle_periods=-1`, but for video you must cut both streams in sync.
+
+**(b) Word-timestamp / VAD-based cutting (tighter, recommended since you already transcribe):**
+Use the gaps between `word.end` and next `word.start` (or Silero VAD segments) to define cuts. This avoids cutting on breaths the way raw dB thresholding does.
+
+**Existing tools / how they work:**
+- **auto-editor** (`pip install auto-editor`, WyattBlue) — wraps FFmpeg; `--edit audio:threshold=0.04` (or `audio:-19dB`), `--margin 0.3s,1.5s` to pad cuts (keeps them from sounding clipped). It can `--export premiere/resolve/final-cut` an edit list (XML) or render directly — you can call it as a subprocess and/or parse its cut decisions. `--margin` is the key parameter to avoid choppy breath-cuts.
+- **jumpcutter** — original Python+FFmpeg silence cutter; extracts frames (heavy temp disk), has a `frame_margin` for soft consonants. Mostly superseded by auto-editor.
+- **unsilence**, **Remsi** (bambax) — `silencedetect` → generates the `select`/`aselect` filter to drop silent ranges.
+
+**Sync / pitfalls:**
+- Cut audio and video on the **same** timestamps and re-encode the concatenated result; with the `concat` *filter* use `[v][a]...concat=n=N:v=1:a=1` and `setpts=PTS-STARTPTS`/`asetpts` per segment so timestamps reset (this is the canonical fix for desync).
+- Add a small **margin (0.1–0.3s)** around kept speech so plosives/breaths aren't clipped — exactly what auto-editor's `--margin` does.
+- **Hard cuts are standard** for the jump-cut style; a 1-frame audio crossfade (`acrossfade` / `afade`) only if you hear clicks. Avoid video crossfades — they read as "slow."
+- Keep cuts on GOP boundaries or just re-encode (CRF 18–20) to stay frame-accurate.
+
+---
+
+### 5. Dynamic reframing / active-speaker tracking for 9:16
+
+**Lightweight CPU path (recommended default — MediaPipe BlazeFace):**
+- `mp.solutions.face_detection.FaceDetection(model_selection=1, min_detection_confidence=0.5)` — `model_selection=1` is full-range (better for further subjects); detections are normalized 0–1, multiply by W/H. Runs comfortably faster than real-time on CPU (BlazeFace is "ultrafast / super-realtime"; tutorials report ~70–80 fps on CPU, which is an order-of-magnitude figure not a benchmark). Set `image.flags.writeable = False` before `process()` to pass by reference (official perf tip).
+- **Pattern:** sample every ~3rd frame at downscaled (≈480p) resolution → target crop center = face center (bias up so eyes sit in upper third) → **EMA smooth** (`prev = alpha*pos + (1-alpha)*prev`, alpha 0.1–0.2) → clamp crop window to frame bounds → render.
+
+**GPU path (robust, true active-speaker — TalkNet-ASD + S3FD):**
+- **TaoRuijie/TalkNet-ASD** (`demoTalkNet.py`) is the canonical pipeline: normalize to 25 fps + 16 kHz mono → **S3FD** face detection (`device='cuda'`, `--facedetScale 0.25`) → **greedy IoU face tracking** (`iouThres=0.5`, `--numFailedDet 10`, `--minTrack 10`, missing frames filled by `scipy.interpolate.interp1d`) → per-track center/size **median-filtered** (`scipy.signal.medfilt(kernel_size=13)`, ≈0.5s at 25fps) → **TalkNet** scores each face "speaking or not," averaged over a window set `{1,1,1,2,2,2,3,3,4,5,6}` then ±2-frame averaged. Accuracy per the repo/paper: **92.3% mAP on the AVA-ActiveSpeaker validation set and 90.8% mAP on the test set** (ACM MM 2021, arXiv 2107.06592), beating the prior best by 3.0%. Active speaker per frame = highest-scoring track with score ≥0.
+- Performance (author's inline note, Columbia ~70-min dataset): face detection+tracking+crop ≈ 1.5 hr one-time on their box; ASD scoring + eval < 10 min; ~20 GB scratch. **GPU is effectively required as written** (S3FD is VGG16-based — the S3FD paper reports 36 FPS on VGA on a Titan X; TalkNet inference tensors are all `.cuda()`).
+- **mvoodarla/Fast-ASD** is the faster wrapper in this lineage (the "AutoCrop"-style tool); credited in the TalkNet README.
+
+**Feeding a time-varying crop into FFmpeg — two reliable methods:**
+- **(a) Generated piecewise `crop` expression (best for smooth single-speaker pans):** the `crop` filter's `x`/`y` accept per-frame expressions using `t`/`n`. Emit a piecewise-linear `x='if(between(t,..),..)'` from your smoothed (t,x) samples, e.g. `crop=w=608:h=1080:x='<expr>':y=0`, then `scale` to final size with `flags=lanczos`. Round coords to integers.
+- **(a′) `sendcmd` (best for deterministic batch):** name the filter `crop@cam`, write a timestamped command file (`12.5 crop@cam x 640`), and `-vf "sendcmd=f=cmd.txt, crop@cam=w=..:h=..:x=0:y=0, scale=..:flags=lanczos"`. Do the EMA + deadzone + velocity-clamp smoothing in Python before emitting commands.
+- **(b) Per-segment static crops (best for multi-speaker switching — what ClipsAI does):** one constant crop rect per speaker turn, hard-switch at turns. ClipsAI's `resize()` returns `Segment` objects (`x, y, crop_width, crop_height, start_time, end_time, speakers`) rendered per-segment; it warns to keep ≥4–6 decimal time precision to avoid ffmpeg rounding errors.
+- Live **`zmq`/`zmqsend`** exists but is fiddly, async (not frame-accurate), and needs a custom `--enable-libzmq` build — avoid for batch rendering.
+- **Smoothing rules that prevent ugliness:** EMA or median filter on the center path, a deadzone (ignore sub-N-px moves to kill jitter), a max-step velocity clamp (no whip-pans), clamp to frame bounds, and **never pan across a scene cut** (snap instead).
+
+---
+
+### 6. Final polish passes
+
+**EBU R128 two-pass loudnorm (DO THIS FIRST — currently missing):**
+- Pass 1 measure: `ffmpeg -i in.mp4 -af loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json -f null -` → parse `input_i/input_tp/input_lra/input_thresh`.
+- Pass 2 apply with `linear=true` and the measured values fed back as `measured_I=...:measured_TP=...:measured_LRA=...:measured_thresh=...`. Single-pass pumps/compresses dynamically — only two-pass gives clean linear gain.
+- **Target:** −14 LUFS, TP −1.5 dBTP is the platform-standard for YouTube/TikTok/Shorts (most platforms normalize playback to ~−14 LUFS); keep true peak ≤ −1 dBTP to survive AAC transcode. Shorts don't benefit from going *louder* than −14 (platforms just turn you back down and you lose dynamics); the win is **consistency** across clips so viewers don't ride the volume knob.
+- Easiest: the **ffmpeg-normalize** Python CLI (`ffmpeg-normalize in.mp4 -o out.mp4 -t -14`) does two-pass EBU R128 by default. Place this as the **last** audio step, after the voiceover mix.
+- Edge case: near-silent clips report ~−70 LUFS (gate floor) — don't amplify those, flag/skip them (this doubles as a quality gate).
+
+**Light voice cleanup (only if source is noisy):**
+- Denoise: `afftdn=nr=10:nf=-40` (FFT denoiser; can self-learn noise with `asendcmd ... afftdn sn start/stop`).
+- Gentle compression for consistent voice: `acompressor=threshold=-18dB:ratio=3:attack=20:release=200`.
+- De-ess only if sibilant. Chain order: `afftdn, highpass=f=80, acompressor, loudnorm` (loudnorm always last).
+- Don't over-process — aggressive denoise on already-clean Twitch audio makes voices sound underwater.
+
+**Subtle visual polish (worth it vs overkill):**
+- **Worth it:** a slight punch-in / slow push on the payoff using `zoompan` on video (`z='min(pzoom+0.0005,1.1)'` with `d=1` and `fps` set so it applies per-frame; remember zoompan needs `pzoom` for video and only zooms in). A 5–10% push over the climax adds energy cheaply.
+- **Worth it:** burned captions (you have this) — single biggest retention lever after the hook.
+- **Overkill / risky:** speed-ramping, heavy transitions, constant motion — they read as "AI slop" and can hurt retention. Keep it to one tasteful push-in.
+
+---
+
+### 7. Quality gate / filtering (stop posting mediocre clips)
+
+Run gates in cheap→expensive order; reject early:
+1. **Heuristic gates (free):** minimum speech presence (≥ X words or ≥ 50% voiced via VAD), not-mostly-silence (integrated LUFS not near −70), minimum motion (mean `scene` score or frame-diff above a floor), duration in range (e.g. 12–45s), and audio not clipping.
+2. **Combined-score floor:** the candidate's aggregate excitement score must exceed a percentile threshold learned from past good clips.
+3. **LLM-vision gate (final, paid):** send sampled frames + transcript to Claude: *"Is this a good, self-contained, engaging short clip? Score 1–10 with reasons. Does it have a hook in the first 2 seconds? Does it make sense without context? Is there a payoff?"* Discard below a threshold (e.g. < 7). Because absolute scores drift, calibrate the threshold on a labeled set and prefer the **ranking** output from step 2 of the architecture to choose *which* clips, using this gate only to **reject** the weak ones.
+4. **Validate the gate:** before trusting it, compare its keep/reject decisions to your own on ~20–30 clips; aim for ≥85–90% agreement, and re-check periodically (LLM-judge best practice).
+
+---
+
+## Recommendations
+
+**Stage 1 — do this week (low effort, high impact):**
+- Add two-pass `loudnorm`/`ffmpeg-normalize` to −14 LUFS as the final audio step. Add the near-silent (−70 LUFS) auto-reject.
+- Add the heuristic quality gates (min words, min motion, duration). These two changes alone visibly raise average clip quality.
+
+**Stage 2 — the architectural fix (highest quality-per-effort):**
+- Move faster-whisper before the cut (coarse VAD pass on the whole source, fine pass on candidates). Implement sentence-boundary detection from word gaps + punctuation, and snap clip start→setup-utterance, end→sentence/laugh end. Never cut mid-word.
+
+**Stage 3 — replace the detector:**
+- Build the combined per-second score (librosa onset/RMS/pitch + laughter via jrgillick + transcript keyword/exclamation/speech-rate + FFmpeg scene density). Generate candidate windows on score peaks, NMS at IoU 0.5, take top 3, rank with a Claude vision+transcript ranking prompt (Hook/Flow/Value/standalone), apply the LLM reject gate.
+
+**Stage 4 — pacing + reframing:**
+- Add dead-air removal (auto-editor as subprocess, or word-gap cutting, with 0.2s margins, hard cuts).
+- Replace static center crop: start with MediaPipe BlazeFace on CPU + EMA-smoothed crop path via a generated `crop` expression; upgrade to TalkNet+S3FD on GPU only if you have multi-person streams and a GPU box.
+
+**Thresholds that change the plan:**
+- If you have a GPU: use TalkNet-ASD for true active-speaker reframing and a larger Whisper model; otherwise stay on MediaPipe + distil-whisper.
+- If Twitch clips are already <60s and pre-trimmed by the streamer, skip detection for those and only run the pacing + polish + crop + gate passes; run full detection only on long YouTube sources.
+- If the Claude vision gate disagrees with you >15% of the time on a validation set, fall back to heuristic+audio scoring for selection and use Claude only for reject, or revise the rubric.
+
+## Caveats
+- **No commercial "virality score" is validated or published.** Opus Clip's Hook/Flow/Value/Trend axes are documented by the vendor but there is no public technical spec or validation study; their help docs and third-party reviewers both frame the score as a prioritization heuristic, not a guarantee. One independent 30-day test (ScaleReach) found clips scoring 80+ averaged roughly 2.3× the TikTok views of sub-50 clips — yet in that same test the single best-performing clip scored 64 and the worst scored 87, underscoring that it is "a directional heuristic, not a guarantee." Approximate the *signals*, don't expect a magic number.
+- **LLM highlight ranking has known failure modes** — language-prior bias (answering from transcript, ignoring frames), temporal blindness on sampled frames, and unstable absolute scores. Mitigate with ranking over scoring, per-frame timestamps, a fixed rubric, and human-agreement validation.
+- **Performance numbers are mixed-source.** S3FD's "36 FPS on VGA" is from the paper; TalkNet's "<10 min scoring / ~1.5 hr preprocessing" is the author's inline comment for one dataset; MediaPipe's "70–80 fps CPU" is a tutorial figure, not a benchmark. Budget conservatively and profile on your own box.
+- **Laughter models carry licensing/accuracy caveats:** omine-me's pretrained model is research-use-only; all laughter detectors have high false-negative rates on noisy streamer audio and are imbalanced-class problems — tune thresholds and treat laughter as one weighted signal, not a trigger.
+- **faster-whisper word timestamps** are approximate (DTW-based); for frame-critical cuts add a small safety margin and always clamp to `word.end`. Set `condition_on_previous_text=False` to reduce hallucination on long sources.

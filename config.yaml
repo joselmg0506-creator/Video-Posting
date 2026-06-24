@@ -54,6 +54,11 @@ processing:
 transform:
   enabled: true
 
+  # Quality gate: the AI scores each clip 1-10 as a standalone Short (logged every run). With
+  # quality_min > 0, clips below it are skipped BEFORE rendering — "stop posting mediocre
+  # clips." Default 0 (off): watch the logged scores for a few runs, then set ~5-6 to taste.
+  quality_min: 0
+
   # AI commentary + metadata writer (Anthropic Messages API; needs ANTHROPIC_API_KEY).
   llm:
     model: claude-haiku-4-5-20251001
@@ -128,6 +133,87 @@ posting:
 
   caption_template: "{title} #Shorts"
   description_template: "{title}\nClip by {creator}\n\n#Shorts"
+
+# ── Channels ──────────────────────────────────────────────────────────────────────────
+# Each channel is a SEPARATE YouTube channel (its own OAuth token_file) fed by a producer
+# chosen by content_type. The `clips` channel uses the sources/processing/transform config
+# above; the AI channels carry their own producer config below. `posting.enabled` is the
+# global master switch — with it false, every channel still renders but nothing uploads.
+# To bring an AI channel online: create the YouTube channel, run
+# `python -m src.auth_youtube` while pointed at its token_file, then set enabled: true.
+channels:
+  - name: clips
+    content_type: clips
+    enabled: true
+    target: youtube_shorts
+    token_file: ./secrets/youtube_token.json        # this channel's OAuth token
+    max_per_run: 3
+    youtube:
+      privacy: private          # private | unlisted | public
+      category_id: "24"         # 24 = Entertainment
+      tags: [shorts, clips, fyp]
+
+  - name: movies
+    content_type: story_film    # original AI story told like a short animated MOVIE
+    enabled: false              # flip on once its channel + token_file + FAL_KEY exist
+    target: youtube_shorts
+    token_file: ./secrets/youtube_token_movies.json
+    max_per_run: 1
+    youtube:
+      privacy: private
+      category_id: "1"          # 1 = Film & Animation
+      tags: [shorts, story, animation, ai, film, storytime]
+    story_film:
+      style: 3d_animated        # 3d_animated | anime | cinematic_realistic | storybook
+      scenes: 6                 # number of scenes/images per film (~9s each over ~55s)
+      target_seconds: 55        # narration length
+      voice: en-US-AndrewNeural # cinematic narrator
+      image_provider: fal       # fal | replicate  (needs FAL_KEY / REPLICATE_API_TOKEN)
+      image_model: fal-ai/flux/schnell
+      music_dir: ./data/music   # optional Content-ID-safe score under the narration
+      # Story seeds — the AI invents a fresh self-contained film around one each run.
+      # Tuned for VISUAL, hooky genres that animate well and carry a twist (horror/creepy,
+      # twist-mystery, sci-fi, creature/fantasy) — the formats that actually pop on Shorts.
+      themes:
+        # — creepy / horror —
+        - "a night-shift guard notices the security feed shows one more person than the room holds"
+        - "a child's imaginary friend keeps warning them about things that haven't happened yet"
+        - "every mirror in the house reflects a room that is subtly, wrongly different"
+        # — twist mystery —
+        - "a detective receives a letter describing their own murder, dated tomorrow"
+        - "a town where everyone wakes up one day younger, and only one person is aging normally"
+        # — sci-fi —
+        - "a deep-space crew wakes from cryosleep a thousand years later than planned"
+        - "a robot built to feel nothing starts hiding a secret from its makers"
+        - "a deep-sea diver finds a sunken city that is signaling back"
+        # — creature / fantasy —
+        - "a creature that eats fear is starving in a town that forgot how to be afraid"
+        - "a tiny dragon raised by sheep believes it is a sheep, until the wolves come"
+        - "a lighthouse keeper feeds a sea monster to keep the coast safe, until it stops coming"
+  # (The Reddit-story brainrot producer still exists — set content_type: reddit_story to use it.)
+
+  - name: characters
+    content_type: ai_character
+    enabled: false              # built last; needs FAL_KEY (or REPLICATE_API_TOKEN)
+    target: youtube_shorts
+    token_file: ./secrets/youtube_token_characters.json
+    max_per_run: 2
+    youtube:
+      privacy: private
+      category_id: "24"
+      tags: [shorts, brainrot, ai, meme, fyp]
+    ai_character:
+      image_provider: fal       # fal | replicate
+      image_model: fal-ai/flux/schnell
+      panels: 3                 # how many character images per video
+      target_seconds: 30        # narration length (these intros are punchy)
+      voice: en-US-GuyNeural
+      music_dir: ./data/music   # Content-ID-safe bed (YouTube Audio Library tracks); optional
+      # Serialization: a persisted cast so characters RECUR and lore builds (a reason to
+      # subscribe, vs disposable one-offs). recurring_rate = chance a video is a returning
+      # character's new episode rather than a brand-new creature.
+      recurring_rate: 0.4
+      bible: ./data/character_bible.json
 
 # Beat-synced music edit (separate mode): `python main.py --music-edit`.
 # A song over b-roll cut on the beat (e.g. Speed's World Cup song over WC moments + his

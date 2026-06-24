@@ -16,6 +16,15 @@ import tempfile
 from pathlib import Path
 
 
+# EBU R128 loudness target for short-form. YouTube/TikTok normalize playback to ~-14 LUFS,
+# so matching it means our clips are neither turned-down nor quiet relative to the feed;
+# TP=-1.5 dBTP leaves headroom for the AAC transcode. Single-pass (dynamic) is fine for
+# unattended rendering — the win is CONSISTENCY across clips, not absolute level. Applied as
+# the last audio step in compose(), which every channel (clips, reddit, character) funnels
+# through, so loudness is normalized everywhere from one place.
+LOUDNORM = "loudnorm=I=-14:TP=-1.5:LRA=11"
+
+
 def _run(cmd: list[str], cwd: str | None = None) -> None:
     proc = subprocess.run(cmd, cwd=cwd, capture_output=True)
     if proc.returncode != 0:
@@ -212,17 +221,20 @@ def compose(
         else:
             vmap = "0:v"
 
-        # ---- audio: mix ducked original under the voiceover (or whichever exists)
+        # ---- audio: mix ducked original under the voiceover (or whichever exists), then
+        # loudnorm to the social target so every clip/channel lands at a consistent level.
         if voiceover and has_audio:
             filters.append(
                 f"[0:a]volume={duck_db}dB[a0];[1:a]volume=2dB[a1];"
-                "[a0][a1]amix=inputs=2:duration=longest:normalize=0[aout]"
+                f"[a0][a1]amix=inputs=2:duration=longest:normalize=0,{LOUDNORM}[aout]"
             )
             amap = "[aout]"
         elif voiceover:
-            amap = "1:a"
+            filters.append(f"[1:a]{LOUDNORM}[aout]")
+            amap = "[aout]"
         elif has_audio:
-            amap = "0:a"
+            filters.append(f"[0:a]{LOUDNORM}[aout]")
+            amap = "[aout]"
         else:
             amap = None
 

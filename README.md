@@ -14,6 +14,14 @@ It adds genuinely-varied AI commentary, an offline voiceover, and burned-in capt
 clip — and discloses the content as AI-assisted on every post. Disable it with
 `transform.enabled: false` to revert to plain reposting (not recommended).
 
+> **Now multi-channel.** The pipeline drives **three** separate YouTube channels from one
+> codebase via the `channels:` registry in `config.yaml`: `clips` (streamer clips, above),
+> `reddit` (AI-narrated stories over gameplay / AI art), and `characters` (recurring
+> AI-character "brainrot"). The shared back-half (9:16 render → karaoke captions → loop
+> outro → post) is identical; only each channel's producer (`src/producers/`) differs.
+> **To take any channel live, follow [GO-LIVE.md](GO-LIVE.md)** — the step-by-step checklist
+> of accounts, keys, and switches.
+
 ## Layout
 
 ```

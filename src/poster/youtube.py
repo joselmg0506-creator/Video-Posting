@@ -9,11 +9,14 @@ Prerequisites (one-time):
   2. Create OAuth client (Desktop type). Download JSON → ./secrets/youtube_client_secret.json
   3. Run `python -m src.auth_youtube` once to grant access & cache tokens.
 """
+import socket
+import time
 from pathlib import Path
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
 from ..config import env
@@ -23,9 +26,23 @@ SCOPES = [
     "https://www.googleapis.com/auth/youtube.readonly",   # read stats for the metrics digest
 ]
 
+MAX_UPLOAD_RETRIES = 5
+RETRYABLE_STATUS = {500, 502, 503, 504}
 
-def _load_credentials() -> Credentials:
-    token_file = env("YOUTUBE_TOKEN_FILE", "./secrets/youtube_token.json")
+
+class QuotaExceeded(RuntimeError):
+    """The YouTube Data API daily quota is exhausted. videos.insert costs ~1600 of the
+    10,000 default units/day (~6 uploads/day), so the caller should STOP the run rather
+    than retry and burn more quota."""
+
+
+def _is_quota_error(e: HttpError) -> bool:
+    resp = getattr(e, "resp", None)
+    return resp is not None and resp.status == 403 and "quota" in str(e).lower()
+
+
+def _load_credentials(token_file: str | None = None) -> Credentials:
+    token_file = token_file or env("YOUTUBE_TOKEN_FILE", "./secrets/youtube_token.json")
     path = Path(token_file)
     if not path.exists():
         raise RuntimeError(
@@ -39,8 +56,8 @@ def _load_credentials() -> Credentials:
 
 
 class YouTubeShortsPoster:
-    def __init__(self):
-        self._service = build("youtube", "v3", credentials=_load_credentials())
+    def __init__(self, token_file: str | None = None):
+        self._service = build("youtube", "v3", credentials=_load_credentials(token_file))
 
     def post(
         self,
@@ -72,7 +89,25 @@ class YouTubeShortsPoster:
             body=body,
             media_body=media,
         )
+        # Drive the resumable upload. On a transient network/5xx error we retry the SAME
+        # request — next_chunk() resumes where it left off, so retrying can't double-post.
+        # A 403 quota error is fatal for the run and re-raised as QuotaExceeded.
         response = None
+        attempt = 0
         while response is None:
-            _status, response = request.next_chunk()
+            try:
+                _status, response = request.next_chunk()
+            except HttpError as e:
+                if _is_quota_error(e):
+                    raise QuotaExceeded(str(e)) from e
+                if e.resp.status in RETRYABLE_STATUS and attempt < MAX_UPLOAD_RETRIES:
+                    attempt += 1
+                    time.sleep(min(2 ** attempt, 30))
+                    continue
+                raise
+            except (socket.timeout, ConnectionError, OSError) as e:
+                if attempt >= MAX_UPLOAD_RETRIES:
+                    raise
+                attempt += 1
+                time.sleep(min(2 ** attempt, 30))
         return response["id"]

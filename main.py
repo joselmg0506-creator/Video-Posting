@@ -1,8 +1,19 @@
 """
-Entry point. Usage:
-  python main.py                # full pipeline (fetch → process → transform → post if enabled)
-  python main.py --dry-run      # skip posting even if posting.enabled = true
-  python main.py --no-post      # alias for --dry-run
+Entry point.
+
+Runs one or more CHANNELS (see `channels:` in config.yaml). Each channel has a
+`content_type` (clips | reddit_story | ai_character) that selects a producer, plus its
+own YouTube OAuth token and posting settings. The shared back-half (render → captions →
+post) is the same for every channel; only the producer (the front-half) differs.
+
+Usage:
+  python main.py                 # run every enabled channel (post if posting.enabled)
+  python main.py --dry-run        # build everything but never post
+  python main.py --channel reddit # run only the named channel
+  python main.py --max-per-run 1  # cap items per channel this run
+  python main.py --metrics        # post a metrics digest instead of running the pipeline
+  python main.py --music-edit      # render the beat-synced music edit
+  python main.py --clear-pending   # release clips parked after an interrupted upload
 """
 import argparse
 import sys
@@ -23,19 +34,26 @@ from src.sources.youtube import (
 )
 from src.processor.video import process as process_video
 from src.transform import transform as transform_clip
+from src.transform import ClipRejected
 
 
 @dataclass
 class PostItem:
-    """A finished video plus the metadata the posters need."""
-    clip: Clip
+    """A finished 9:16 video plus the metadata the posters need. Channel-agnostic:
+    `item_id` is the stable dedup key (e.g. twitch:…, reddit:…, char:…), and creator/
+    source are for attribution + metrics (empty for fully-generated content)."""
+    item_id: str
     path: Path
     title: str
     description: str
     hashtags: list[str] = field(default_factory=list)
     ai_label: bool = False
     voice: str = ""
+    creator: str = ""
+    source: str = ""
 
+
+# ─────────────────────────── clip sourcing (channel: clips) ───────────────────────────
 
 def _round_robin(seqs: list) -> list:
     """Flatten sequences by taking one item from each in turn (skipping exhausted ones).
@@ -135,20 +153,215 @@ def build_item(clip: Clip, processed_path: Path, cfg: dict) -> PostItem:
         final = processed_path.with_name(processed_path.stem + "_final.mp4")
         t = transform_clip(clip, processed_path, final, cfg)
         return PostItem(
-            clip=clip,
+            item_id=clip.id,
             path=t.path,
             title=t.script.title,
             description=t.script.description,
             hashtags=t.script.hashtags,
             ai_label=t.ai_label,
             voice=t.voice,
+            creator=clip.creator,
+            source=clip.source,
         )
 
     title = pcfg["caption_template"].format(title=clip.title, creator=clip.creator)
     description = pcfg.get("description_template", pcfg["caption_template"]).format(
         title=clip.title, creator=clip.creator
     )
-    return PostItem(clip=clip, path=processed_path, title=title, description=description)
+    return PostItem(item_id=clip.id, path=processed_path, title=title,
+                    description=description, creator=clip.creator, source=clip.source)
+
+
+def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[PostItem]:
+    """Producer for content_type=clips: gather → download → process → transform."""
+    downloads = Path(cfg["paths"]["downloads"])
+    processed = Path(cfg["paths"]["processed"])
+    transform_on = bool(cfg.get("transform", {}).get("enabled"))
+
+    print("  gathering clips…")
+    clips = gather_clips(cfg)
+    print(f"    found {len(clips)}")
+
+    items: list[PostItem] = []
+    for clip in clips:
+        if len(items) >= cap:
+            break
+        if state.is_posted(clip.id):
+            print(f"    skip (already posted): {clip.id} {clip.title!r}")
+            continue
+        if state.is_pending(clip.id):
+            print(f"    skip (pending — prior run interrupted mid-upload; "
+                  f"`--clear-pending` to release): {clip.id}")
+            continue
+        try:
+            print(f"    downloading: {clip.title!r}")
+            raw = download_clip(clip, downloads)
+            out = processed / f"{clip.id.replace(':', '_')}.mp4"
+            print(f"    processing → {out.name}")
+            process_video(
+                raw,
+                out,
+                width=cfg["processing"]["target_width"],
+                height=cfg["processing"]["target_height"],
+                fit=cfg["processing"]["fit_mode"],
+                max_duration=cfg["processing"]["max_duration_seconds"],
+                peak_trim=cfg["processing"].get("peak_trim", True),
+            )
+            if transform_on:
+                print("    transforming (AI commentary + voiceover + captions)…")
+            items.append(build_item(clip, out, cfg))
+        except ClipRejected as e:
+            print(f"    skip (low quality): {e}")
+        except Exception as e:
+            print(f"    failed: {e}")
+    return items
+
+
+def produce(channel: dict, cfg: dict, state: State, cap: int) -> list[PostItem]:
+    """Dispatch a channel to its producer based on content_type."""
+    ct = channel["content_type"]
+    if ct == "clips":
+        return produce_clips(channel, cfg, state, cap)
+    if ct == "reddit_story":
+        from src.producers.reddit_story import produce as produce_reddit
+        return produce_reddit(channel, cfg, state, cap)
+    if ct == "story_film":
+        from src.producers.story_film import produce as produce_film
+        return produce_film(channel, cfg, state, cap)
+    if ct == "ai_character":
+        from src.producers.ai_character import produce as produce_character
+        return produce_character(channel, cfg, state, cap)
+    raise ValueError(f"Unknown content_type: {ct!r}")
+
+
+# ──────────────────────────────────── posting ────────────────────────────────────────
+
+def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
+                  state: State, notif_on: bool) -> None:
+    from src.poster.youtube import YouTubeShortsPoster, QuotaExceeded
+    ycfg = channel.get("youtube") or cfg["posting"]["youtube_shorts"]
+    poster = YouTubeShortsPoster(channel.get("token_file"))
+    posted = 0
+    for it in items:
+        title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
+        title = title[:100]
+        tags = list(ycfg.get("tags", [])) + it.hashtags
+        print(f"  posting (youtube shorts): {title!r}")
+        state.begin(it.item_id)   # durable in-progress marker BEFORE the API call
+        try:
+            video_id = poster.post(
+                it.path,
+                title=title,
+                description=it.description,
+                privacy=ycfg.get("privacy", "private"),
+                category_id=ycfg.get("category_id", "24"),
+                tags=tags,
+                contains_synthetic_media=it.ai_label,
+            )
+        except QuotaExceeded as e:
+            state.clear_pending(it.item_id)   # rejected before upload → safe to retry later
+            print(f"    quota exhausted — stopping channel: {e}")
+            notify.send(content=f"🛑 YouTube daily quota exhausted on '{channel['name']}' — "
+                                "stopping; remaining items retry next run.", enabled=notif_on)
+            break
+        except Exception as e:
+            # Upload may have partially landed → leave PENDING so we never double-post.
+            print(f"    upload failed (left pending for review): {e}")
+            notify.send(content=f"❌ Upload interrupted [{channel['name']}]: {title[:80]} — {e}",
+                        enabled=notif_on)
+            continue
+        url = f"https://youtube.com/shorts/{video_id}"
+        print(f"    uploaded: {url}")
+        state.record_post(
+            it.item_id, video_id=video_id, url=url, title=title,
+            creator=it.creator, source=it.source, channel=channel["name"],
+            narrated=bool(it.voice), voice=it.voice,
+            posted_at=datetime.now(timezone.utc).isoformat(),
+        )
+        notify.send(
+            embeds=[notify.posted_embed(title, url, it.creator, it.source,
+                                        bool(it.voice), it.voice)],
+            enabled=notif_on,
+        )
+        posted += 1
+    notify.send(content=f"▶️ '{channel['name']}' complete — {posted} Short(s) posted.",
+                enabled=notif_on)
+
+
+def _post_tiktok(items: list[PostItem], channel: dict, cfg: dict,
+                 state: State, notif_on: bool) -> None:
+    from src.poster.tiktok import TikTokPoster
+    tcfg = channel.get("tiktok") or cfg["posting"]["tiktok"]
+    poster = TikTokPoster()
+    for it in items:
+        caption = it.title
+        if it.hashtags:
+            caption += "\n" + " ".join(f"#{h}" for h in it.hashtags)
+        print(f"  posting (tiktok): {it.title!r}")
+        state.begin(it.item_id)
+        try:
+            publish_id = poster.post(
+                it.path,
+                caption=caption,
+                privacy=tcfg["privacy"],
+                disable_comment=tcfg["disable_comment"],
+                disable_duet=tcfg["disable_duet"],
+                disable_stitch=tcfg["disable_stitch"],
+                is_aigc=it.ai_label,
+            )
+            poster.wait_for_publish(publish_id)
+            print(f"    published ({publish_id})")
+            state.mark_posted(it.item_id)
+        except Exception as e:
+            print(f"    post failed (left pending for review): {e}")
+            notify.send(content=f"❌ TikTok post interrupted [{channel['name']}]: "
+                                f"{it.title[:80]} — {e}", enabled=notif_on)
+
+
+# ─────────────────────────────────── orchestration ────────────────────────────────────
+
+def _default_channels(cfg: dict) -> list[dict]:
+    """Back-compat: if config has no `channels:` block, synthesize a single clips
+    channel from the legacy `posting`/`sources` config so old configs still run."""
+    p = cfg.get("posting", {})
+    return [{
+        "name": "clips",
+        "content_type": "clips",
+        "enabled": True,
+        "target": p.get("target", "youtube_shorts"),
+        "token_file": None,
+        "max_per_run": cfg.get("sources", {}).get("max_per_run", 3),
+        "youtube": p.get("youtube_shorts"),
+        "tiktok": p.get("tiktok"),
+    }]
+
+
+def run_channel(channel: dict, cfg: dict, state: State, args, notif_on: bool) -> None:
+    ct = channel["content_type"]
+    cap = (args.max_per_run if args.max_per_run is not None
+           else channel.get("max_per_run") or cfg.get("sources", {}).get("max_per_run", 3))
+    print(f"\n=== channel '{channel['name']}' ({ct}) — up to {cap} ===")
+
+    items = produce(channel, cfg, state, cap)[:cap]
+    if not items:
+        print("  nothing new to post.")
+        return
+
+    if args.dry_run or not cfg["posting"]["enabled"]:
+        why = "--dry-run" if args.dry_run else "posting.enabled=false"
+        print(f"  ready-to-post ({why} — not posting):")
+        for it in items:
+            v = f"  [voice: {it.voice}]" if it.voice else ""
+            print(f"    {it.path}  —  {it.title}{v}")
+        return
+
+    target = channel.get("target", "youtube_shorts")
+    if target == "youtube_shorts":
+        _post_youtube(items, channel, cfg, state, notif_on)
+    elif target == "tiktok":
+        _post_tiktok(items, channel, cfg, state, notif_on)
+    else:
+        raise ValueError(f"Unknown target for channel {channel['name']}: {target!r}")
 
 
 def main() -> None:
@@ -161,17 +374,28 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", "--no-post", dest="dry_run", action="store_true")
     ap.add_argument("--max-per-run", type=int, default=None,
-                    help="override sources.max_per_run for this run (e.g. 1 per scheduled slot)")
+                    help="override per-channel max_per_run for this run")
+    ap.add_argument("--channel", default=None,
+                    help="run only the channel with this name (default: all enabled)")
     ap.add_argument("--metrics", action="store_true",
                     help="post a metrics digest of recent videos instead of running the pipeline")
     ap.add_argument("--music-edit", dest="music_edit", action="store_true",
                     help="render the beat-synced music edit instead of the clip pipeline")
+    ap.add_argument("--clear-pending", dest="clear_pending", action="store_true",
+                    help="release clips parked 'pending' after an interrupted upload, then exit")
     args = ap.parse_args()
 
     cfg = load_config()
-    if args.max_per_run is not None:
-        cfg["sources"]["max_per_run"] = args.max_per_run
     state = State(cfg["paths"]["state"])
+    notif_on = cfg.get("notifications", {}).get("discord", {}).get("enabled", False)
+
+    if args.clear_pending:
+        pending = list(state.data.get("uploading", []))
+        for cid in pending:
+            state.clear_pending(cid)
+        print(f"Cleared {len(pending)} pending item(s): {pending}" if pending
+              else "No pending items to clear.")
+        return
 
     if args.music_edit:
         from src.musicedit import make
@@ -183,122 +407,25 @@ def main() -> None:
         from src.metrics import digest
         digest(state, cfg)
         return
-    downloads = Path(cfg["paths"]["downloads"])
-    processed = Path(cfg["paths"]["processed"])
-    transform_on = bool(cfg.get("transform", {}).get("enabled"))
 
-    print("Gathering clips…")
-    clips = gather_clips(cfg)
-    print(f"  found {len(clips)}")
+    channels = cfg.get("channels") or _default_channels(cfg)
+    if args.channel:
+        channels = [c for c in channels if c.get("name") == args.channel]
+        if not channels:
+            print(f"No channel named {args.channel!r} in config.")
+            return
 
-    items: list[PostItem] = []
-    cap = cfg["sources"].get("max_per_run") or len(clips)
-    for clip in clips:
-        if len(items) >= cap:
-            break
-        if state.is_posted(clip.id):
-            print(f"  skip (already posted): {clip.id} {clip.title!r}")
+    for ch in channels:
+        if not ch.get("enabled"):
             continue
         try:
-            print(f"  downloading: {clip.title!r}")
-            raw = download_clip(clip, downloads)
-            out = processed / f"{clip.id.replace(':', '_')}.mp4"
-            print(f"  processing → {out.name}")
-            process_video(
-                raw,
-                out,
-                width=cfg["processing"]["target_width"],
-                height=cfg["processing"]["target_height"],
-                fit=cfg["processing"]["fit_mode"],
-                max_duration=cfg["processing"]["max_duration_seconds"],
-                peak_trim=cfg["processing"].get("peak_trim", True),
-            )
-            if transform_on:
-                print("  transforming (AI commentary + voiceover + captions)…")
-            items.append(build_item(clip, out, cfg))
+            run_channel(ch, cfg, state, args, notif_on)
         except Exception as e:
-            print(f"  failed: {e}")
-
-    if not items:
-        print("Nothing new to post.")
-        return
-
-    if args.dry_run or not cfg["posting"]["enabled"]:
-        print("\nReady-to-post files (posting disabled):")
-        for it in items:
-            voice = f"  [voice: {it.voice}]" if it.voice else ""
-            print(f"  {it.path}  —  {it.title}{voice}")
-        return
-
-    target = cfg["posting"]["target"]
-    notif_on = cfg.get("notifications", {}).get("discord", {}).get("enabled", False)
-
-    if target == "tiktok":
-        from src.poster.tiktok import TikTokPoster
-        tcfg = cfg["posting"]["tiktok"]
-        poster = TikTokPoster()
-        for it in items:
-            caption = it.title
-            if it.hashtags:
-                caption += "\n" + " ".join(f"#{h}" for h in it.hashtags)
-            print(f"  posting (tiktok): {it.title!r}")
-            publish_id = poster.post(
-                it.path,
-                caption=caption,
-                privacy=tcfg["privacy"],
-                disable_comment=tcfg["disable_comment"],
-                disable_duet=tcfg["disable_duet"],
-                disable_stitch=tcfg["disable_stitch"],
-                is_aigc=it.ai_label,
-            )
-            try:
-                poster.wait_for_publish(publish_id)
-                print(f"    published ({publish_id})")
-                state.mark_posted(it.clip.id)
-            except Exception as e:
-                print(f"    status check failed: {e}")
-
-    elif target == "youtube_shorts":
-        from src.poster.youtube import YouTubeShortsPoster
-        ycfg = cfg["posting"]["youtube_shorts"]
-        poster = YouTubeShortsPoster()
-        posted = 0
-        for it in items:
-            title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
-            title = title[:100]
-            tags = list(ycfg["tags"]) + it.hashtags
-            print(f"  posting (youtube shorts): {title!r}")
-            try:
-                video_id = poster.post(
-                    it.path,
-                    title=title,
-                    description=it.description,
-                    privacy=ycfg["privacy"],
-                    category_id=ycfg["category_id"],
-                    tags=tags,
-                    contains_synthetic_media=it.ai_label,
-                )
-                url = f"https://youtube.com/shorts/{video_id}"
-                print(f"    uploaded: {url}")
-                state.record_post(
-                    it.clip.id, video_id=video_id, url=url, title=title,
-                    creator=it.clip.creator, source=it.clip.source,
-                    narrated=bool(it.voice), voice=it.voice,
-                    posted_at=datetime.now(timezone.utc).isoformat(),
-                )
-                notify.send(
-                    embeds=[notify.posted_embed(title, url, it.clip.creator, it.clip.source,
-                                                bool(it.voice), it.voice)],
-                    enabled=notif_on,
-                )
-                posted += 1
-            except Exception as e:
-                print(f"    upload failed: {e}")
-                notify.send(content=f"❌ Upload failed: {title[:80]} — {e}", enabled=notif_on)
-        notify.send(content=f"▶️ Run complete — {posted} Short(s) posted to YouTube.", enabled=notif_on)
-
-    else:
-        raise ValueError(f"Unknown posting.target: {target}")
+            # Isolate channels: one failing (e.g. an API outage) must not abort the rest.
+            import traceback
+            traceback.print_exc()
+            notify.send(content=f"🛑 Channel '{ch.get('name')}' crashed: "
+                                f"{type(e).__name__}: {e}", enabled=notif_on)
 
 
 if __name__ == "__main__":

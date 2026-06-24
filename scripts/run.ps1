@@ -6,7 +6,8 @@
 param(
     [int]$Max = 1,
     [switch]$DryRun,
-    [switch]$Metrics      # run the daily metrics digest instead of the pipeline
+    [switch]$Metrics,     # run the daily metrics digest instead of the pipeline
+    [string]$Channel = "" # run only this channel by name (default: all enabled)
 )
 $ErrorActionPreference = "Stop"
 
@@ -26,6 +27,7 @@ if ($Metrics) {
 } else {
     $pyArgs = @("main.py", "--max-per-run", "$Max")
     if ($DryRun) { $pyArgs += "--dry-run" }
+    if ($Channel) { $pyArgs += @("--channel", $Channel) }
 }
 
 Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] running: python $($pyArgs -join ' ')"

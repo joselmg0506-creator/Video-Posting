@@ -23,6 +23,11 @@ from ..sources import Clip
 from ..processor.video import _duration
 
 
+class ClipRejected(Exception):
+    """Raised when the quality gate decides a clip isn't worth posting, so the caller can
+    skip it cleanly (and BEFORE the expensive render) instead of treating it as a failure."""
+
+
 @dataclass
 class ScriptResult:
     commentary: str          # spoken voiceover text (used only when narrate is True)
@@ -33,6 +38,7 @@ class ScriptResult:
     narrate: bool = True
     hook: str = ""           # opening banner line
     labels: list[str] = field(default_factory=list)     # editorial on-screen hype labels
+    quality: int = 10        # 1-10 standalone-Short quality (drives the optional quality gate)
 
 
 @dataclass
@@ -88,6 +94,13 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
 
     roster = vcfg.get("roster") if (backend == "edge" and vcfg.get("auto_select")) else None
     result = _script.generate(clip, lcfg, roster=roster, transcript=transcript, frames=frames)
+
+    # Quality gate (opt-in via transform.quality_min). The score is always logged so you can
+    # calibrate a threshold from real runs; rejection happens BEFORE the expensive render.
+    quality_min = int(tcfg.get("quality_min", 0) or 0)
+    print(f"    quality: {result.quality}/10 (gate: {quality_min or 'off'})")
+    if quality_min and result.quality < quality_min:
+        raise ClipRejected(f"quality {result.quality} < {quality_min}: {result.title!r}")
 
     do_narrate = bool(vcfg["enabled"] and result.narrate and result.commentary.strip())
     used_voice, narrated = "", False
