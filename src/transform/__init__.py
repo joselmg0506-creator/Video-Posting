@@ -122,7 +122,8 @@ def transform(clip: Clip, processed: Path, out: Path, cfg: dict) -> Transformed:
         # Hook banner always; when narrating caption the commentary, else show the
         # editorial hype labels (the AMP-clip look).
         hook_text = (result.hook or None) if ccfg["enabled"] else None
-        labels = None if (narrated or not ccfg["enabled"]) else (result.labels or None)
+        show_labels = bool(ccfg.get("labels", True))   # mid-screen editorial hype-labels
+        labels = (result.labels or None) if (show_labels and ccfg["enabled"] and not narrated) else None
         if narrated and not caption_words:
             caption_words = None
 

@@ -36,6 +36,7 @@ sources:
     # Creators whose YouTube uploads we clip (Speed + add streamers' channels here).
     # REQUIRES cookies — set YOUTUBE_COOKIES_FILE in .env, else YouTube bot-blocks downloads.
     channels:
+      - "@KaiCenat"
       - "@IShowSpeed"
     # Optional one-off video URLs.
     urls: []
@@ -95,6 +96,9 @@ transform:
   # to our voiceover; when not, the streamer's OWN speech is captioned via local Whisper.
   captions:
     enabled: true
+    labels: false            # the mid-screen editorial hype-labels ("HE LOST IT" / "CENAT
+                             # CONNECTION") on non-narrated clips. false = off (keep just the
+                             # hook banner + karaoke captions).
     font_size: 72            # px at 1080x1920 (karaoke pops larger)
     hook_seconds: 4.0        # how long the hook/title banner stays on screen
     asr:
@@ -144,7 +148,7 @@ posting:
 channels:
   - name: clips
     content_type: clips
-    enabled: false              # re-enable after authorizing its YouTube channel (no token yet)
+    enabled: true               # authorized to "Jose Mendoza" 2026-06-23; privacy private for first posts
     target: youtube_shorts
     token_file: ./secrets/youtube_token.json        # this channel's OAuth token
     max_per_run: 3
@@ -257,3 +261,8 @@ paths:
   downloads: ./data/downloads
   processed: ./data/processed
   state: ./data/state.json
+  # Auto-delete LOCAL downloaded + rendered .mp4 files older than this many days, at the start
+  # of each run, to free disk. 0 = keep everything forever. This NEVER touches YouTube uploads,
+  # the dedup state, or source assets (b-roll / gameplay / music) — only the transient local
+  # copies in downloads/ and processed/ (YouTube already has the posted videos).
+  keep_media_days: 3

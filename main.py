@@ -367,6 +367,33 @@ def run_channel(channel: dict, cfg: dict, state: State, args, notif_on: bool) ->
         raise ValueError(f"Unknown target for channel {channel['name']}: {target!r}")
 
 
+def _cleanup_media(cfg: dict) -> None:
+    """Delete transient LOCAL media (downloaded + rendered *.mp4) older than
+    paths.keep_media_days, to free disk. NEVER touches YouTube uploads, the dedup state, or
+    source assets (b-roll / gameplay / music) — only the throwaway local copies in downloads/
+    and processed/, which are safe to drop: YouTube already has the posted videos, and
+    state.json (untouched) tracks what's been posted so nothing re-uploads."""
+    import time
+    days = (cfg.get("paths", {}).get("keep_media_days") or 0)
+    if days <= 0:
+        return
+    cutoff = time.time() - days * 86400
+    removed = 0
+    for key in ("downloads", "processed"):      # ONLY these two dirs; ONLY *.mp4
+        d = Path(cfg["paths"].get(key, ""))
+        if not d.exists():
+            continue
+        for f in d.glob("*.mp4"):
+            try:
+                if f.stat().st_mtime < cutoff:
+                    f.unlink()
+                    removed += 1
+            except OSError:
+                pass
+    if removed:
+        print(f"  cleaned {removed} local media file(s) older than {days}d (YouTube untouched)")
+
+
 def main() -> None:
     # Force UTF-8 stdout/stderr so prints never crash on non-cp1252 chars (arrows,
     # emoji/smart-quotes in AI-generated titles) when run on a default Windows console.
@@ -386,6 +413,10 @@ def main() -> None:
                     help="render the beat-synced music edit instead of the clip pipeline")
     ap.add_argument("--clear-pending", dest="clear_pending", action="store_true",
                     help="release clips parked 'pending' after an interrupted upload, then exit")
+    ap.add_argument("--dashboard", action="store_true",
+                    help="build + open an HTML analytics dashboard across all channels, then exit")
+    ap.add_argument("--no-open", dest="no_open", action="store_true",
+                    help="with --dashboard, build the file but don't auto-open it")
     args = ap.parse_args()
 
     cfg = load_config()
@@ -410,6 +441,13 @@ def main() -> None:
         from src.metrics import digest
         digest(state, cfg)
         return
+
+    if args.dashboard:
+        from src.dashboard_html import build
+        build(state, cfg, open_after=not args.no_open)
+        return
+
+    _cleanup_media(cfg)   # free disk: prune old local downloads/renders (never YouTube/state)
 
     channels = cfg.get("channels") or _default_channels(cfg)
     if args.channel:
