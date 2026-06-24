@@ -6,7 +6,10 @@
     "youtube:6a7358c0b42c",
     "twitch:GeniusStrongSandstormPastaThat-BXLWJF9qVNe3LxuG",
     "story:8d92a2978464",
-    "brmovie:a027d5884c22"
+    "brmovie:a027d5884c22",
+    "twitch:ObliviousBoringHamKappaClaus-pJyoK7490LmoAnLx",
+    "story:8b18ba102893",
+    "brmovie:1931f61e2045"
   ],
   "uploading": [],
   "posts": [
@@ -93,6 +96,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-24T05:31:39.621324+00:00"
+    },
+    {
+      "clip_id": "twitch:ObliviousBoringHamKappaClaus-pJyoK7490LmoAnLx",
+      "video_id": "NgngsaNdf2c",
+      "url": "https://youtube.com/shorts/NgngsaNdf2c",
+      "title": "Bank Shot Chaos at the Pool Table #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-24T17:17:44.904552+00:00"
+    },
+    {
+      "clip_id": "story:8b18ba102893",
+      "video_id": "TKE6Bb2IqZE",
+      "url": "https://youtube.com/shorts/TKE6Bb2IqZE",
+      "title": "Nobody Believed Me Until I Caught The Real Culprit On Camera #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-GuyNeural",
+      "posted_at": "2026-06-24T17:20:29.540364+00:00"
+    },
+    {
+      "clip_id": "brmovie:1931f61e2045",
+      "video_id": "9-iC5fwOf2s",
+      "url": "https://youtube.com/shorts/9-iC5fwOf2s",
+      "title": "The Cappuccino Conspiracy: A Sahur Betrayal #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-24T17:22:12.038050+00:00"
     }
   ]
 }
