@@ -12,7 +12,10 @@
     "brmovie:1931f61e2045",
     "twitch:FunnyCaringHabaneroBlargNaut-rcQ__7IziqR5Q5Qp",
     "story:876fef387ffe",
-    "brmovie:59f3fcc30b78"
+    "brmovie:59f3fcc30b78",
+    "twitch:TastyFunCardBibleThump-oTDBVBdmsRD858eT",
+    "story:d2cdff9c032f",
+    "brmovie:cc173efdde04"
   ],
   "uploading": [],
   "posts": [
@@ -171,6 +174,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-24T17:47:46.301054+00:00"
+    },
+    {
+      "clip_id": "twitch:TastyFunCardBibleThump-oTDBVBdmsRD858eT",
+      "video_id": "FPrK7s4Ynro",
+      "url": "https://youtube.com/shorts/FPrK7s4Ynro",
+      "title": "2xRaKai's Confused Reaction #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-24T20:40:27.288976+00:00"
+    },
+    {
+      "clip_id": "story:d2cdff9c032f",
+      "video_id": "_ct_x2zhkfM",
+      "url": "https://youtube.com/shorts/_ct_x2zhkfM",
+      "title": "The Day Our School Had Only ONE Working Bathroom Stall #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-GuyNeural",
+      "posted_at": "2026-06-24T20:44:44.929012+00:00"
+    },
+    {
+      "clip_id": "brmovie:cc173efdde04",
+      "video_id": "V999p6YYyCs",
+      "url": "https://youtube.com/shorts/V999p6YYyCs",
+      "title": "Cappuccino's Crocodile Prophecy #Shorts",
+      "creator": "Ballerina Cappuccina, Bombardiro Crocodilo, Tung Tung Tung Sahur",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-24T20:46:19.426646+00:00"
     }
   ]
 }
