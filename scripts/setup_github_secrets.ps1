@@ -14,16 +14,14 @@ if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
 
 Write-Host "1/3  .env  ->  ENV_FILE secret"
 if (-not (Test-Path ".env")) { throw "No .env found." }
-gh secret set ENV_FILE < .env
+gh secret set ENV_FILE --body (Get-Content .env -Raw)
 
 Write-Host "2/3  secrets/  ->  SECRETS_TAR_B64 secret"
 if (-not (Test-Path "secrets")) { throw "No secrets/ folder found." }
 tar -czf secrets.tgz secrets
 $b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Resolve-Path "secrets.tgz")))
-$tmp = New-TemporaryFile
-Set-Content -Path $tmp -Value $b64 -NoNewline
-gh secret set SECRETS_TAR_B64 < $tmp
-Remove-Item secrets.tgz, $tmp -Force
+gh secret set SECRETS_TAR_B64 --body $b64
+Remove-Item secrets.tgz -Force
 
 Write-Host "3/3  gameplay b-roll  ->  'assets' release"
 $mp4 = @(Get-ChildItem "data\broll_gameplay\*.mp4" -ErrorAction SilentlyContinue)
@@ -32,7 +30,7 @@ if ($mp4.Count -gt 0) {
     if ($LASTEXITCODE -ne 0) {
         gh release create assets -t "Pipeline assets" -n "Gameplay b-roll for the stories channel"
     }
-    gh release upload assets ($mp4.FullName) --clobber
+    foreach ($f in $mp4) { gh release upload assets $f.FullName --clobber }   # one at a time (robust to odd filenames)
     Write-Host "   uploaded $($mp4.Count) gameplay clip(s)"
 } else {
     Write-Host "   (no gameplay in data\broll_gameplay — skipping; add clips + re-run if you want the stories channel)"
