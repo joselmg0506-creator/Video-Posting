@@ -143,9 +143,28 @@ def process(
     dest.parent.mkdir(parents=True, exist_ok=True)
     # Cold-open on the highlight instead of the clip's first seconds.
     start = _peak_start(src, max_duration) if peak_trim else 0.0
-    vf = _build_filter(width, height, fit)
-    # blur_pad uses -filter_complex; others use -vf
-    filter_flag = "-filter_complex" if fit == "blur_pad" else "-vf"
+
+    if fit == "track":
+        # Smart crop: follow the streamer's face so they stay centered (not cut off). Falls
+        # back to a static center-crop when face-tracking isn't available or finds no face.
+        tracked = None
+        try:
+            from .facetrack import track_crop_x
+            tracked = track_crop_x(src, start, float(max_duration))
+        except Exception as e:
+            print(f"  [track] face-tracking unavailable ({e}); using center crop")
+        if tracked:
+            expr, crop_w, W, H = tracked
+            vf = (f"crop=w={crop_w}:h={H}:x='{expr}':y=0,"
+                  f"scale={width}:{height}:flags=lanczos,setsar=1")
+            print("  [track] following the speaker's face")
+        else:
+            vf = _build_filter(width, height, "crop")
+        filter_flag = "-vf"
+    else:
+        vf = _build_filter(width, height, fit)
+        # blur_pad uses -filter_complex; others use -vf
+        filter_flag = "-filter_complex" if fit == "blur_pad" else "-vf"
     cmd = ["ffmpeg", "-y"]
     if start > 0:
         cmd += ["-ss", f"{start:.2f}"]      # input seek (fast) to the peak window

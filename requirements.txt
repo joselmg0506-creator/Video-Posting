@@ -12,3 +12,4 @@ faster-whisper>=1.0     # local speech-to-text for word-by-word captions (no API
 librosa>=0.10           # beat detection for the music-edit mode
 soundfile>=0.12         # audio I/O for librosa
 matplotlib>=3.8         # daily metrics dashboard image
+opencv-python-headless>=4.9   # YuNet face detection for the 'track' smart-crop fit mode
