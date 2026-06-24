@@ -1,0 +1,36 @@
+name: metrics
+
+# Daily analytics digest to Discord (same as the local 10pm task). Read-only.
+
+on:
+  schedule:
+    - cron: '0 4 * * *'    # daily, UTC (adjust if you like)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install Python deps
+        run: pip install -r requirements.txt
+      - name: Restore secrets (.env + secrets/)
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+          SECRETS_TAR_B64: ${{ secrets.SECRETS_TAR_B64 }}
+        run: |
+          printf '%s' "$ENV_FILE" > .env
+          printf '%s' "$SECRETS_TAR_B64" | base64 -d > /tmp/secrets.tgz
+          tar xzf /tmp/secrets.tgz
+          rm -f /tmp/secrets.tgz
+      - name: Post metrics digest
+        run: python main.py --metrics

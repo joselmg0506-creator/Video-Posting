@@ -1,0 +1,5 @@
+# Force LF for files executed on Linux CI runners, so embedded shell + YAML parse correctly
+# regardless of the Windows working copy.
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.sh   text eol=lf

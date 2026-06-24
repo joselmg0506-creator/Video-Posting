@@ -1,5 +1,7 @@
 .env
-data/
+data/*
+# state.json is tracked so the cloud (GitHub Actions) keeps dedup history across runs
+!data/state.json
 __pycache__/
 *.pyc
 .venv/
