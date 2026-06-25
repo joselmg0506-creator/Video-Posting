@@ -417,6 +417,8 @@ def main() -> None:
                     help="build + open an HTML analytics dashboard across all channels, then exit")
     ap.add_argument("--no-open", dest="no_open", action="store_true",
                     help="with --dashboard, build the file but don't auto-open it")
+    ap.add_argument("--suggestions", action="store_true",
+                    help="generate competitor-aware improvement tips (data/suggestions.json) and exit")
     args = ap.parse_args()
 
     cfg = load_config()
@@ -445,6 +447,11 @@ def main() -> None:
     if args.dashboard:
         from src.dashboard_html import build
         build(state, cfg, open_after=not args.no_open)
+        return
+
+    if args.suggestions:
+        from src.suggestions import generate
+        generate(state, cfg)
         return
 
     _cleanup_media(cfg)   # free disk: prune old local downloads/renders (never YouTube/state)

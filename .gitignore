@@ -2,6 +2,8 @@
 data/*
 # state.json is tracked so the cloud (GitHub Actions) keeps dedup history across runs
 !data/state.json
+# suggestions.json (daily competitor-aware dashboard tips) is tracked so the dashboard build picks it up
+!data/suggestions.json
 __pycache__/
 *.pyc
 .venv/

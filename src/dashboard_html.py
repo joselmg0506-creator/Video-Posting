@@ -98,11 +98,20 @@ def build(state, cfg: dict, open_after: bool = True) -> Path:
     api_key = env("YT_API_KEY", "") or ""
     gen = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
+    # competitor-aware tips generated daily by `main.py --suggestions` (data/suggestions.json);
+    # the page falls back to its built-in client-side rules engine when this is absent.
+    sugg_path = Path(cfg["paths"]["state"]).parent / "suggestions.json"
+    try:
+        sugg = json.loads(sugg_path.read_text(encoding="utf-8")) if sugg_path.exists() else None
+    except Exception:
+        sugg = None
+
     page = (_TEMPLATE
             .replace("__POSTS__", _safe(json.dumps(posts_json)))
             .replace("__CHANNELS__", _safe(json.dumps(channels)))
             .replace("__SLOTS__", json.dumps(_SLOTS_UTC))
             .replace("__APIKEY__", json.dumps(api_key))
+            .replace("__SUGG__", _safe(json.dumps(sugg)))
             .replace("__GEN__", html.escape(gen)))
 
     out = Path(cfg["paths"]["state"]).parent / "dashboard.html"
@@ -247,6 +256,7 @@ const POSTS = __POSTS__;
 const CHANNELS = __CHANNELS__;
 const API_KEY = __APIKEY__;
 const SLOTS = __SLOTS__;
+const SUGG = __SUGG__;                  // competitor-aware tips (or null -> built-in rules engine)
 const META = {};                       // channel -> {subs, totalViews, avatar}
 const SLOT_LABEL = {17:'12p',20:'3p',1:'8p'};
 let TAB='all', WIN='all';
@@ -330,10 +340,16 @@ function suggestions(scope){ /* scope = null (global) or a channel name */
   {tag:'CAPTIONS',impact:'Med impact',imp:'amber',accent:'#3DDC97',title:'Caption every line',body:'Most Shorts play on mute — big on-screen text lands the message without sound.',w:1}];
  const seen={};const uniq=out.concat(generic).filter(s=>{const k=s.tag+s.title;if(seen[k])return false;seen[k]=1;return true;});
  uniq.sort((a,b)=>b.w-a.w);return uniq.slice(0,3);}
-function sugHtml(scope){const list=suggestions(scope);return list.map(s=>{const ic=s.imp==='up'?'var(--up)':s.imp==='amber'?'var(--amber)':'var(--down)';
- return '<div class="sug"><span class="bar" style="background:'+s.accent+'"></span><div style="flex:1;min-width:0">'+
-  '<div style="display:flex;align-items:center;gap:9px"><span class="tag">'+s.tag+'</span><span class="imp" style="color:'+ic+'">'+s.impact+'</span></div>'+
-  '<h4>'+esc(s.title)+'</h4><p>'+esc(s.body)+'</p></div></div>';}).join('');}
+function sugList(scope){ /* prefer real competitor-aware tips; fall back to the rules engine */
+ if(SUGG){if(scope){const a=SUGG.channels&&SUGG.channels[scope];if(a&&a.length)return a.map(s=>({...s,accent:color(scope)}));}
+  else{const g=SUGG.global;if(g&&g.length)return g.map(s=>({...s,accent:color(s.channel)}));}}
+ return suggestions(scope);}
+function sugHtml(scope){const list=sugList(scope);if(!list.length)return '';
+ return list.map(s=>{const ic=/high/i.test(s.impact)?'var(--up)':/med/i.test(s.impact)?'var(--amber)':'var(--down)';
+  const ac=s.accent||(s.channel?color(s.channel):'#7C9CFF');
+  return '<div class="sug"><span class="bar" style="background:'+ac+'"></span><div style="flex:1;min-width:0">'+
+   '<div style="display:flex;align-items:center;gap:9px"><span class="tag">'+esc(s.tag)+'</span><span class="imp" style="color:'+ic+'">'+esc(s.impact)+'</span></div>'+
+   '<h4>'+esc(s.title)+'</h4><p>'+esc(s.body)+'</p></div></div>';}).join('');}
 
 /* ---------- heatmap ---------- */
 function heatHtml(){const cells={};POSTS.filter(p=>ts(p)).forEach(p=>{const d=new Date(ts(p));const wd=d.getUTCDay();const h=d.getUTCHours();
@@ -397,6 +413,10 @@ function renderChannelView(ch){const ps=chPosts(ch);const m=META[ch]||{};
   '<svg class="spark" viewBox="0 0 300 64" preserveAspectRatio="none"><polygon points="'+sp.area+'" fill="'+color(ch)+'" fill-opacity=".12"/>'+
   '<polyline points="'+sp.line+'" fill="none" stroke="'+color(ch)+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg></div>';
  h+='<div class="grid2">'+mets.map(k=>'<div class="stat big2"><div class="l">'+k[0]+'</div><div class="v tnum">'+k[1]+'</div></div>').join('')+'</div>';
+ const bm=SUGG&&SUGG.benchmarks&&SUGG.benchmarks[ch];
+ if(bm&&bm.niche_top_avg){h+='<div class="eyebrow">Vs niche leaders</div>'+
+  '<div class="grid2"><div class="stat"><div class="l">Your avg / Short</div><div class="v tnum">'+fmt(bm.your_avg)+'</div></div>'+
+  '<div class="stat"><div class="l">Niche top avg</div><div class="v tnum" style="color:'+color(ch)+'">'+fmt(bm.niche_top_avg)+'</div></div></div>';}
  h+='<div class="eyebrow">Top Shorts'+(WIN!=='all'?' · '+WIN:'')+'</div>';
  const top=[...ps].sort((a,b)=>heat(b)-heat(a)).slice(0,6);
  h+=top.map(p=>{const g=grade(heat(p));return '<a class="vid" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+
