@@ -19,6 +19,18 @@ def _cookie_opts() -> dict:
         return {"cookiesfrombrowser": (cb,)}
     return {}
 
+
+def _common_opts() -> dict:
+    """Cookies + a spread of alternate YouTube player clients. The default 'web' client is the
+    one YouTube hits hardest with the "confirm you're not a bot" check from datacenter IPs
+    (GitHub Actions); the tv / mweb / ios clients often slip past it. yt-dlp tries them in
+    order and uses the first that resolves. This is best-effort — datacenter-IP blocking is
+    fundamentally unreliable, so Twitch stays the dependable source for clips."""
+    opts = {"extractor_args": {"youtube": {"player_client": ["tv", "mweb", "web_safari", "ios", "web"]}},
+            "retries": 5}
+    opts.update(_cookie_opts())
+    return opts
+
 # Uploads that are produced content, not clippable stream highlights.
 _PRODUCED_RE = re.compile(
     r"(?i)\b(official\s+(music\s+)?video|official\s+audio|lyric\s+video|music\s+video)\b"
@@ -35,7 +47,7 @@ def _id_for(url: str) -> str:
 
 
 def fetch_metadata(url: str) -> Clip:
-    opts = {"quiet": True, "no_warnings": True, "skip_download": True, **_cookie_opts()}
+    opts = {"quiet": True, "no_warnings": True, "skip_download": True, **_common_opts()}
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
     return Clip(
@@ -69,7 +81,7 @@ def recent_uploads(channel: str, limit: int = 5, tab: str = "videos") -> list[Cl
         "skip_download": True,
         "extract_flat": True,     # list playlist entries without resolving each video
         "playlistend": limit + 6,  # buffer so we still hit `limit` after filtering
-        **_cookie_opts(),
+        **_common_opts(),
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=False)
@@ -109,7 +121,7 @@ def download(clip: Clip, dest_dir: Path) -> Path:
         "merge_output_format": "mp4",
         "quiet": True,
         "no_warnings": True,
-        **_cookie_opts(),
+        **_common_opts(),
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(clip.download_url, download=True)
