@@ -384,9 +384,10 @@ function renderAllView(){const set=POSTS.filter(inWin);
 
 function renderChannelView(ch){const ps=chPosts(ch);const m=META[ch]||{};
  const cv=sum(ps,p=>+p.views||0);const ers=ps.map(engRate).filter(x=>x!=null);
- const vel=avg(ps.map(velocity));const likes=sum(ps,p=>p.likes||0);
+ const vel=avg(ps.map(velocity));const subs=(m.subs!=null)?m.subs:null;const reach=(subs&&subs>0)?cv/subs:null;
  const sp=spark(dailySeries(ps),300,64,6);
- const mets=[['Views',fmt(cv)],['Engagement',pctTxt(ers.length?avg(ers):null)],['Velocity',fmt(vel)+'/day'],['Likes',fmt(likes)]];
+ const mets=[['Views',fmt(cv)],['Engagement',pctTxt(ers.length?avg(ers):null)],
+  ['Velocity',fmt(vel)+'/day'],['Reach ×subs',reach!=null?(reach<10?reach.toFixed(1):Math.round(reach))+'×':'—']];
  let h='<div class="hero"><div style="display:flex;align-items:center;gap:13px">'+
   '<span class="badge" style="width:48px;height:48px;border-radius:15px;background:'+color(ch)+'">'+(m.avatar?'<img src="'+esc(m.avatar)+'">':initial(ch))+'</span>'+
   '<div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:800;letter-spacing:-.01em">'+esc(ch)+'</div>'+
