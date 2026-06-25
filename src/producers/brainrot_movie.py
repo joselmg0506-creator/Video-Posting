@@ -7,7 +7,7 @@ into a moving clip; scenes are concatenated into a short film with karaoke capti
 Front-half for content_type=brainrot_movie:
   1. LLM writes a connected brainrot story told through DIALOGUE: a cast of original creatures
      (+ optional famous cameo), and per-scene {speaker, line, motion}. Lines are short, heavy
-     Italian-accented English ("Mamma mia, the prophecy it is-a real!").
+     clear simple English (the Italian-brainrot accent comes from the VOICE, not mangled text).
   2. Each character gets a distinct Italian edge-tts voice, so the voice matches who's on screen.
   3. Per scene: Flux still -> fal image-to-video (moving clip) -> the speaker's line in their
      Italian voice + karaoke caption, composited onto the clip.
@@ -43,7 +43,9 @@ def _system(scenes: int) -> str:
 (exactly {scenes} scenes). The genre: the famous Italian-brainrot meme creatures (absurd
 animal + object mashups) who TALK in heavy Italian-accented English. Tell a tiny CONNECTED
 story — a beginning, a turn, and a punchy payoff — where the characters' spoken lines drive
-the plot (NOT a narrator describing it).
+the plot (NOT a narrator describing it). Keep it EASY TO FOLLOW: a clear setup, ONE simple
+twist, and an obvious payoff, so a first-time viewer understands exactly what's happening from
+the spoken lines and on-screen captions alone.
 
 Cast: STAR the actual famous Italian-brainrot characters ({FAMOUS}) as the leads — pick 2-3.
 You MAY add one original creature too. For EACH character, describe its canonical look exactly
@@ -67,8 +69,11 @@ Return ONLY a JSON object:
     - "present": array of character names visible here (must include the speaker).
     - "motion": how things move in this shot (used only if animation is on; otherwise ignored).
     - "speaker": the ONE character name who talks in this scene.
-    - "line": what the speaker SAYS — SHORT (<= 12 words), punchy, heavy Italian-accented
-      English with brainrot flavor (e.g. "Mamma mia! The spaghetti prophecy, it is-a REAL!").
+    - "line": what the speaker SAYS — SHORT (<= 12 words), in CLEAR, SIMPLE, CORRECT ENGLISH
+      that is easy to read as a caption and easy to follow. The Italian-brainrot flavor comes
+      from the absurd characters and the Italian VOICE — do NOT mangle spelling or fake an
+      accent in the text (write "The prophecy is real!", NOT "the prophecy it is-a real"). One
+      short signature like "Mamma mia!" is okay, but the sentence itself must be plain English.
   Each scene's picture must show exactly what its line is about, and the lines must form a
   connected story in order."""
 
