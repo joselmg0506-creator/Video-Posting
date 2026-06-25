@@ -47,7 +47,11 @@ sources:
     games: []
 
   youtube:
-    enabled: true
+    enabled: false             # OFF: YouTube blocks DOWNLOADS from GitHub's datacenter IPs
+                               # ("confirm you're not a bot") even with cookies — verified via
+                               # yt-test. Twitch is the reliable cloud source (Kai/RaKai/AMP are
+                               # all there). Re-enable only if you add a residential proxy, or
+                               # for local runs where your home IP isn't blocked.
     channel_uploads_per: 2     # recent uploads pulled per channel
     tab: videos                # videos = clip from full uploads | shorts = already-vertical
     # Creators whose YouTube uploads we clip (Speed + add streamers' channels here).
