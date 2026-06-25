@@ -6,8 +6,9 @@
 param(
     [int]$Max = 1,
     [switch]$DryRun,
-    [switch]$Metrics,     # run the daily metrics digest instead of the pipeline
-    [string]$Channel = "" # run only this channel by name (default: all enabled)
+    [switch]$Metrics,       # run the daily metrics digest instead of the pipeline
+    [switch]$StageYoutube,  # stage top YouTube clips to the cloud cache (downloads only, never posts)
+    [string]$Channel = ""   # run only this channel by name (default: all enabled)
 )
 $ErrorActionPreference = "Stop"
 
@@ -22,7 +23,9 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 $env:HF_HUB_DISABLE_SYMLINKS_WARNING = "1"
 
 $py = Join-Path $proj ".venv\Scripts\python.exe"
-if ($Metrics) {
+if ($StageYoutube) {
+    $pyArgs = @("main.py", "--stage-youtube")
+} elseif ($Metrics) {
     $pyArgs = @("main.py", "--metrics")
 } else {
     $pyArgs = @("main.py", "--max-per-run", "$Max")
