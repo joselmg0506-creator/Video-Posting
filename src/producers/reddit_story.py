@@ -155,7 +155,8 @@ def _write_from_post(post: dict, llm_cfg: dict, target_words: int,
 
 
 def _invent_original(llm_cfg: dict, theme: str, target_words: int,
-                     illustrated: bool, scenes: int, audience: str = "") -> dict:
+                     illustrated: bool, scenes: int, audience: str = "",
+                     narrator_gender: str = "") -> dict:
     aud = ""
     if audience:
         aud = (f" Write it FOR {audience}: keep the language simple and age-appropriate, set it "
@@ -169,9 +170,17 @@ def _invent_original(llm_cfg: dict, theme: str, target_words: int,
               "story is your own invention (not copied from anywhere)." + aud +
               " Return ONLY a JSON object with these keys:" +
               _keys_tail(target_words, illustrated, scenes))
-    user = (f"Write a fresh, surprising original story on the theme: {theme}. "
+    gline = ""
+    if narrator_gender:
+        gline = (f" The kid telling this first-person story is a {narrator_gender.upper()} — "
+                 f"write it from a {narrator_gender}'s point of view and set \"narrator\" to "
+                 f"\"{narrator_gender}\".")
+    user = (f"Write a fresh, surprising original story on the theme: {theme}.{gline} "
             "Make it specific and vivid, not generic.")
-    return _llm_json(system, user, llm_cfg, temperature=1.0)
+    data = _llm_json(system, user, llm_cfg, temperature=1.0)
+    if narrator_gender:
+        data["narrator"] = narrator_gender   # force the assigned gender so girl voices get used too
+    return data
 
 
 # ───────────────────────────────── rendering ─────────────────────────────────────────
@@ -285,9 +294,11 @@ def produce(channel: dict, cfg: dict, state, cap: int) -> list:
         while len(items) < cap and attempts < cap * 3:
             attempts += 1
             theme = random.choice(themes)
+            gender = random.choice(["boy", "girl"])   # balance narrators ~50/50 (was always boy)
             try:
                 story = _invent_original(lcfg, theme, target_words, illustrated, scenes,
-                                         audience=rc.get("audience", ""))
+                                         audience=rc.get("audience", ""),
+                                         narrator_gender=gender)
                 story["source"] = "original"
                 story["creator"] = ""
                 item_id = "story:" + hashlib.sha1(
