@@ -21,7 +21,10 @@
     "brmovie:90905a509a00",
     "twitch:PoorGeniusMouseWoofer-pJK7ArdnYH1WIG_y",
     "story:bfa3ebe1e7ac",
-    "brmovie:677166143042"
+    "brmovie:677166143042",
+    "twitch:EvilAgitatedInternTwitchRaid-dQc27mW5Z2HiswnK",
+    "story:798564120c49",
+    "brmovie:492fb786da26"
   ],
   "uploading": [],
   "posts": [
@@ -288,6 +291,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-25T17:59:44.094079+00:00"
+    },
+    {
+      "clip_id": "twitch:EvilAgitatedInternTwitchRaid-dQc27mW5Z2HiswnK",
+      "video_id": "0aRAp4OuUBE",
+      "url": "https://youtube.com/shorts/0aRAp4OuUBE",
+      "title": "Dang Dirty Is Crazy #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-25T20:45:31.473521+00:00"
+    },
+    {
+      "clip_id": "story:798564120c49",
+      "video_id": "iAvgM0iKeUE",
+      "url": "https://youtube.com/shorts/iAvgM0iKeUE",
+      "title": "The Quiet Kid's Secret Talent Shocked Everyone #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-BrianNeural",
+      "posted_at": "2026-06-25T20:49:05.800145+00:00"
+    },
+    {
+      "clip_id": "brmovie:492fb786da26",
+      "video_id": "qmlXWs67N3U",
+      "url": "https://youtube.com/shorts/qmlXWs67N3U",
+      "title": "The Cappuccino Prophecy #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-25T20:50:38.964667+00:00"
     }
   ]
 }
