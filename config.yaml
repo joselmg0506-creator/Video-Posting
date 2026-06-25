@@ -3,6 +3,23 @@ sources:
   # few times/day rather than one big batch — avoids the "mass-produced daily" pattern.
   max_per_run: 3
 
+  # Creator hierarchy: clips from creators higher in this list are selected FIRST (top of the
+  # list = highest priority), then everyone else. Matched loosely by name/handle (case- and
+  # spacing-insensitive, works for both Twitch logins and YouTube channel names). Reorder to
+  # change who gets clipped first; remove the list to fall back to an even source-mix.
+  priority_creators:
+    - kaicenat        # Kai Cenat (Twitch + @KaiCenat uploads)
+    - ishowspeed      # IShowSpeed (@IShowSpeed)
+    - rakai           # RaKai (matches 2xrakai / RaKai)
+    - fanum
+    - dukedennis
+    - agent00
+    - plaqueboymax
+    - chrisnxtdoor
+    - imdavisss
+    - ray
+    - silky
+
   twitch:
     enabled: true
     period_days: 7            # streamers don't all stream daily, so "top of the WEEK"
@@ -153,6 +170,8 @@ channels:
     target: youtube_shorts
     token_file: ./secrets/youtube_token.json        # this channel's OAuth token
     max_per_run: 3
+    ai_label: false             # clips are REAL streamer footage (+ commentary) — not synthetic
+                                # media, so don't set YouTube's "altered/AI content" disclosure
     youtube:
       privacy: public           # going live — scheduled clips publish publicly
       category_id: "24"         # 24 = Entertainment

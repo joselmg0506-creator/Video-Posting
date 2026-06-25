@@ -64,6 +64,22 @@ def _round_robin(seqs: list) -> list:
     return out
 
 
+def _norm_creator(s: str) -> str:
+    return "".join(ch for ch in (s or "").lower() if ch.isalnum())
+
+
+def _creator_rank(creator: str, priority: list[str]) -> int:
+    """Position of this clip's creator in the priority list (0 = highest). Matched loosely
+    (case/spacing/handle-insensitive substring either way), so '2xrakai' ~ 'RaKai',
+    '@KaiCenat' ~ 'kaicenat'. Unlisted creators sort last (rank = len)."""
+    c = _norm_creator(creator)
+    for i, p in enumerate(priority):
+        pn = _norm_creator(p)
+        if pn and (pn in c or c in pn):
+            return i
+    return len(priority)
+
+
 def gather_clips(cfg: dict) -> list[Clip]:
     """Pull clips into per-source buckets, order the buckets so streamer/game/YouTube
     types alternate, then round-robin the clips. Result: every run is a varied mix
@@ -130,7 +146,13 @@ def gather_clips(cfg: dict) -> list[Clip]:
 
     # Order buckets type-alternating (streamer, game, youtube, ...), then round-robin clips.
     ordered = _round_robin([streamer_buckets, game_buckets, youtube_buckets])
-    return _round_robin(ordered)
+    clips = _round_robin(ordered)
+    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. A stable sort
+    # keeps the round-robin variety WITHIN each priority rank.
+    priority = cfg["sources"].get("priority_creators") or []
+    if priority:
+        clips.sort(key=lambda c: _creator_rank(getattr(c, "creator", ""), priority))
+    return clips
 
 
 def download_clip(clip: Clip, dest: Path) -> Path:
@@ -209,7 +231,10 @@ def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[Post
             )
             if transform_on:
                 print("    transforming (AI commentary + voiceover + captions)…")
-            items.append(build_item(clip, out, cfg))
+            item = build_item(clip, out, cfg)
+            if "ai_label" in channel:        # per-channel override of the AI-disclosure flag
+                item.ai_label = bool(channel["ai_label"])
+            items.append(item)
         except ClipRejected as e:
             print(f"    skip (low quality): {e}")
         except Exception as e:
