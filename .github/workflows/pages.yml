@@ -46,6 +46,8 @@ jobs:
           rm -f /tmp/secrets.tgz
 
       - name: Build dashboard (queries live YouTube stats per channel)
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}   # browser key for live in-page refresh (optional)
         run: |
           python main.py --dashboard --no-open
           mkdir -p _site
