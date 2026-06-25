@@ -18,7 +18,10 @@
     "brmovie:cc173efdde04",
     "twitch:BlueYawningLouseOhMyDog-9AjZ4tR2hcke-qWY",
     "story:7a890e1c91b0",
-    "brmovie:90905a509a00"
+    "brmovie:90905a509a00",
+    "twitch:PoorGeniusMouseWoofer-pJK7ArdnYH1WIG_y",
+    "story:bfa3ebe1e7ac",
+    "brmovie:677166143042"
   ],
   "uploading": [],
   "posts": [
@@ -249,6 +252,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-25T01:50:45.007020+00:00"
+    },
+    {
+      "clip_id": "twitch:PoorGeniusMouseWoofer-pJK7ArdnYH1WIG_y",
+      "video_id": "BtimPuoDsD8",
+      "url": "https://youtube.com/shorts/BtimPuoDsD8",
+      "title": "That fit hits different #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-25T17:54:24.830424+00:00"
+    },
+    {
+      "clip_id": "story:bfa3ebe1e7ac",
+      "video_id": "qiP0YxxK6YI",
+      "url": "https://youtube.com/shorts/qiP0YxxK6YI",
+      "title": "I Traded Lunches With the New Girl and Everything Changed #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-AriaNeural",
+      "posted_at": "2026-06-25T17:58:08.886980+00:00"
+    },
+    {
+      "clip_id": "brmovie:677166143042",
+      "video_id": "AS1vvQCA2Lg",
+      "url": "https://youtube.com/shorts/AS1vvQCA2Lg",
+      "title": "The Cappuccino Conspiracy #Shorts",
+      "creator": "Ballerina Cappuccina, Tung Tung Tung Sahur, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-25T17:59:44.094079+00:00"
     }
   ]
 }
