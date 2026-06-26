@@ -281,7 +281,8 @@ channels:
     brainrot_movie:
       animate: false            # false = cheap dramatic STILLS (~$0.02, each picture matches its
                                 # line) | true = fal image-to-video animated clips (~$0.10-0.40)
-      scenes: 5                 # scenes/pictures per story (each shown for the length of its line)
+      scenes: 10                # scenes/pictures per story (each shown for the length of its line);
+                                # ~10 short lines ≈ 43-45s, near the niche norm (was 5 ≈ 28s)
       image_model: fal-ai/flux/schnell
       # --- only used when animate: true ---
       num_frames: 97            # frames per animated clip (~4s at 24fps); 8*n+1
