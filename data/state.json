@@ -30,7 +30,10 @@
     "brmovie:48eb464b2bb6",
     "youtube:3edc69d3b862",
     "story:d24fd01cf375",
-    "brmovie:3a91968a501f"
+    "brmovie:3a91968a501f",
+    "twitch:BenevolentHeadstrongMushroomHotPokket-fP1DQIpXWpu114NA",
+    "story:647eaf58e7dc",
+    "brmovie:40dba7d3d3c4"
   ],
   "uploading": [],
   "posts": [
@@ -405,6 +408,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-26T04:34:32.437762+00:00"
+    },
+    {
+      "clip_id": "twitch:BenevolentHeadstrongMushroomHotPokket-fP1DQIpXWpu114NA",
+      "video_id": "uROhPvpTJlI",
+      "url": "https://youtube.com/shorts/uROhPvpTJlI",
+      "title": "Agent00 Shows Mad Respect for NMP | Best Workhorse Streamer #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-26T04:52:11.591328+00:00"
+    },
+    {
+      "clip_id": "story:647eaf58e7dc",
+      "video_id": "6ve8vyZpcQY",
+      "url": "https://youtube.com/shorts/6ve8vyZpcQY",
+      "title": "My BFF Bullied Me Until Karma Struck #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-AriaNeural",
+      "posted_at": "2026-06-26T04:54:31.050580+00:00"
+    },
+    {
+      "clip_id": "brmovie:40dba7d3d3c4",
+      "video_id": "W1T01dTerus",
+      "url": "https://youtube.com/shorts/W1T01dTerus",
+      "title": "Cappuccina's Prophecy of Pasta Doom #Shorts",
+      "creator": "Ballerina Cappuccina, Tung Tung Tung Sahur, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-26T04:55:50.305172+00:00"
     }
   ]
 }
