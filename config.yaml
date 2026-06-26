@@ -11,6 +11,7 @@ sources:
     - kaicenat        # Kai Cenat (Twitch + @KaiCenat uploads)
     - ishowspeed      # IShowSpeed (@IShowSpeed)
     - rakai           # RaKai (matches 2xrakai / RaKai)
+    - totaamc         # Tota (4th)
     - fanum
     - dukedennis
     - agent00
@@ -18,7 +19,6 @@ sources:
     - chrisnxtdoor
     - imdavisss
     - ray
-    - totaamc
     - silky
 
   twitch:
