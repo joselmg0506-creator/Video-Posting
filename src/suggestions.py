@@ -46,11 +46,12 @@ def _niche_top(svc, query: str, published_after: str, n: int = 12) -> list[dict]
     out: list[dict] = []
     ids = list(meta)
     if ids:
-        s = svc.videos().list(part="statistics", id=",".join(ids[:50])).execute()
+        s = svc.videos().list(part="statistics,contentDetails", id=",".join(ids[:50])).execute()
         for it in s.get("items", []):
             t, ch = meta.get(it["id"], ("", ""))
             out.append({"title": t, "channel": ch,
-                        "views": int(it.get("statistics", {}).get("viewCount", 0))})
+                        "views": int(it.get("statistics", {}).get("viewCount", 0)),
+                        "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", ""))})
     out.sort(key=lambda x: x["views"], reverse=True)
     return out
 
@@ -59,20 +60,21 @@ def _channel_rows(svc, posts: list[dict]) -> list[dict]:
     ids = [p["video_id"] for p in posts if p.get("video_id")]
     stats: dict = {}
     for i in range(0, len(ids), 50):
-        s = svc.videos().list(part="statistics", id=",".join(ids[i:i + 50])).execute()
+        s = svc.videos().list(part="statistics,contentDetails", id=",".join(ids[i:i + 50])).execute()
         for it in s.get("items", []):
             st = it.get("statistics", {})
             stats[it["id"]] = {
                 "views": int(st.get("viewCount", 0)),
                 "likes": int(st["likeCount"]) if "likeCount" in st else None,
                 "comments": int(st["commentCount"]) if "commentCount" in st else None,
+                "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", "")),
             }
     rows = []
     for p in posts:
         s = stats.get(p["video_id"], {})
         rows.append({"title": p.get("title", ""), "views": s.get("views", 0),
                      "likes": s.get("likes"), "comments": s.get("comments"),
-                     "posted_at": p.get("posted_at", "")})
+                     "duration_s": s.get("duration_s", 0), "posted_at": p.get("posted_at", "")})
     return rows
 
 
@@ -89,6 +91,38 @@ def _mean(xs):
     return sum(xs) / len(xs) if xs else 0
 
 
+def _dur_seconds(iso: str) -> int:
+    """ISO-8601 duration (PT#M#S) -> seconds."""
+    m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "")
+    if not m:
+        return 0
+    h, mn, s = (int(x) if x else 0 for x in m.groups())
+    return h * 3600 + mn * 60 + s
+
+
+_EMOJI = re.compile("[\U0001F000-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF⬀-⯿✨❤]")
+
+
+def _title_stats(titles: list[str]) -> dict:
+    """Structured title/hook patterns across a set of titles (for leaders-vs-us benchmarking)."""
+    titles = [t for t in titles if t]
+    n = len(titles)
+    if not n:
+        return {"n": 0}
+
+    def has_caps(t):
+        return any(len(w) >= 2 and w.isupper() for w in re.findall(r"[A-Za-z]+", t))
+
+    return {
+        "n": n,
+        "avg_words": round(_mean([len(t.split()) for t in titles]), 1),
+        "emoji_pct": round(100 * sum(1 for t in titles if _EMOJI.search(t)) / n),
+        "caps_pct": round(100 * sum(1 for t in titles if has_caps(t)) / n),
+        "num_pct": round(100 * sum(1 for t in titles if re.search(r"\d", t)) / n),
+        "question_pct": round(100 * sum(1 for t in titles if "?" in t) / n),
+    }
+
+
 def _extract_json(text: str):
     m = re.search(r"\[.*\]", text, re.S)
     if not m:
@@ -99,7 +133,8 @@ def _extract_json(text: str):
         return []
 
 
-def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top: list[dict]) -> list[dict]:
+def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top: list[dict],
+                compare: dict | None = None) -> list[dict]:
     recent = sorted(rows, key=lambda r: r.get("posted_at", ""), reverse=True)[:15]
     posts_7d = sum(1 for r in rows if _age_days(r.get("posted_at", "")) <= 7)
     mine = "\n".join(
@@ -112,6 +147,18 @@ def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top
                        for t in top[:10]) or "- (no niche data available)"
     avg_mine = round(_mean([r["views"] for r in rows]))
     avg_top = round(_mean([t["views"] for t in top[:5]]))
+    c = compare or {}
+    ls, oss, ld = c.get("titles", {}).get("leaders", {}), c.get("titles", {}).get("yours", {}), c.get("length_s", {})
+    cmp_txt = ""
+    if ls.get("n") and oss.get("n"):
+        cmp_txt += (f"\nTITLE PATTERNS (niche leaders vs you):\n"
+                    f"- words per title: {ls['avg_words']} vs {oss['avg_words']}\n"
+                    f"- uses an emoji: {ls['emoji_pct']}% vs {oss['emoji_pct']}%\n"
+                    f"- has an ALL-CAPS word: {ls['caps_pct']}% vs {oss['caps_pct']}%\n"
+                    f"- has a number: {ls['num_pct']}% vs {oss['num_pct']}%\n"
+                    f"- is a question: {ls['question_pct']}% vs {oss['question_pct']}%")
+    if ld.get("leaders"):
+        cmp_txt += f"\nVIDEO LENGTH: leaders average ~{ld['leaders']}s vs you ~{ld.get('yours', 0)}s"
     system = ("You are a sharp YouTube Shorts growth strategist. You give specific, honest, "
               "data-grounded advice by comparing a creator's real numbers to what's winning in "
               "their niche right now. No generic platitudes — cite concrete gaps, title patterns, "
@@ -124,10 +171,12 @@ Its averages: ~{avg_mine:,} views/Short, {posts_7d} posted in the last 7 days.
 TOP SHORTS RIGHT NOW from OTHER creators in this niche (title — channel — views):
 {theirs}
 Niche leaders average ~{avg_top:,} views on their top Shorts.
+{cmp_txt}
 
 Compare this channel to the niche leaders and give EXACTLY 3 improvement suggestions. Each must
-be grounded in BOTH the competitor data and this channel's own numbers (cite specifics — view
-gaps, title/hook patterns the leaders use, posting cadence). Specific and doable, not generic.
+be grounded in BOTH the competitor data and this channel's own numbers — CITE the concrete
+title-pattern and length gaps above (e.g. "leaders use emojis in 80% of titles, you use 0%";
+"leaders' Shorts run ~25s, yours ~45s"). Specific and doable, not generic.
 
 Return ONLY a JSON array of exactly 3 objects, no prose:
 [{{"tag":"<ONE WORD, UPPERCASE>","impact":"High|Med","title":"<5-7 word headline>","body":"<1-2 concrete sentences>"}}]"""
@@ -172,7 +221,13 @@ def generate(state, cfg: dict) -> Path:
             svc = _service(c.get("token_file"))
             top = _niche_top(svc, niche, published_after)
             rows = _channel_rows(svc, by_ch.get(name, []))
-            tips = _ask_claude(client, model, name, niche, rows, top)
+            compare = {
+                "titles": {"leaders": _title_stats([t["title"] for t in top[:12]]),
+                           "yours": _title_stats([r["title"] for r in rows])},
+                "length_s": {"leaders": round(_mean([t["duration_s"] for t in top[:10] if t.get("duration_s")])),
+                             "yours": round(_mean([r["duration_s"] for r in rows if r.get("duration_s")]))},
+            }
+            tips = _ask_claude(client, model, name, niche, rows, top, compare)
             if tips:
                 result["channels"][name] = tips
                 result["global"].append({**tips[0], "channel": name})
@@ -181,6 +236,7 @@ def generate(state, cfg: dict) -> Path:
                 "your_avg": round(_mean([r["views"] for r in rows])),
                 "niche_top_avg": round(_mean([t["views"] for t in top[:5]])),
                 "top": top[:3],
+                "compare": compare,
             }
             print(f"  [suggestions] {name}: {len(tips)} tips (niche top avg "
                   f"{result['benchmarks'][name]['niche_top_avg']:,} vs your {result['benchmarks'][name]['your_avg']:,})")
