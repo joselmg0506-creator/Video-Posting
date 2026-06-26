@@ -18,7 +18,7 @@ sources:
     - chrisnxtdoor
     - imdavisss
     - ray
-    - tota
+    - totaamc
     - silky
 
   twitch:
@@ -42,7 +42,7 @@ sources:
       - chrisnxtdoor
       - imdavisss
       - ray
-      - tota
+      - totaamc        # Tota (Jonathan Augusto) — Streamer University / AMP-adjacent
       - silky
     # Games disabled to keep the niche tight. Re-add categories here for a gaming lane,
     # or spin up a separate channel for that once this one is proven.
