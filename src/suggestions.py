@@ -41,15 +41,16 @@ def _niche_top(svc, query: str, published_after: str, n: int = 12) -> list[dict]
     r = svc.search().list(part="snippet", q=query, type="video", videoDuration="short",
                           order="viewCount", maxResults=n, regionCode="US",
                           relevanceLanguage="en", publishedAfter=published_after).execute()
-    meta = {it["id"]["videoId"]: (it["snippet"]["title"], it["snippet"]["channelTitle"])
+    meta = {it["id"]["videoId"]: (it["snippet"]["title"], it["snippet"]["channelTitle"],
+                                  it["snippet"].get("publishedAt", ""))
             for it in r.get("items", []) if it.get("id", {}).get("videoId")}
     out: list[dict] = []
     ids = list(meta)
     if ids:
         s = svc.videos().list(part="statistics,contentDetails", id=",".join(ids[:50])).execute()
         for it in s.get("items", []):
-            t, ch = meta.get(it["id"], ("", ""))
-            out.append({"title": t, "channel": ch,
+            t, ch, pub = meta.get(it["id"], ("", "", ""))
+            out.append({"title": t, "channel": ch, "published": pub,
                         "views": int(it.get("statistics", {}).get("viewCount", 0)),
                         "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", ""))})
     out.sort(key=lambda x: x["views"], reverse=True)
@@ -89,6 +90,16 @@ def _age_days(iso: str) -> float:
 def _mean(xs):
     xs = [x for x in xs if x is not None]
     return sum(xs) / len(xs) if xs else 0
+
+
+def _hour_central(iso: str):
+    """ISO-8601 timestamp -> hour of day in US Central (Texas). CDT (UTC-5) — close enough as a
+    posting-time signal (winter CST would shift 1h)."""
+    try:
+        t = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+        return (t.hour - 5) % 24
+    except Exception:
+        return None
 
 
 def _dur_seconds(iso: str) -> int:
@@ -159,6 +170,15 @@ def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top
                     f"- is a question: {ls['question_pct']}% vs {oss['question_pct']}%")
     if ld.get("leaders"):
         cmp_txt += f"\nVIDEO LENGTH: leaders average ~{ld['leaders']}s vs you ~{ld.get('yours', 0)}s"
+    tm = c.get("timing", {})
+    ot, nt = tm.get("ours", {}), tm.get("niche_hours", {})
+    if ot:
+        slots = ", ".join(f"{h}:00->{v['avg']} views" for h, v in sorted(ot.items()))
+        cmp_txt += f"\nYOUR POSTING SLOTS (US Central -> avg views/Short): {slots}"
+    if nt:
+        topn = sorted(nt.items(), key=lambda kv: -kv[1])[:3]
+        cmp_txt += "\nNICHE leaders' top Shorts were posted mostly around (US Central): " + \
+                   ", ".join(f"{h}:00" for h, _ in topn)
     system = ("You are a sharp YouTube Shorts growth strategist. You give specific, honest, "
               "data-grounded advice by comparing a creator's real numbers to what's winning in "
               "their niche right now. No generic platitudes — cite concrete gaps, title patterns, "
@@ -175,8 +195,9 @@ Niche leaders average ~{avg_top:,} views on their top Shorts.
 
 Compare this channel to the niche leaders and give EXACTLY 3 improvement suggestions. Each must
 be grounded in BOTH the competitor data and this channel's own numbers — CITE the concrete
-title-pattern and length gaps above (e.g. "leaders use emojis in 80% of titles, you use 0%";
-"leaders' Shorts run ~25s, yours ~45s"). Specific and doable, not generic.
+gaps above across title patterns, length, AND POSTING TIME (e.g. "leaders use emojis in 80% of
+titles, you 0%"; "leaders' Shorts run ~25s, yours ~45s"; "your 8pm slot gets 5x the views of
+your noon slot — drop the noon post"). Specific and doable, not generic.
 
 Return ONLY a JSON array of exactly 3 objects, no prose:
 [{{"tag":"<ONE WORD, UPPERCASE>","impact":"High|Med","title":"<5-7 word headline>","body":"<1-2 concrete sentences>"}}]"""
@@ -221,11 +242,25 @@ def generate(state, cfg: dict) -> Path:
             svc = _service(c.get("token_file"))
             top = _niche_top(svc, niche, published_after)
             rows = _channel_rows(svc, by_ch.get(name, []))
+            from collections import defaultdict
+            oh = defaultdict(lambda: [0, 0])                 # our posting hour -> [count, sum_views]
+            for r in rows:
+                h = _hour_central(r.get("posted_at", ""))
+                if h is not None:
+                    oh[h][0] += 1
+                    oh[h][1] += r.get("views", 0)
+            nh = defaultdict(int)                            # niche leaders' posting hour -> count
+            for t in top[:12]:
+                h = _hour_central(t.get("published", ""))
+                if h is not None:
+                    nh[h] += 1
             compare = {
                 "titles": {"leaders": _title_stats([t["title"] for t in top[:12]]),
                            "yours": _title_stats([r["title"] for r in rows])},
                 "length_s": {"leaders": round(_mean([t["duration_s"] for t in top[:10] if t.get("duration_s")])),
                              "yours": round(_mean([r["duration_s"] for r in rows if r.get("duration_s")]))},
+                "timing": {"ours": {h: {"n": c, "avg": round(v / c)} for h, (c, v) in oh.items() if c},
+                           "niche_hours": dict(nh)},
             }
             tips = _ask_claude(client, model, name, niche, rows, top, compare)
             if tips:

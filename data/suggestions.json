@@ -1,64 +1,64 @@
 {
-  "generated_at": "2026-06-26 05:05 UTC",
+  "generated_at": "2026-06-26 05:55 UTC",
   "channels": {
     "clips": [
       {
         "tag": "EMOJIS",
         "impact": "High impact",
-        "title": "Add emojis to 80% of titles",
-        "body": "Niche leaders use emojis in 83% of titles; you use them in 8%. Your best performers ('Agent Rates Emily Among Top IRL Streamers' at 1,002 views, 'That was the craziest angle' at 1,306 views) lack emojis entirely. Titles like 'Kai's Confused"
+        "title": "Add emojis to every title immediately",
+        "body": "Niche leaders use emojis in 83% of titles; you're at 8%. Your top performer 'Agent Rates Emily Among Top IRL Streamers' got 1,002 views with zero emojis\u2014it'd easily hit 3k+ with a laughing/fire emoji. Test: 'Agent Rates Emily Among Top IRL "
       },
       {
-        "tag": "WORDCOUNT",
+        "tag": "POSTING",
         "impact": "High impact",
-        "title": "Expand titles to 8\u201310 words minimum",
-        "body": "Niche leaders average 8.8 words per title; you average 7.2. Your lowest-performing shorts ('Dang Dirty Is Crazy,' 'That fit hits different') are 4\u20135 words. Add context: 'Kai Cenat & IShowSpeed Play English or Spanish \ud83d\ude02' (9 words, proven win"
+        "title": "Kill noon posts, double down on midnight",
+        "body": "Your 12:00 slot averages 7 views vs your 0:00 slot at 653 views (93x difference). Niche leaders post around 5am\u20133pm UTC Central; you're getting crushed at midday. Shift all posts to 11pm\u20131am or 5am slots and stop posting between 12pm\u20134pm en"
       },
       {
-        "tag": "SPECIFICITY",
+        "tag": "TITLES",
         "impact": "Med impact",
-        "title": "Name both creators + moment in title",
-        "body": "Top clips in your niche name Kai *and* Speed/IShowSpeed/Agent in 70%+ of titles ('Kai Cenat Trolls iShowSpeed \ud83d\ude02,' 'Kai & IShowSpeed Plays English or Spanish'). Your titles often omit both names ('Dang Dirty Is Crazy,' 'Bank Shot Chaos'). Re"
+        "title": "Expand titles to 9\u201311 words with hooks",
+        "body": "Leaders average 8.8 words per title vs your 7.2\u2014you're leaving engagement on the table. Compare your 'Kai's In-Person Streamer University Auditions' (985 views, 6 words) to leader 'Kai Cenat Leaks iShowSpeed's Number After He Leaked KSI's!'"
       }
     ],
     "stories": [
       {
-        "tag": "EMOJI",
+        "tag": "TITLES",
         "impact": "High impact",
-        "title": "Add emojis to every title immediately",
-        "body": "Niche leaders use emojis in 25% of titles; you use 0%. Your top performer ('The Broken Toilet Disaster') has no emoji and only 17 views. Add 1\u20132 relevant emojis (e.g., '\ud83d\ude31', '\ud83d\udebd', '\ud83d\ude02') to match discovery patterns\u2014this costs nothing and signal"
-      },
-      {
-        "tag": "NUMBERS",
-        "impact": "High impact",
-        "title": "Embed specific numbers in 50% of titles",
-        "body": "Leaders use numbers in 50% of titles; you use 0%. Instead of 'I Bullied the Quiet Kid,' try 'I Bullied the Quiet Kid for 2 YEARS Until\u2026' Numbers trigger curiosity and CTR. Your 11 posts in 7 days have zero numbers\u2014this is a systematic gap."
+        "title": "Add emojis and numbers to titles",
+        "body": "Niche leaders use emojis in 25% of titles and numbers in 50%; you use 0% of both. Try \"I Fed the Bully 3 FAKE Sandwiches \ud83d\ude31\" \u2014 this matches competitor patterns and adds visual anchor + intrigue that currently missing from your titles."
       },
       {
         "tag": "LENGTH",
+        "impact": "High impact",
+        "title": "Extend Shorts from 49s to 70s+",
+        "body": "Leaders average ~77s; your ~49s leaves engagement room on the floor. Your highest-performer (17 views) likely benefited from extra watch-time \u2014 stretch narrative pacing, add reaction shots, or slow the reveal to hit 70+ seconds minimum."
+      },
+      {
+        "tag": "TIMING",
         "impact": "Med impact",
-        "title": "Extend Shorts to 60\u201375 seconds minimum",
-        "body": "Niche leaders average ~77s; yours average ~48s. Longer Shorts allow more story setup and pacing, reducing dropoff. Your 'Broken Toilet Disaster' (17 views, likely longer) outperformed others\u2014stretch narratives to build tension before the pa"
+        "title": "Post at 20:00 and 14:00, drop noon",
+        "body": "Your 20:00 and 22:00 slots average 10 views; your 12:00 slot averages 4 views. Leaders peak at 14:00 and 18:00\u201320:00 (US Central). Shift from noon uploads to 14:00\u201320:00 window to align with when your audience scrolls and when algorithm fav"
       }
     ],
     "characters": [
       {
         "tag": "TITLES",
         "impact": "High impact",
-        "title": "Rewrite titles with ALL-CAPS + emojis + numbers",
-        "body": "Niche leaders use ALL-CAPS in 83% of titles and emojis in 42%; you use 0% of both. Your current \"Cappuccino's Prophecy of Pasta Doom #Shorts\" gets 0 views, but \"TRALALERO TRALALA VS BOMBARDIRO CROCODILO \ud83c\udf55\ud83d\udca5\" hits 1M+. Test: \"CAPPUCCINO VS BO"
+        "title": "Add ALL-CAPS words and emojis to titles",
+        "body": "Niche leaders use ALL-CAPS in 83% of titles and emojis in 42%; you use 0% of both. Your titles average 6.2 words vs leaders' 13.0\u2014expand to match the pattern: 'TRALALERO TRALALA VS BOMBARDIRO \ud83c\udf55 CAPPUCCINO CHAOS #shorts' gets algorithmic lif"
       },
       {
         "tag": "LENGTH",
         "impact": "Med impact",
-        "title": "Extend Shorts to 40\u201350 seconds minimum",
-        "body": "Leaders average ~46s; you're at ~28s, leaving engagement on the table. Your highest-performing Short (58 views, \"Cappuccino's Crocodile Bomber Crisis\") likely has the longest runtime. Pad scenes with slower builds, repeated hooks, or transi"
+        "title": "Extend videos from 28s to 40-50 seconds",
+        "body": "Niche leaders average ~46s while your Shorts run ~28s. Longer watch time signals engagement to YouTube's algorithm. Your top performer ('Cappuccino's Crocodile Bomber Crisis'\u201458 views) likely has more runtime than lower performers; add char"
       },
       {
-        "tag": "CADENCE",
+        "tag": "TIMING",
         "impact": "High impact",
-        "title": "Post 4\u20135 Shorts/week instead of 11 low-effort ones",
-        "body": "You're posting 11 Shorts in 7 days (~1.6/day) at ~15 views average; leaders post fewer but longer, more polished videos. Your upload frequency suggests quantity over quality. Consolidate to 4\u20135 highly-crafted Shorts per week with the title,"
+        "title": "Shift uploads to 17:00-19:00 US Central",
+        "body": "Your best slot is 22:00 (31 views), but niche leaders peak at 17:00, 19:00, and 11:00. You're posting 12 Shorts/week scattered across weak times (15:00 and 20:00 get 6-7 views). Batch-post at 17:00-19:00 US Central to match algorithmic dist"
       }
     ]
   },
@@ -66,47 +66,50 @@
     {
       "tag": "EMOJIS",
       "impact": "High impact",
-      "title": "Add emojis to 80% of titles",
-      "body": "Niche leaders use emojis in 83% of titles; you use them in 8%. Your best performers ('Agent Rates Emily Among Top IRL Streamers' at 1,002 views, 'That was the craziest angle' at 1,306 views) lack emojis entirely. Titles like 'Kai's Confused",
+      "title": "Add emojis to every title immediately",
+      "body": "Niche leaders use emojis in 83% of titles; you're at 8%. Your top performer 'Agent Rates Emily Among Top IRL Streamers' got 1,002 views with zero emojis\u2014it'd easily hit 3k+ with a laughing/fire emoji. Test: 'Agent Rates Emily Among Top IRL ",
       "channel": "clips"
     },
     {
-      "tag": "EMOJI",
+      "tag": "TITLES",
       "impact": "High impact",
-      "title": "Add emojis to every title immediately",
-      "body": "Niche leaders use emojis in 25% of titles; you use 0%. Your top performer ('The Broken Toilet Disaster') has no emoji and only 17 views. Add 1\u20132 relevant emojis (e.g., '\ud83d\ude31', '\ud83d\udebd', '\ud83d\ude02') to match discovery patterns\u2014this costs nothing and signal",
+      "title": "Add emojis and numbers to titles",
+      "body": "Niche leaders use emojis in 25% of titles and numbers in 50%; you use 0% of both. Try \"I Fed the Bully 3 FAKE Sandwiches \ud83d\ude31\" \u2014 this matches competitor patterns and adds visual anchor + intrigue that currently missing from your titles.",
       "channel": "stories"
     },
     {
       "tag": "TITLES",
       "impact": "High impact",
-      "title": "Rewrite titles with ALL-CAPS + emojis + numbers",
-      "body": "Niche leaders use ALL-CAPS in 83% of titles and emojis in 42%; you use 0% of both. Your current \"Cappuccino's Prophecy of Pasta Doom #Shorts\" gets 0 views, but \"TRALALERO TRALALA VS BOMBARDIRO CROCODILO \ud83c\udf55\ud83d\udca5\" hits 1M+. Test: \"CAPPUCCINO VS BO",
+      "title": "Add ALL-CAPS words and emojis to titles",
+      "body": "Niche leaders use ALL-CAPS in 83% of titles and emojis in 42%; you use 0% of both. Your titles average 6.2 words vs leaders' 13.0\u2014expand to match the pattern: 'TRALALERO TRALALA VS BOMBARDIRO \ud83c\udf55 CAPPUCCINO CHAOS #shorts' gets algorithmic lif",
       "channel": "characters"
     }
   ],
   "benchmarks": {
     "clips": {
       "niche": "kai cenat ishowspeed streamer clips funny moments",
-      "your_avg": 370,
-      "niche_top_avg": 22185767,
+      "your_avg": 342,
+      "niche_top_avg": 22208962,
       "top": [
         {
           "title": "Kai Cenat Leaks iShowSpeed&#39;s Number After He Leaked KSI&#39;s! \ud83d\ude31\ud83d\ude02",
           "channel": "BKVC",
-          "views": 43146818,
+          "published": "2026-06-09T10:30:00Z",
+          "views": 43160310,
           "duration_s": 37
         },
         {
           "title": "Streamers TRYING THE Michael Jackson Moonwalk \ud83d\ude02 #shorts",
           "channel": "Dempsey",
-          "views": 22652300,
+          "published": "2026-05-19T10:30:04Z",
+          "views": 22653756,
           "duration_s": 40
         },
         {
           "title": "Kai Cenat Tries Barking Like Speed \ud83d\ude02",
           "channel": "Stream Vortex",
-          "views": 16824056,
+          "published": "2026-06-15T18:25:24Z",
+          "views": 16834580,
           "duration_s": 38
         }
       ],
@@ -121,17 +124,52 @@
             "question_pct": 8
           },
           "yours": {
-            "n": 12,
+            "n": 13,
             "avg_words": 7.2,
             "emoji_pct": 8,
-            "caps_pct": 25,
-            "num_pct": 17,
+            "caps_pct": 31,
+            "num_pct": 15,
             "question_pct": 0
           }
         },
         "length_s": {
           "leaders": 30,
           "yours": 31
+        },
+        "timing": {
+          "ours": {
+            "23": {
+              "n": 4,
+              "avg": 526
+            },
+            "0": {
+              "n": 2,
+              "avg": 653
+            },
+            "12": {
+              "n": 3,
+              "avg": 7
+            },
+            "15": {
+              "n": 2,
+              "avg": 6
+            },
+            "20": {
+              "n": 2,
+              "avg": 502
+            }
+          },
+          "niche_hours": {
+            "5": 2,
+            "13": 2,
+            "15": 2,
+            "22": 1,
+            "17": 1,
+            "9": 1,
+            "12": 1,
+            "19": 1,
+            "14": 1
+          }
         }
       }
     },
@@ -143,18 +181,21 @@
         {
           "title": "Don&#39;t Accept That Request\ud83d\ude30#text #textingstory #redditstories #minecraftparkour #gf #boyfriend #drama",
           "channel": "Oh Snap",
-          "views": 54540,
+          "published": "2026-06-08T19:00:25Z",
+          "views": 54539,
           "duration_s": 48
         },
         {
           "title": "POV :You&#39;ve been in love with your best friend for 3 years | Reddit Stories #viral #redditstories",
           "channel": "ThreadVerse",
+          "published": "2026-06-01T23:14:15Z",
           "views": 8,
           "duration_s": 42
         },
         {
           "title": "POV: You realize you were never actually alone\u2026#redditstories #horrorstories #shorts",
           "channel": "Reddit stories ",
+          "published": "2026-05-22T01:35:05Z",
           "views": 8,
           "duration_s": 40
         }
@@ -170,40 +211,77 @@
             "question_pct": 0
           },
           "yours": {
-            "n": 11,
-            "avg_words": 10.0,
+            "n": 12,
+            "avg_words": 9.7,
             "emoji_pct": 0,
-            "caps_pct": 36,
+            "caps_pct": 33,
             "num_pct": 0,
             "question_pct": 0
           }
         },
         "length_s": {
           "leaders": 77,
-          "yours": 48
+          "yours": 49
+        },
+        "timing": {
+          "ours": {
+            "22": {
+              "n": 1,
+              "avg": 10
+            },
+            "0": {
+              "n": 2,
+              "avg": 6
+            },
+            "12": {
+              "n": 3,
+              "avg": 4
+            },
+            "15": {
+              "n": 2,
+              "avg": 6
+            },
+            "20": {
+              "n": 2,
+              "avg": 10
+            },
+            "23": {
+              "n": 2,
+              "avg": 1
+            }
+          },
+          "niche_hours": {
+            "14": 1,
+            "18": 1,
+            "20": 1,
+            "19": 1
+          }
         }
       }
     },
     "characters": {
       "niche": "italian brainrot shorts tralalero bombardiro",
-      "your_avg": 15,
-      "niche_top_avg": 310885,
+      "your_avg": 14,
+      "niche_top_avg": 311325,
       "top": [
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
-          "views": 1098086,
+          "published": "2026-05-15T22:30:09Z",
+          "views": 1098088,
           "duration_s": 59
         },
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
-          "views": 166554,
+          "published": "2026-06-24T16:00:30Z",
+          "views": 168587,
           "duration_s": 59
         },
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
+          "published": "2026-06-21T00:00:27Z",
           "views": 106933,
           "duration_s": 59
         }
@@ -219,8 +297,8 @@
             "question_pct": 8
           },
           "yours": {
-            "n": 11,
-            "avg_words": 6.5,
+            "n": 12,
+            "avg_words": 6.2,
             "emoji_pct": 0,
             "caps_pct": 0,
             "num_pct": 0,
@@ -230,6 +308,47 @@
         "length_s": {
           "leaders": 46,
           "yours": 28
+        },
+        "timing": {
+          "ours": {
+            "22": {
+              "n": 1,
+              "avg": 31
+            },
+            "0": {
+              "n": 2,
+              "avg": 29
+            },
+            "12": {
+              "n": 3,
+              "avg": 18
+            },
+            "15": {
+              "n": 2,
+              "avg": 6
+            },
+            "20": {
+              "n": 2,
+              "avg": 7
+            },
+            "23": {
+              "n": 2,
+              "avg": 0
+            }
+          },
+          "niche_hours": {
+            "17": 2,
+            "11": 1,
+            "19": 1,
+            "2": 1,
+            "21": 1,
+            "12": 1,
+            "3": 1,
+            "14": 1,
+            "4": 1,
+            "10": 1,
+            "13": 1
+          }
         }
       }
     }
