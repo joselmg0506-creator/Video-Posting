@@ -224,18 +224,21 @@ channels:
                                 # | gameplay = looped gameplay b-roll (the old style)
       seconds_per_image: 3      # a fresh hand-drawn image every ~3s (image count scales with length)
       target_seconds: 45        # narration length (kept short/punchy for Shorts)
-      # Narrator voices split by gender so the voice MATCHES the kid telling the story.
-      # The AI tags each first-person story's narrator boy/girl; a random voice from that
-      # pool is used (so a boy's story gets a boy voice, a girl's gets a girl voice).
+      # Voices: KOKORO (free, local, natural neural TTS — chosen over edge-tts for storytelling).
+      # voice_backend: kokoro renders the af_/am_/bm_ voice ids below; captions are aligned with
+      # faster-whisper (Kokoro has no word boundaries). Falls back to edge-tts if Kokoro fails.
+      # Split by gender so the voice MATCHES the kid telling the story (AI tags narrator boy/girl).
+      voice_backend: kokoro
+      caption_model: base       # faster-whisper size used to time the Kokoro captions
       voices_girl:
-        - en-US-AnaNeural       # young girl
-        - en-US-JennyNeural     # friendly girl/young woman
-        - en-US-AriaNeural      # upbeat girl/young woman
+        - af_heart              # warm female storyteller (the sampled favorite)
+        - af_bella              # bright, expressive female
+        - af_sarah              # gentle female
       voices_boy:
-        - en-US-GuyNeural       # energetic boy/young guy
-        - en-US-BrianNeural     # casual boy/young guy
-        - en-US-EricNeural      # calm boy/young guy
-      voice: en-US-AnaNeural    # fallback
+        - bm_george             # British male storyteller (the sampled favorite)
+        - am_michael            # warm American male
+        - am_adam               # casual American male
+      voice: af_heart           # fallback voice
       # Who the stories are for — steers tone, vocabulary, and setting.
       audience: "elementary and middle-school kids (ages 8-13)"
       # Clean gameplay loops go here (Subway Surfers / Minecraft parkour / GTA / mobile games).

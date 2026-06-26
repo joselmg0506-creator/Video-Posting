@@ -257,8 +257,24 @@ def _render_one(story: dict, item_id: str, channel: dict, cfg: dict) -> "object"
 
     with tempfile.TemporaryDirectory(prefix="vp_story_") as tmp:
         tmp_dir = Path(tmp)
-        audio, words = _tts.synthesize(narration, tmp_dir / "vo", backend="edge",
-                                       voice=voice, return_timings=True)
+        backend = rc.get("voice_backend", "edge")
+        try:
+            audio, words = _tts.synthesize(narration, tmp_dir / "vo", backend=backend,
+                                           voice=voice, return_timings=True)
+        except Exception as e:   # e.g. kokoro model/espeak missing in CI — never drop the post
+            if backend == "edge":
+                raise
+            fb = "en-US-GuyNeural" if str(story.get("narrator", "")).lower().startswith("b") else "en-US-JennyNeural"
+            print(f"    [story] {backend} voice failed ({e}); falling back to edge {fb}")
+            backend, voice = "edge", fb
+            audio, words = _tts.synthesize(narration, tmp_dir / "vo", backend="edge",
+                                           voice=voice, return_timings=True)
+        if not words:   # kokoro/offline emit no word boundaries — align captions via faster-whisper
+            try:
+                from ..transform import transcribe as _transcribe
+                words = _transcribe.transcribe(audio, model=rc.get("caption_model", "base"), language="en")
+            except Exception as e:
+                print(f"    [story] caption alignment skipped ({e})")
         adur = _probe_duration(audio) or (len(narration.split()) / WPM * 60)
 
         if visual == "ai_illustrated":
@@ -361,8 +377,13 @@ def produce(channel: dict, cfg: dict, state, cap: int) -> list:
                                          narrator_gender=gender)
                 story["source"] = "original"
                 story["creator"] = ""
-                item_id = "story:" + hashlib.sha1(
-                    story.get("narration", "").encode()).hexdigest()[:12]
+                # Derive the dedup id from the actual content. Illustrated stories carry their
+                # text in "scenes" (no "narration" key), so hashing narration alone gave every
+                # one the SAME empty-string hash → dedup blocked all but the first.
+                content = (story.get("narration")
+                           or " ".join(s.get("text", "") for s in (story.get("scenes") or []))
+                           or story.get("title", ""))
+                item_id = "story:" + hashlib.sha1(content.encode()).hexdigest()[:12]
                 if state.is_posted(item_id) or state.is_pending(item_id):
                     continue
                 print(f"    rendering original story (theme: {theme!r})")

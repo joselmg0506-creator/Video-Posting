@@ -7,6 +7,7 @@ google-auth-oauthlib>=1.2
 google-auth-httplib2>=0.2
 anthropic>=0.40         # AI commentary/metadata for the transform stage
 edge-tts>=6.1           # neural voiceover (free, no API key, needs internet)
+kokoro-onnx>=0.4        # Kokoro-82M natural neural TTS (free, local CPU) for the stories channel
 pyttsx3>=2.90           # offline text-to-speech fallback (no internet, robotic)
 faster-whisper>=1.0     # local speech-to-text for word-by-word captions (no API key)
 librosa>=0.10           # beat detection for the music-edit mode
