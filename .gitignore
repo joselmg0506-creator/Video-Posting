@@ -4,6 +4,8 @@ data/*
 !data/state.json
 # suggestions.json (daily competitor-aware dashboard tips) is tracked so the dashboard build picks it up
 !data/suggestions.json
+# history.json (daily view snapshots) is tracked so the cloud accumulates real day-over-day trends
+!data/history.json
 __pycache__/
 *.pyc
 .venv/

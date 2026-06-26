@@ -464,6 +464,8 @@ def main() -> None:
                     help="with --dashboard, build the file but don't auto-open it")
     ap.add_argument("--suggestions", action="store_true",
                     help="generate competitor-aware improvement tips (data/suggestions.json) and exit")
+    ap.add_argument("--snapshot", action="store_true",
+                    help="append today's view/like/comment counts to data/history.json (daily trends)")
     ap.add_argument("--stage-youtube", dest="stage_youtube", action="store_true",
                     help="download top YouTube clips locally + push to the cloud 'yt-clips' "
                          "Release (run on your laptop; only stages, never posts)")
@@ -500,6 +502,11 @@ def main() -> None:
     if args.suggestions:
         from src.suggestions import generate
         generate(state, cfg)
+        return
+
+    if args.snapshot:
+        from src.history import snapshot
+        snapshot(state, cfg)
         return
 
     if args.stage_youtube:

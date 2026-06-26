@@ -38,15 +38,20 @@ jobs:
       - name: Generate competitor-aware dashboard tips
         run: python main.py --suggestions || echo "suggestions step failed (non-fatal)"
 
-      - name: Persist suggestions
+      - name: Snapshot view counts (daily trends)
+        run: python main.py --snapshot || echo "snapshot step failed (non-fatal)"
+
+      - name: Persist suggestions + history
         run: |
-          if [ -n "$(git status --porcelain data/suggestions.json)" ]; then
+          git add data/suggestions.json data/history.json
+          if [ -n "$(git status --porcelain data/suggestions.json data/history.json)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add data/suggestions.json
-            git commit -m "suggestions: refresh competitor tips [skip ci]"
-            git pull --rebase --autostash || true
-            git push
+            git commit -m "data: refresh competitor tips + view snapshot [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash && git push && break
+              echo "retry $i"; sleep 3
+            done
           else
-            echo "no suggestions change"
+            echo "no data change"
           fi

@@ -15,9 +15,14 @@ Each item gets its own file in this folder once we start scoping it.
 - [x] **Title patterns + length** matched to niche leaders
 
 ## Backlog / someday
-- [ ] Confirm Google OAuth consent screen is **Published** (Testing → In production) so tokens don't expire after ~7 days
-- [ ] Add "best posting time" insight (which hour gets the most views per channel)
-- [ ] (optional) commit `data/history.json` daily for REAL day-over-day trend lines + reliable WoW deltas
+- [ ] ⚠️ Confirm Google OAuth consent screen is **Published** (Testing → In production) so tokens
+      don't expire after ~7 days — the #1 silent-failure risk for the unattended poster (USER action)
+- [x] commit `data/history.json` daily for REAL day-over-day trend lines — DONE: `main.py --snapshot`
+      (nightly in metrics.yml) records per-video counts; dashboard sparklines use real daily totals
+      once 2+ days accrue, else fall back to the publish-date approximation
+- [ ] Italian-voice Kokoro trial for the brainrot channel (stories already on Kokoro)
+- [ ] Caption polish — WhisperX tighter timing + clipify-style karaoke (from the research sweep)
+- [x] Add "best posting time" insight — DONE (posting-time analysis: our slots + niche hours)
 
 ## Done
 - [x] **Title patterns matched to leaders** — title prompts now add emojis + ALL-CAPS hooks (and

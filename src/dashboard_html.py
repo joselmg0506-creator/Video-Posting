@@ -106,12 +106,24 @@ def build(state, cfg: dict, open_after: bool = True) -> Path:
     except Exception:
         sugg = None
 
+    # daily view snapshots (data/history.json) -> {date: {channel: total_views}} for the REAL trend
+    hist_daily: dict = {}
+    try:
+        hpath = Path(cfg["paths"]["state"]).parent / "history.json"
+        for r in json.loads(hpath.read_text(encoding="utf-8")).get("rows", []):
+            d = hist_daily.setdefault(r["date"], {})
+            ch = r.get("channel", "?")
+            d[ch] = d.get(ch, 0) + int(r.get("views", 0))
+    except Exception:
+        hist_daily = {}
+
     page = (_TEMPLATE
             .replace("__POSTS__", _safe(json.dumps(posts_json)))
             .replace("__CHANNELS__", _safe(json.dumps(channels)))
             .replace("__SLOTS__", json.dumps(_SLOTS_UTC))
             .replace("__APIKEY__", json.dumps(api_key))
             .replace("__SUGG__", _safe(json.dumps(sugg)))
+            .replace("__HISTORY__", _safe(json.dumps(hist_daily)))
             .replace("__GEN__", html.escape(gen)))
 
     out = Path(cfg["paths"]["state"]).parent / "dashboard.html"
@@ -257,6 +269,7 @@ const CHANNELS = __CHANNELS__;
 const API_KEY = __APIKEY__;
 const SLOTS = __SLOTS__;
 const SUGG = __SUGG__;                  // competitor-aware tips (or null -> built-in rules engine)
+const HISTORY = __HISTORY__;           // {date: {channel: total_views}} daily snapshots (real trend)
 const META = {};                       // channel -> {subs, totalViews, avatar}
 const SLOT_LABEL = {20:'3p',1:'8p',4:'11p'};
 let TAB='all', WIN='all';
@@ -300,6 +313,9 @@ function spark(data,w,h,pad){pad=pad||6;if(!data.length)data=[0,0];if(data.lengt
  const line=pts.map(p=>p[0]+','+p[1]).join(' ');return {line,area:line+' '+w+','+h+' 0,'+h};}
 function dailySeries(set){const m={};set.filter(p=>ts(p)).forEach(p=>{const d=new Date(ts(p)).toISOString().slice(0,10);m[d]=(m[d]||0)+(+p.views||0);});
  const days=Object.keys(m).sort();let c=0;return days.map(d=>(c+=m[d]));}
+/* REAL daily total views from committed snapshots (channel=null -> all channels); null if <2 days */
+function viewSeries(channel){const hd=HISTORY?Object.keys(HISTORY).sort():[];if(hd.length<2)return null;
+ return hd.map(d=>channel?((HISTORY[d]&&HISTORY[d][channel])||0):Object.values(HISTORY[d]||{}).reduce((a,v)=>a+(+v||0),0));}
 
 /* ---------- localStorage delta ---------- */
 function loadSnap(){try{return JSON.parse(localStorage.getItem('vp_snap')||'null');}catch(e){return null;}}
@@ -376,7 +392,7 @@ function renderAllView(){const set=POSTS.filter(inWin);
  const subs=channels().reduce((a,c)=>a+((META[c]&&META[c].subs!=null)?META[c].subs:0),0);
  const ers=set.map(engRate).filter(x=>x!=null);
  const kpis=[['Shorts',''+set.length],['Subscribers',subs?fmt(subs):'—'],['Avg engage',pctTxt(ers.length?avg(ers):null)]];
- const sp=spark(dailySeries(set),300,64,6);
+ const sp=spark(viewSeries(null)||dailySeries(set),300,64,6);
  let h='';
  h+=pulseHtml();
  h+='<div class="hero"><div class="eyebrow" style="margin:0">Total views · all channels'+(WIN!=='all'?' · '+WIN:'')+'</div>'+
@@ -385,7 +401,7 @@ function renderAllView(){const set=POSTS.filter(inWin);
   '<polyline points="'+sp.line+'" fill="none" stroke="#FF8A7E" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg></div>';
  h+='<div class="grid3">'+kpis.map(k=>'<div class="stat"><div class="l">'+k[0]+'</div><div class="v tnum">'+k[1]+'</div></div>').join('')+'</div>';
  h+='<div class="eyebrow">Channels</div>';
- h+=channels().map(c=>{const ps=chPosts(c);const cv=sum(ps,p=>+p.views||0);const m=META[c]||{};const sp2=spark(dailySeries(ps),72,34,4);
+ h+=channels().map(c=>{const ps=chPosts(c);const cv=sum(ps,p=>+p.views||0);const m=META[c]||{};const sp2=spark(viewSeries(c)||dailySeries(ps),72,34,4);
   return '<div class="chcard" data-go="'+esc(c)+'"><span class="accent" style="background:'+color(c)+'"></span>'+
    '<span class="badge" style="background:'+color(c)+'">'+(m.avatar?'<img src="'+esc(m.avatar)+'">':initial(c))+'</span>'+
    '<span class="meta"><span class="nm">'+esc(c)+'</span><span class="sub">'+
@@ -401,7 +417,7 @@ function renderAllView(){const set=POSTS.filter(inWin);
 function renderChannelView(ch){const ps=chPosts(ch);const m=META[ch]||{};
  const cv=sum(ps,p=>+p.views||0);const ers=ps.map(engRate).filter(x=>x!=null);
  const vel=avg(ps.map(velocity));const subs=(m.subs!=null)?m.subs:null;const reach=(subs&&subs>0)?cv/subs:null;
- const sp=spark(dailySeries(ps),300,64,6);
+ const sp=spark(viewSeries(ch)||dailySeries(ps),300,64,6);
  const mets=[['Views',fmt(cv)],['Engagement',pctTxt(ers.length?avg(ers):null)],
   ['Velocity',fmt(vel)+'/day'],['Reach ×subs',reach!=null?(reach<10?reach.toFixed(1):Math.round(reach))+'×':'—']];
  let h='<div class="hero"><div style="display:flex;align-items:center;gap:13px">'+
