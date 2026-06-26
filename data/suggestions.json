@@ -1,122 +1,122 @@
 {
-  "generated_at": "2026-06-25 05:29 UTC",
+  "generated_at": "2026-06-26 04:33 UTC",
   "channels": {
     "clips": [
       {
-        "tag": "HOOKS",
+        "tag": "TITLES",
         "impact": "High impact",
-        "title": "Add Shock/Leak Elements to Titles",
-        "body": "Your top performer (1300 views) lacks drama hooks, while BKVC's #1 viral (42.3M views) leads with 'Leaks' and '\ud83d\ude31'. Replace neutral titles like 'Agent Rates Emily' with conflict-driven formats: 'Kai EXPOSES Speed's [thing]' or '[Streamer] RE"
+        "title": "Add emoji + conflict/drama hooks",
+        "body": "Top creators use \ud83d\ude02\ud83d\ude31\ud83e\udd23 + comparison/trolling/leak language ('Kai Leaks Speed's Number', 'Trolls iShowSpeed', 'Tries Barking Like Speed'). Your titles are passive ('That fit hits different', 'Silky Respects Loyalty'). Reframe: 'Kai TROLLS Spee"
+      },
+      {
+        "tag": "SPECIFICITY",
+        "impact": "High impact",
+        "title": "Name both streamers + the moment type",
+        "body": "Your best performer ('Agent Rates Emily Among Top IRL Streamers' \u2014 1002 views) is still vague. Compare to niche winners: 'Kai Cenat & iShowSpeed Play English or Spanish' (4.9M views) \u2014 dual names + activity. Your weak shorts omit names enti"
       },
       {
         "tag": "CADENCE",
         "impact": "Med impact",
-        "title": "Post Daily at Peak Hours, Not Sporadic",
-        "body": "You posted 7 Shorts in 7 days but unevenly (2 same day, gaps of 0-1d). WClipMedia and Stream Vortex dominate by posting 1-2 consistent daily Shorts. Shift to daily 6pm-8pm posts and track which day/time your 1300-view Short was posted\u2014repli"
-      },
-      {
-        "tag": "ANGLES",
-        "impact": "High impact",
-        "title": "Mine Comparison & Ranking Formats Winners Use",
-        "body": "RiftRanks' 'Ranking [Creator] Funniest Moment' (11.7M views) and WClipMedia's ranked compilations outperform your single-moment clips. Create 3-5 Shorts using 'Top 3 Kai vs Speed Moments' or 'Ranking [Streamer]'s Wildest Reactions'\u2014these fo"
+        "title": "Consolidate to 5\u20136 posts per week",
+        "body": "You posted 10 Shorts in 7 days (1.4/day); your best shorts (1306, 1117, 1002 views) are 1\u20132 days old and took off immediately. Posting too frequently dilutes momentum. Post 5\u20136 per week on fixed days (Mon/Wed/Fri/Sat), giving each Short 48+"
       }
     ],
     "stories": [
       {
-        "tag": "HOOKS",
+        "tag": "HOOK",
         "impact": "High impact",
-        "title": "Lead with danger or plot twist in first 2 words",
-        "body": "Top performer 'Don't Accept That Request\ud83d\ude30' hooks immediately with threat. Your titles bury the hook ('The Broken Toilet Disaster'). Test: Start with 'POV:', 'DON'T:', or 'WAIT:' \u2014 niche leaders use these 80% of the time. Your current 6-view"
+        "title": "Lead with emoji-driven danger signals",
+        "body": "Top performers like 'Oh Snap' open with \ud83d\ude30 \ud83d\udea8 #text hooks that trigger immediate cognitive friction. Your titles ('I Bullied,' 'Quiet Kid') bury the stakes\u2014rewrite to 'POV: Your Best Friend's Text Just Said THIS \ud83d\ude30' or 'Don't Accept That Reque"
       },
       {
-        "tag": "HASHTAGS",
+        "tag": "CLARITY",
         "impact": "High impact",
-        "title": "Match niche discovery tags (#redditstories #pov #horrors)",
-        "body": "Your #Shorts tag is generic; top creators use #redditstories, #textingstory, #horrors, #pov. You're in 'minecraft parkour story time pov reddit' but titles never mention Reddit or POV. Reframe 2-3 shorts weekly with '#redditstories #pov #ho"
+        "title": "Fix niche misalignment in metadata",
+        "body": "You're claiming 'minecraft parkour story time pov reddit' but posting school bathroom/bully narratives with zero Minecraft/parkour content. Competitors like 'Story Time Network' lean hard into #minecraft #pov #shorts tags. Pick one vertical"
       },
       {
         "tag": "CADENCE",
         "impact": "Med impact",
-        "title": "Post 1 short every 2 days, not 6 per week",
-        "body": "You're posting 6/week but averaging 6 views each\u2014spreading too thin. Niche leaders post 2-3/week and hit 8K\u201352K views per Short. Consolidate to 3 posts/week with tighter hooks and hashtags; this gives each more algorithmic runway and lets y"
+        "title": "Test 3-per-day posting during peak hours",
+        "body": "You're posting 9 shorts/week (1.3/day) with zero comment traction on fresh uploads, while 'Oh Snap' dominates with high-velocity drops. Your 1-2 day old shorts plateau at 5-17 views\u2014batch-record 3 shorts with strong hooks, post at 6-9am and"
       }
     ],
     "characters": [
       {
-        "tag": "FORMAT",
+        "tag": "HOOKS",
         "impact": "High impact",
-        "title": "Add Visual Hook Format Like Leaders",
-        "body": "Top creators use ALL CAPS + VS format (\"TRALALERO TRALALA VS BOMBARDIRO CROCODILO\") and add emoji or brackets\u2014your titles are lowercase narrative prose. Your best performer (50 views) still lacks the punchy cap-lock clash format; reframe \"C"
+        "title": "Add Visual Stakes & Conflict to Titles",
+        "body": "Top creators use \"VS\" (battle framing) and character names in caps (TRALALERO TRALALA VS BOMBARDIRO CROCODILO). You're burying conflict in narrative prose (\"Gone Wrong,\" \"Betrayal\") instead of punchy opposition. Test: \"CAPPUCCINO VS CROCODI"
       },
       {
-        "tag": "SCOPE",
+        "tag": "CONTENT",
         "impact": "High impact",
-        "title": "Narrow to Core Character Battles",
-        "body": "Leaders obsess over 2-3 character matchups (Tralalero vs Bombardiro repeats across their top 6 Shorts). You're scattering across Cappuccino, Tung Tung, Sahur, and crocodile angles\u2014diluting focus. Pick ONE core rivalry (e.g., Cappuccino vs B"
+        "title": "Switch to Minecraft or Visual Game Engine",
+        "body": "Every top performer (MENGCRAFT STUDIOS: 1.1M+ views) uses Minecraft, BeamNG, or animation\u2014not pure dialogue/text. Your shorts generate 0 comments and minimal engagement because there's no visual hook. You're relying on brainrot dialogue alo"
       },
       {
         "tag": "CADENCE",
         "impact": "Med impact",
-        "title": "Double Down on Proven Hook Timing",
-        "body": "Your 50-view outlier went live ~1d ago; leaders post Shorts daily or twice-daily. Post 10+ Shorts/week (vs. your current 6) focusing exclusively on the VS matchup formula, and prioritize posting at peak engagement windows (test 6-9pm local "
+        "title": "Consolidate Posts, Test 3x Per Week Max",
+        "body": "You posted 9 shorts in 7 days (averaging 18 views each = 162 total reach). Top creators post less frequently but with higher production value (Minecraft clips take time). Cut to 3 shorts/week, invest 2-3x longer on each title/thumbnail/visu"
       }
     ]
   },
   "global": [
     {
-      "tag": "HOOKS",
+      "tag": "TITLES",
       "impact": "High impact",
-      "title": "Add Shock/Leak Elements to Titles",
-      "body": "Your top performer (1300 views) lacks drama hooks, while BKVC's #1 viral (42.3M views) leads with 'Leaks' and '\ud83d\ude31'. Replace neutral titles like 'Agent Rates Emily' with conflict-driven formats: 'Kai EXPOSES Speed's [thing]' or '[Streamer] RE",
+      "title": "Add emoji + conflict/drama hooks",
+      "body": "Top creators use \ud83d\ude02\ud83d\ude31\ud83e\udd23 + comparison/trolling/leak language ('Kai Leaks Speed's Number', 'Trolls iShowSpeed', 'Tries Barking Like Speed'). Your titles are passive ('That fit hits different', 'Silky Respects Loyalty'). Reframe: 'Kai TROLLS Spee",
       "channel": "clips"
     },
     {
-      "tag": "HOOKS",
+      "tag": "HOOK",
       "impact": "High impact",
-      "title": "Lead with danger or plot twist in first 2 words",
-      "body": "Top performer 'Don't Accept That Request\ud83d\ude30' hooks immediately with threat. Your titles bury the hook ('The Broken Toilet Disaster'). Test: Start with 'POV:', 'DON'T:', or 'WAIT:' \u2014 niche leaders use these 80% of the time. Your current 6-view",
+      "title": "Lead with emoji-driven danger signals",
+      "body": "Top performers like 'Oh Snap' open with \ud83d\ude30 \ud83d\udea8 #text hooks that trigger immediate cognitive friction. Your titles ('I Bullied,' 'Quiet Kid') bury the stakes\u2014rewrite to 'POV: Your Best Friend's Text Just Said THIS \ud83d\ude30' or 'Don't Accept That Reque",
       "channel": "stories"
     },
     {
-      "tag": "FORMAT",
+      "tag": "HOOKS",
       "impact": "High impact",
-      "title": "Add Visual Hook Format Like Leaders",
-      "body": "Top creators use ALL CAPS + VS format (\"TRALALERO TRALALA VS BOMBARDIRO CROCODILO\") and add emoji or brackets\u2014your titles are lowercase narrative prose. Your best performer (50 views) still lacks the punchy cap-lock clash format; reframe \"C",
+      "title": "Add Visual Stakes & Conflict to Titles",
+      "body": "Top creators use \"VS\" (battle framing) and character names in caps (TRALALERO TRALALA VS BOMBARDIRO CROCODILO). You're burying conflict in narrative prose (\"Gone Wrong,\" \"Betrayal\") instead of punchy opposition. Test: \"CAPPUCCINO VS CROCODI",
       "channel": "characters"
     }
   ],
   "benchmarks": {
     "clips": {
       "niche": "kai cenat ishowspeed streamer clips funny moments",
-      "your_avg": 585,
-      "niche_top_avg": 21465150,
+      "your_avg": 444,
+      "niche_top_avg": 22165940,
       "top": [
         {
           "title": "Kai Cenat Leaks iShowSpeed&#39;s Number After He Leaked KSI&#39;s! \ud83d\ude31\ud83d\ude02",
           "channel": "BKVC",
-          "views": 42375451
+          "views": 43137205
         },
         {
           "title": "Streamers TRYING THE Michael Jackson Moonwalk \ud83d\ude02 #shorts",
           "channel": "Dempsey",
-          "views": 22513894
+          "views": 22651319
         },
         {
           "title": "Kai Cenat Tries Barking Like Speed \ud83d\ude02",
           "channel": "Stream Vortex",
-          "views": 16696026
+          "views": 16811693
         }
       ]
     },
     "stories": {
       "niche": "minecraft parkour story time pov reddit",
-      "your_avg": 6,
-      "niche_top_avg": 13193,
+      "your_avg": 7,
+      "niche_top_avg": 13640,
       "top": [
         {
           "title": "Don&#39;t Accept That Request\ud83d\ude30#text #textingstory #redditstories #minecraftparkour #gf #boyfriend #drama",
           "channel": "Oh Snap",
-          "views": 52750
+          "views": 54540
         },
         {
           "title": "POV :You&#39;ve been in love with your best friend for 3 years | Reddit Stories #viral #redditstories",
@@ -132,23 +132,23 @@
     },
     "characters": {
       "niche": "italian brainrot shorts tralalero bombardiro",
-      "your_avg": 17,
-      "niche_top_avg": 285630,
+      "your_avg": 18,
+      "niche_top_avg": 310578,
       "top": [
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
-          "views": 1098069
+          "views": 1098086
         },
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
-          "views": 101059
+          "views": 165066
         },
         {
-          "title": "Tralalero tralal\u00e1\u2026 BOMBARDIRO no tio!#shorts #brainrot #memes #funny #fyp #italianbrainrot #viral",
-          "channel": "Memerot Smash: Punch Slap 3D",
-          "views": 88868
+          "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
+          "channel": "MENGCRAFT STUDIOS",
+          "views": 106931
         }
       ]
     }
