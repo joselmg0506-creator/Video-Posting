@@ -67,6 +67,29 @@ def _extract_json(raw: str) -> dict:
     return json.loads(raw)
 
 
+# Structured-output tool: forcing this guarantees schema-valid JSON, so a parse glitch can never
+# default the quality score to 10 and push a weak clip past the gate (the old _extract_json risk).
+_SCRIPT_TOOL = {
+    "name": "emit_script",
+    "description": "Return the structured Short script for this clip.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "narrate": {"type": "boolean", "description": "true only if a voiceover should be added"},
+            "hook": {"type": "string"},
+            "labels": {"type": "array", "items": {"type": "string"}, "description": "2-4 short hype labels"},
+            "commentary": {"type": "string", "description": "voiceover text if narrate else ''"},
+            "title": {"type": "string"},
+            "description": {"type": "string"},
+            "hashtags": {"type": "array", "items": {"type": "string"}},
+            "voice": {"type": "string", "description": "a voice id from the roster, or ''"},
+            "quality": {"type": "integer", "minimum": 1, "maximum": 10},
+        },
+        "required": ["narrate", "title", "quality"],
+    },
+}
+
+
 def generate(clip: Clip, llm_cfg: dict, roster: list[dict] | None = None,
              transcript: str = "", frames: list[str] | None = None) -> ScriptResult:
     key = env("ANTHROPIC_API_KEY")
@@ -93,10 +116,15 @@ def generate(clip: Clip, llm_cfg: dict, roster: list[dict] | None = None,
         max_tokens=700,
         system=[{"type": "text", "text": system_text, "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": content}],
+        tools=[_SCRIPT_TOOL],
+        tool_choice={"type": "tool", "name": "emit_script"},
     )
-    raw = "".join(b.text for b in msg.content if getattr(b, "type", None) == "text")
-
-    data = _extract_json(raw)
+    # tool_use guarantees schema-valid JSON — no brittle regex, no parse-glitch fallback.
+    data = next((b.input for b in msg.content
+                 if getattr(b, "type", None) == "tool_use" and b.name == "emit_script"), None)
+    if not data:   # extremely rare API hiccup — fall back to the old text-extraction path
+        raw = "".join(b.text for b in msg.content if getattr(b, "type", None) == "text")
+        data = _extract_json(raw) if raw.strip() else {}
     hashtags = [h.lstrip("#").strip() for h in data.get("hashtags", []) if h.strip()]
     labels = [str(x).strip() for x in data.get("labels", []) if str(x).strip()][:4]
     voice = str(data.get("voice", "")).strip()
