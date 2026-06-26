@@ -289,16 +289,27 @@ def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
     from src.poster.youtube import YouTubeShortsPoster, QuotaExceeded
     ycfg = channel.get("youtube") or cfg["posting"]["youtube_shorts"]
     poster = YouTubeShortsPoster(channel.get("token_file"))
+    # Proven hashtags the niche leaders actually use (from `--suggestions`, refreshed nightly).
+    # Blended in BELOW each video's own AI hashtags so creator/topic tags lead, then we backfill
+    # with the niche-wide winners (#fyp, #italianbrainrot, …) for discovery.
+    niche_tags: list[str] = []
+    try:
+        import json as _json
+        _sug = Path(cfg["paths"]["state"]).parent / "suggestions.json"
+        niche_tags = (_json.loads(_sug.read_text(encoding="utf-8"))
+                      .get("niche_hashtags", {}).get(channel.get("name"), []))
+    except Exception:
+        pass
     posted = 0
     for it in items:
         title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
         title = title[:100]
-        tags = list(ycfg.get("tags", [])) + it.hashtags
+        tags = list(ycfg.get("tags", [])) + it.hashtags + niche_tags
         # Visible, clickable hashtags in the DESCRIPTION drive discovery — YouTube shows the first
         # 3 above the title. Lead with the AI's niche/creator hashtags, then #Shorts + channel tags;
         # dedup + cap at 8 (YouTube ignores ALL hashtags if a video has >15).
         seen, htags = set(), []
-        for h in (it.hashtags + ["shorts"] + list(ycfg.get("tags", []))):
+        for h in (it.hashtags + niche_tags + ["shorts"] + list(ycfg.get("tags", []))):
             h = str(h).lstrip("#").strip().replace(" ", "")
             if h and h.lower() not in seen:
                 seen.add(h.lower())

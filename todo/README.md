@@ -7,6 +7,13 @@ Each item gets its own file in this folder once we start scoping it.
 - [ ] (nothing queued — pick the next idea from Backlog, or react to the dashboard playbook)
 
 ## Done (recent)
+- [x] **Niche hashtag analysis** — `--suggestions` now scrapes the hashtags the niche LEADERS
+      actually use (their video descriptions), ranks them by how many leaders use each, and
+      stores `niche_hashtags` per channel in suggestions.json. New uploads blend these into the
+      description below the video's own AI tags (capped at 8; first 3 show above the title), and
+      the dashboard shows a "Hashtags niche leaders use" chip row per channel. Found, e.g.:
+      clips → #kaicenat #ishowspeed #tota #rakai · stories → #redditstories #storytime #textingstory
+      · characters → #brainrot #italianbrainrot #fyp #tralalerotralala #bombardirocrocodilo
 - [x] **Posting cadence analysis** — niche leaders' uploads/day (from their upload history) vs ours,
       in the suggestions + dashboard playbook. Finding: leaders range wildly (~0.1–10/day); our ~2/day
       actual is in range — cadence isn't the bottleneck (titles/timing/length matter more)

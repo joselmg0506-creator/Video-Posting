@@ -447,6 +447,12 @@ function renderChannelView(ch){const ps=chPosts(ch);const m=META[ch]||{};
     '<span class="mut" style="font-size:12px">leaders <b style="color:var(--tx)">'+r[1]+'</b></span>'+
     '<span style="font-size:12px;color:'+(r[3]?'var(--down)':'var(--mut2)')+'">you <b>'+r[2]+'</b></span></div>').join('')+'</div>';
  }
+ const ht=cp&&cp.hashtags&&cp.hashtags.leaders||[];
+ if(ht.length){h+='<div class="eyebrow">Hashtags niche leaders use</div>'+
+  '<div class="pulse" style="display:flex;flex-wrap:wrap;gap:6px">'+
+  ht.slice(0,10).map(t=>'<a href="https://www.youtube.com/hashtag/'+esc(t.tag)+'" target="_blank" rel="noopener" '+
+   'style="font-size:12px;padding:4px 9px;border-radius:999px;background:var(--bd2);color:'+color(ch)+';text-decoration:none">#'+esc(t.tag)+'</a>').join('')+'</div>'+
+  '<div class="mut" style="font-size:11px;margin-top:7px">Auto-added to new uploads’ descriptions.</div>';}
  h+='<div class="eyebrow">Top Shorts'+(WIN!=='all'?' · '+WIN:'')+'</div>';
  const top=[...ps].sort((a,b)=>heat(b)-heat(a)).slice(0,6);
  h+=top.map(p=>{const g=grade(heat(p));return '<a class="vid" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+

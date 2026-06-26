@@ -47,12 +47,14 @@ def _niche_top(svc, query: str, published_after: str, n: int = 12) -> list[dict]
     out: list[dict] = []
     ids = list(meta)
     if ids:
-        s = svc.videos().list(part="statistics,contentDetails", id=",".join(ids[:50])).execute()
+        s = svc.videos().list(part="statistics,contentDetails,snippet", id=",".join(ids[:50])).execute()
         for it in s.get("items", []):
             t, ch, pub, cid = meta.get(it["id"], ("", "", "", ""))
+            sn = it.get("snippet", {})
             out.append({"title": t, "channel": ch, "published": pub, "channel_id": cid,
                         "views": int(it.get("statistics", {}).get("viewCount", 0)),
-                        "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", ""))})
+                        "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", "")),
+                        "hashtags": _hashtags(t + " " + sn.get("description", ""))})
     out.sort(key=lambda x: x["views"], reverse=True)
     return out
 
@@ -122,6 +124,21 @@ def _hour_central(iso: str):
         return (t.hour - 5) % 24
     except Exception:
         return None
+
+
+def _hashtags(text: str) -> list[str]:
+    """Lowercased, de-duped #hashtags found in a title/description.
+
+    Drops purely-numeric tokens — they're almost always `&#39;`-style HTML-entity noise
+    (e.g. `#39` from an escaped apostrophe), never real hashtags.
+    """
+    out: list[str] = []
+    for h in re.findall(r"#(\w{2,30})", text or ""):
+        h = h.lower()
+        if h.isdigit() or h in out:
+            continue
+        out.append(h)
+    return out
 
 
 def _dur_seconds(iso: str) -> int:
@@ -205,6 +222,9 @@ def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top
     if cad.get("leaders_per_day"):
         cmp_txt += (f"\nPOSTING CADENCE: niche leaders upload ~{cad['leaders_per_day']} Shorts/day "
                     f"vs you ~{cad.get('yours_per_day', 0)}/day")
+    ht = c.get("hashtags", {}).get("leaders", [])
+    if ht:
+        cmp_txt += "\nTOP HASHTAGS niche leaders use: " + " ".join("#" + h["tag"] for h in ht[:8])
     system = ("You are a sharp YouTube Shorts growth strategist. You give specific, honest, "
               "data-grounded advice by comparing a creator's real numbers to what's winning in "
               "their niche right now. No generic platitudes — cite concrete gaps, title patterns, "
@@ -259,7 +279,7 @@ def generate(state, cfg: dict) -> Path:
     channels = [c for c in cfg.get("channels", []) if c.get("enabled")]
 
     result = {"generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-              "channels": {}, "global": [], "benchmarks": {}}
+              "channels": {}, "global": [], "benchmarks": {}, "niche_hashtags": {}}
 
     for c in channels:
         name = c.get("name")
@@ -291,6 +311,11 @@ def generate(state, cfg: dict) -> Path:
                 if len(seen_ch) >= 4:
                     break
             our_7d = sum(1 for r in rows if _age_days(r.get("posted_at", "")) <= 7)
+            hc = defaultdict(int)                            # niche leaders' hashtag frequency
+            for t in top:
+                for h in t.get("hashtags", []):
+                    hc[h] += 1
+            top_tags = sorted(hc.items(), key=lambda kv: -kv[1])[:12]
             compare = {
                 "titles": {"leaders": _title_stats([t["title"] for t in top[:12]]),
                            "yours": _title_stats([r["title"] for r in rows])},
@@ -300,6 +325,7 @@ def generate(state, cfg: dict) -> Path:
                            "niche_hours": dict(nh)},
                 "cadence": {"leaders_per_day": round(_mean(cads), 1) if cads else 0,
                             "yours_per_day": round(our_7d / 7, 1), "samples": cads},
+                "hashtags": {"leaders": [{"tag": h, "n": n} for h, n in top_tags]},
             }
             tips = _ask_claude(client, model, name, niche, rows, top, compare)
             if tips:
@@ -312,6 +338,7 @@ def generate(state, cfg: dict) -> Path:
                 "top": top[:3],
                 "compare": compare,
             }
+            result["niche_hashtags"][name] = [h for h, _ in top_tags[:10]]
             print(f"  [suggestions] {name}: {len(tips)} tips (niche top avg "
                   f"{result['benchmarks'][name]['niche_top_avg']:,} vs your {result['benchmarks'][name]['your_avg']:,})")
         except Exception as e:
