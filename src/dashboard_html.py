@@ -417,13 +417,14 @@ function renderChannelView(ch){const ps=chPosts(ch);const m=META[ch]||{};
  if(bm&&bm.niche_top_avg){h+='<div class="eyebrow">Vs niche leaders</div>'+
   '<div class="grid2"><div class="stat"><div class="l">Your avg / Short</div><div class="v tnum">'+fmt(bm.your_avg)+'</div></div>'+
   '<div class="stat"><div class="l">Niche top avg</div><div class="v tnum" style="color:'+color(ch)+'">'+fmt(bm.niche_top_avg)+'</div></div></div>';}
- const cp=bm&&bm.compare, lt=cp&&cp.titles&&cp.titles.leaders||{}, ot=cp&&cp.titles&&cp.titles.yours||{}, ld=cp&&cp.length_s||{};
+ const cp=bm&&bm.compare, lt=cp&&cp.titles&&cp.titles.leaders||{}, ot=cp&&cp.titles&&cp.titles.yours||{}, ld=cp&&cp.length_s||{}, cd=cp&&cp.cadence||{};
  if(lt.n&&ot.n){
   const rows=[['Emoji in title',lt.emoji_pct+'%',ot.emoji_pct+'%',ot.emoji_pct<lt.emoji_pct-15],
    ['ALL-CAPS word',lt.caps_pct+'%',ot.caps_pct+'%',ot.caps_pct<lt.caps_pct-15],
    ['Number in title',lt.num_pct+'%',ot.num_pct+'%',ot.num_pct<lt.num_pct-15],
    ['Words / title',''+lt.avg_words,''+ot.avg_words,Math.abs(ot.avg_words-lt.avg_words)>=2],
    ['Length',(ld.leaders||0)+'s',(ld.yours||0)+'s',Math.abs((ld.yours||0)-(ld.leaders||0))>=8]];
+  if(cd.leaders_per_day)rows.push(['Posts / day',cd.leaders_per_day+'',(cd.yours_per_day||0)+'',false]);
   h+='<div class="eyebrow">Title &amp; length playbook · vs leaders</div><div class="pulse">'+
    rows.map(r=>'<div style="display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--bd2);font-size:13px">'+
     '<span style="flex:1;color:var(--mut)">'+r[0]+'</span>'+

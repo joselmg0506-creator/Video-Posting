@@ -42,19 +42,41 @@ def _niche_top(svc, query: str, published_after: str, n: int = 12) -> list[dict]
                           order="viewCount", maxResults=n, regionCode="US",
                           relevanceLanguage="en", publishedAfter=published_after).execute()
     meta = {it["id"]["videoId"]: (it["snippet"]["title"], it["snippet"]["channelTitle"],
-                                  it["snippet"].get("publishedAt", ""))
+                                  it["snippet"].get("publishedAt", ""), it["snippet"].get("channelId", ""))
             for it in r.get("items", []) if it.get("id", {}).get("videoId")}
     out: list[dict] = []
     ids = list(meta)
     if ids:
         s = svc.videos().list(part="statistics,contentDetails", id=",".join(ids[:50])).execute()
         for it in s.get("items", []):
-            t, ch, pub = meta.get(it["id"], ("", "", ""))
-            out.append({"title": t, "channel": ch, "published": pub,
+            t, ch, pub, cid = meta.get(it["id"], ("", "", "", ""))
+            out.append({"title": t, "channel": ch, "published": pub, "channel_id": cid,
                         "views": int(it.get("statistics", {}).get("viewCount", 0)),
                         "duration_s": _dur_seconds(it.get("contentDetails", {}).get("duration", ""))})
     out.sort(key=lambda x: x["views"], reverse=True)
     return out
+
+
+def _channel_cadence(svc, channel_id: str):
+    """Approx uploads/day for a channel from its recent uploads' publishedAt spacing (~2 quota)."""
+    if not channel_id:
+        return None
+    try:
+        ch = svc.channels().list(part="contentDetails", id=channel_id).execute().get("items", [])
+        if not ch:
+            return None
+        uploads = ch[0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        pl = svc.playlistItems().list(part="contentDetails", playlistId=uploads, maxResults=25).execute()
+        dates = sorted(it["contentDetails"]["videoPublishedAt"] for it in pl.get("items", [])
+                       if it.get("contentDetails", {}).get("videoPublishedAt"))
+        if len(dates) < 3:
+            return None
+        t0 = datetime.fromisoformat(dates[0].replace("Z", "+00:00"))
+        t1 = datetime.fromisoformat(dates[-1].replace("Z", "+00:00"))
+        days = max(0.5, (t1 - t0).total_seconds() / 86400)
+        return round((len(dates) - 1) / days, 1)
+    except Exception:
+        return None
 
 
 def _channel_rows(svc, posts: list[dict]) -> list[dict]:
@@ -179,6 +201,10 @@ def _ask_claude(client, model: str, name: str, niche: str, rows: list[dict], top
         topn = sorted(nt.items(), key=lambda kv: -kv[1])[:3]
         cmp_txt += "\nNICHE leaders' top Shorts were posted mostly around (US Central): " + \
                    ", ".join(f"{h}:00" for h, _ in topn)
+    cad = c.get("cadence", {})
+    if cad.get("leaders_per_day"):
+        cmp_txt += (f"\nPOSTING CADENCE: niche leaders upload ~{cad['leaders_per_day']} Shorts/day "
+                    f"vs you ~{cad.get('yours_per_day', 0)}/day")
     system = ("You are a sharp YouTube Shorts growth strategist. You give specific, honest, "
               "data-grounded advice by comparing a creator's real numbers to what's winning in "
               "their niche right now. No generic platitudes — cite concrete gaps, title patterns, "
@@ -254,6 +280,17 @@ def generate(state, cfg: dict) -> Path:
                 h = _hour_central(t.get("published", ""))
                 if h is not None:
                     nh[h] += 1
+            seen_ch, cads = [], []                           # niche leaders' upload cadence (per day)
+            for t in top:
+                cid = t.get("channel_id")
+                if cid and cid not in seen_ch:
+                    seen_ch.append(cid)
+                    cd = _channel_cadence(svc, cid)
+                    if cd:
+                        cads.append(cd)
+                if len(seen_ch) >= 4:
+                    break
+            our_7d = sum(1 for r in rows if _age_days(r.get("posted_at", "")) <= 7)
             compare = {
                 "titles": {"leaders": _title_stats([t["title"] for t in top[:12]]),
                            "yours": _title_stats([r["title"] for r in rows])},
@@ -261,6 +298,8 @@ def generate(state, cfg: dict) -> Path:
                              "yours": round(_mean([r["duration_s"] for r in rows if r.get("duration_s")]))},
                 "timing": {"ours": {h: {"n": c, "avg": round(v / c)} for h, (c, v) in oh.items() if c},
                            "niche_hours": dict(nh)},
+                "cadence": {"leaders_per_day": round(_mean(cads), 1) if cads else 0,
+                            "yours_per_day": round(our_7d / 7, 1), "samples": cads},
             }
             tips = _ask_claude(client, model, name, niche, rows, top, compare)
             if tips:
