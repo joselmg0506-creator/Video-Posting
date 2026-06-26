@@ -90,7 +90,7 @@ def _write_movie(llm_cfg: dict, scenes: int) -> dict:
     from anthropic import Anthropic
     client = Anthropic(api_key=key)
     msg = client.messages.create(
-        model=llm_cfg["model"], max_tokens=2000, temperature=1.0,
+        model=llm_cfg["model"], max_tokens=max(2000, 500 + scenes * 350), temperature=1.0,
         system=[{"type": "text", "text": _system(scenes), "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content":
                    f"Write brainrot film #{random.randint(1, 9_999_999)}. Loud, weird, and "
