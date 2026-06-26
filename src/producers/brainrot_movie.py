@@ -134,7 +134,7 @@ def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object"
             img = ", ".join(p for p in [IMG_STYLE, sc.get("description", "")] if p)
             if present:
                 img += ", featuring " + "; ".join(present)
-            img += ", no text, no watermark"
+            img += ", clean wordless frame"   # NOT "no text" — negation at Flux CFG=1 induces text
 
             # the speaker's line, synthesized FIRST so (in stills mode) the picture can be shown
             # for exactly the length of the line — i.e. the picture MATCHES what's being said.

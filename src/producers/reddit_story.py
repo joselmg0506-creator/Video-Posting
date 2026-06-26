@@ -30,9 +30,11 @@ from ..transform.script import _extract_json
 from . import visuals
 
 WPM = 150
+# NOTE: do NOT add "no text"/"no words" here — Flux runs at CFG=1 with no true negative prompt,
+# so negating text actually INDUCES gibberish text. Describe clean wordless surfaces positively.
 STORY_IMG_STYLE = ("simple hand-drawn doodle illustration, like a quick fun sketch drawn by hand "
-                   "with markers, bold rough outlines, flat solid colors, plain white background, "
-                   "charming and goofy, NOT realistic, no 3D, no cinematic, no text, vertical 9:16, "
+                   "with markers, bold rough outlines, flat solid colors, clean plain white "
+                   "background, charming and goofy, wordless picture, vertical 9:16, "
                    "consistent simple style across every image")
 
 _TOKEN: str | None = None
@@ -126,7 +128,7 @@ def _keys_tail(target_words: int, illustrated: bool, scenes: int) -> str:
   Reading every "text" in order, top to bottom, IS the full story — open with a strong hook and
   land a satisfying twist by the end. Each "image" MUST depict exactly what its OWN "text" says
   (so the picture matches what's being narrated). Keep characters and art style CONSISTENT across
-  images; never put text or letters in the images.""" + common)
+  images. Describe only the visual scene — never describe signs, labels, or writing.""" + common)
     return (f"""
 - "narration": the spoken text (~{target_words} words), clean/advertiser-friendly, no real
   names or identifying details, ending on a line that invites comments.""" + common)
