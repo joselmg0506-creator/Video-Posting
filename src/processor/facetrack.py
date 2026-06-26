@@ -30,9 +30,14 @@ def _ensure_model() -> bool:
         return False
 
 
-def track_crop_x(src: Path, start: float, duration: float, sample_fps: float = 4.0):
+def track_crop_x(src: Path, start: float, duration: float, sample_fps: float = 4.0,
+                 zoom: float = 1.0):
     """Return (x_expr, crop_w, width, height) for an ffmpeg crop=...:x=<expr> that follows the
-    main face, or None if face-tracking isn't possible (no cv2 / no faces / not landscape)."""
+    main face, or None if face-tracking isn't possible (no cv2 / no faces / not landscape).
+
+    `zoom` controls how tight the crop is: 1.0 = the tightest full-height 9:16 slice (subject
+    fills the frame). Lower values crop a WIDER region around the face (e.g. 0.8 ~ 25% wider) so
+    you see more of the scene — the caller blur-pads that wider region into the 9:16 frame."""
     try:
         import cv2
     except Exception:
@@ -48,7 +53,7 @@ def track_crop_x(src: Path, start: float, duration: float, sample_fps: float = 4
     if W <= 0 or H <= 0 or W <= H:           # only landscape clips have something to track
         cap.release()
         return None
-    crop_w = round(H * 9 / 16)
+    crop_w = min(W, round(H * 9 / 16 / max(0.1, zoom)))   # zoom<1 -> wider view around the face
     if crop_w >= W:                          # already ~vertical/square — nothing to slide
         cap.release()
         return None

@@ -139,6 +139,7 @@ def process(
     fit: str = "blur_pad",
     max_duration: int = 60,
     peak_trim: bool = True,
+    track_zoom: float = 1.0,
 ) -> Path:
     dest.parent.mkdir(parents=True, exist_ok=True)
     # Cold-open on the highlight instead of the clip's first seconds.
@@ -150,17 +151,30 @@ def process(
         tracked = None
         try:
             from .facetrack import track_crop_x
-            tracked = track_crop_x(src, start, float(max_duration))
+            tracked = track_crop_x(src, start, float(max_duration), zoom=track_zoom)
         except Exception as e:
             print(f"  [track] face-tracking unavailable ({e}); using center crop")
         if tracked:
             expr, crop_w, W, H = tracked
-            vf = (f"crop=w={crop_w}:h={H}:x='{expr}':y=0,"
-                  f"scale={width}:{height}:flags=lanczos,setsar=1")
-            print("  [track] following the speaker's face")
+            if abs(crop_w / H - width / height) < 0.02:
+                # tightest 9:16 slice (zoom ~1.0) — clean crop + scale, fills the frame
+                vf = (f"crop=w={crop_w}:h={H}:x='{expr}':y=0,"
+                      f"scale={width}:{height}:flags=lanczos,setsar=1")
+                filter_flag = "-vf"
+                print("  [track] following the speaker's face")
+            else:
+                # wider view (zoom < 1.0): crop a wider region around the face, fit it to width,
+                # and blur-pad the top/bottom so you see more of the scene (subject a bit smaller)
+                vf = (f"[0:v]crop=w={crop_w}:h={H}:x='{expr}':y=0,split=2[bg][fg];"
+                      f"[bg]scale={width}:{height}:force_original_aspect_ratio=increase,"
+                      f"crop={width}:{height},boxblur=20:5[bg2];"
+                      f"[fg]scale={width}:{height}:force_original_aspect_ratio=decrease:flags=lanczos[fg2];"
+                      f"[bg2][fg2]overlay=(W-w)/2:(H-h)/2,setsar=1")
+                filter_flag = "-filter_complex"
+                print(f"  [track] following the speaker's face (wider view, zoom {track_zoom})")
         else:
             vf = _build_filter(width, height, "crop")
-        filter_flag = "-vf"
+            filter_flag = "-vf"
     else:
         vf = _build_filter(width, height, fit)
         # blur_pad uses -filter_complex; others use -vf

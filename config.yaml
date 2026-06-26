@@ -18,6 +18,7 @@ sources:
     - chrisnxtdoor
     - imdavisss
     - ray
+    - tota
     - silky
 
   twitch:
@@ -41,6 +42,7 @@ sources:
       - chrisnxtdoor
       - imdavisss
       - ray
+      - tota
       - silky
     # Games disabled to keep the niche tight. Re-add categories here for a gaming lane,
     # or spin up a separate channel for that once this one is proven.
@@ -90,6 +92,9 @@ processing:
   target_height: 1920
   fit_mode: track      # track = smart crop that FOLLOWS the streamer's face (needs opencv) |
                        # crop = static center crop | blur_pad = full frame on blur | letterbox
+  track_zoom: 0.8      # for fit_mode track: 1.0 = tightest 9:16 (subject fills frame, most zoomed
+                       # in) | <1.0 = wider view around the face with blurred top/bottom (0.8 ~ 25%
+                       # more scene visible). Lower = more zoomed out / more of the scene.
   peak_trim: true      # cold-open on the loudest moment instead of the clip's first seconds
 
 # Transformative layer: AI commentary + voiceover + captions per clip.

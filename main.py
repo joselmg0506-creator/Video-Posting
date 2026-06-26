@@ -247,6 +247,7 @@ def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[Post
                     fit=cfg["processing"]["fit_mode"],
                     max_duration=cfg["processing"]["max_duration_seconds"],
                     peak_trim=cfg["processing"].get("peak_trim", True),
+                    track_zoom=float(cfg["processing"].get("track_zoom", 1.0)),
                 )
             if transform_on:
                 print("    transforming (AI commentary + voiceover + captions)…")
