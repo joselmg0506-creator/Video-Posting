@@ -27,7 +27,10 @@
     "brmovie:492fb786da26",
     "twitch:BillowingFantasticCroquetteBudBlast-CFN7D2C7Q2QdRoyB",
     "story:fe9dfc14f279",
-    "brmovie:48eb464b2bb6"
+    "brmovie:48eb464b2bb6",
+    "youtube:3edc69d3b862",
+    "story:d24fd01cf375",
+    "brmovie:3a91968a501f"
   ],
   "uploading": [],
   "posts": [
@@ -366,6 +369,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-26T01:52:44.816992+00:00"
+    },
+    {
+      "clip_id": "youtube:3edc69d3b862",
+      "video_id": "PmVrRAEQp1g",
+      "url": "https://youtube.com/shorts/PmVrRAEQp1g",
+      "title": "Kai's In-Person University Interviews Get Wild #Shorts",
+      "creator": "Kai Cenat - Videos",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-26T04:30:59.962282+00:00"
+    },
+    {
+      "clip_id": "story:d24fd01cf375",
+      "video_id": "LTMLZZmq8pI",
+      "url": "https://youtube.com/shorts/LTMLZZmq8pI",
+      "title": "The Substitute Teacher Caught Him Red-Handed #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "en-US-BrianNeural",
+      "posted_at": "2026-06-26T04:33:02.072653+00:00"
+    },
+    {
+      "clip_id": "brmovie:3a91968a501f",
+      "video_id": "SCUCTVg5jYM",
+      "url": "https://youtube.com/shorts/SCUCTVg5jYM",
+      "title": "The Cappuccino Prophecy #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-26T04:34:32.437762+00:00"
     }
   ]
 }
