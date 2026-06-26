@@ -36,7 +36,10 @@
     "brmovie:40dba7d3d3c4",
     "twitch:RamshackleFrigidShieldOptimizePrime-pa3ugYYDuTb-DiED",
     "story:da39a3ee5e6b",
-    "brmovie:aabf8b200aab"
+    "brmovie:aabf8b200aab",
+    "twitch:BigEagerSwanGOWSkull-HFkXbeKLIWyE1gq6",
+    "story:f01db77af7aa",
+    "brmovie:bc4cc5a2d5ac"
   ],
   "uploading": [],
   "posts": [
@@ -483,6 +486,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-26T05:09:05.486534+00:00"
+    },
+    {
+      "clip_id": "twitch:BigEagerSwanGOWSkull-HFkXbeKLIWyE1gq6",
+      "video_id": "peBhdVP3h2U",
+      "url": "https://youtube.com/shorts/peBhdVP3h2U",
+      "title": "PlaqueBoyMax SCREAMING at the Goal \ud83d\udd25 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-26T06:19:10.398092+00:00"
+    },
+    {
+      "clip_id": "story:f01db77af7aa",
+      "video_id": "SGdF6cGS0b4",
+      "url": "https://youtube.com/shorts/SGdF6cGS0b4",
+      "title": "My Bathroom Emergency Saved The Field Trip \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_michael",
+      "posted_at": "2026-06-26T06:21:39.518626+00:00"
+    },
+    {
+      "clip_id": "brmovie:bc4cc5a2d5ac",
+      "video_id": "P430zGxC2QM",
+      "url": "https://youtube.com/shorts/P430zGxC2QM",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S RECIPE \ud83d\udd25 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-26T06:25:17.206344+00:00"
     }
   ]
 }
