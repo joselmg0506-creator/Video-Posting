@@ -39,7 +39,10 @@
     "brmovie:aabf8b200aab",
     "twitch:BigEagerSwanGOWSkull-HFkXbeKLIWyE1gq6",
     "story:f01db77af7aa",
-    "brmovie:bc4cc5a2d5ac"
+    "brmovie:bc4cc5a2d5ac",
+    "twitch:HedonisticNeighborlyLardDeIlluminati-w5NozIWD899mNCWt",
+    "story:d171f0699963",
+    "brmovie:2f866631d581"
   ],
   "uploading": [],
   "posts": [
@@ -522,6 +525,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-26T06:25:17.206344+00:00"
+    },
+    {
+      "clip_id": "twitch:HedonisticNeighborlyLardDeIlluminati-w5NozIWD899mNCWt",
+      "video_id": "3VW0LoxLQJ0",
+      "url": "https://youtube.com/shorts/3VW0LoxLQJ0",
+      "title": "PlaqueBoyMax Two Cups Got Chat PRESSED \ud83d\udc9a #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-26T20:40:32.025626+00:00"
+    },
+    {
+      "clip_id": "story:d171f0699963",
+      "video_id": "6uPSxV19kq0",
+      "url": "https://youtube.com/shorts/6uPSxV19kq0",
+      "title": "The Last Stall Standing \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_heart",
+      "posted_at": "2026-06-26T20:42:59.320427+00:00"
+    },
+    {
+      "clip_id": "brmovie:2f866631d581",
+      "video_id": "j7IBs02uJFg",
+      "url": "https://youtube.com/shorts/j7IBs02uJFg",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Marinara Nonna",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-26T20:45:29.003367+00:00"
     }
   ]
 }
