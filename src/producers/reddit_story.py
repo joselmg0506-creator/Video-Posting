@@ -108,9 +108,7 @@ def _fetch_posts(rc: dict) -> list[dict]:
 # ───────────────────────────────── scripting (LLM) ────────────────────────────────────
 
 def _keys_tail(target_words: int, illustrated: bool, scenes: int) -> str:
-    tail = f"""
-- "narration": the spoken text (~{target_words} words), clean/advertiser-friendly, no real
-  names or identifying details, ending on a line that invites comments.
+    common = """
 - "title": a YouTube-Shorts title, <= 80 chars, hooky, NO '#'.
 - "description": 1-2 sentences.
 - "hashtags": 3-6 lowercase tags, no '#'.
@@ -118,11 +116,43 @@ def _keys_tail(target_words: int, illustrated: bool, scenes: int) -> str:
 - "narrator": "boy" or "girl" — the gender of the kid telling this first-person story (used
   to pick a matching narrator voice)."""
     if illustrated:
-        tail += f"""
-- "scene_prompts": an array of EXACTLY {scenes} one-sentence image prompts illustrating the
-  story's beats IN ORDER. Keep characters and art style CONSISTENT across all of them. Never
-  put text or letters in the images."""
-    return tail
+        wps = max(4, round(target_words / max(1, scenes)))
+        return (f"""
+- "scenes": an array of EXACTLY {scenes} objects IN ORDER, each:
+    {{"text": "this beat's spoken narration — ONE vivid sentence (~{wps} words)",
+      "image": "a one-sentence picture prompt that depicts THIS beat's text"}}.
+  Reading every "text" in order, top to bottom, IS the full story — open with a strong hook and
+  land a satisfying twist by the end. Each "image" MUST depict exactly what its OWN "text" says
+  (so the picture matches what's being narrated). Keep characters and art style CONSISTENT across
+  images; never put text or letters in the images.""" + common)
+    return (f"""
+- "narration": the spoken text (~{target_words} words), clean/advertiser-friendly, no real
+  names or identifying details, ending on a line that invites comments.""" + common)
+
+
+def _seg_durations(seg_texts: list[str], words: list, total: float) -> list[float]:
+    """Time each scene to WHEN its text is spoken, from the TTS word timings (word, start, end),
+    so the picture matches the narration. Falls back to proportional-by-word-count without timings."""
+    counts = [max(1, len(t.split())) for t in seg_texts]
+    n = sum(counts) or 1
+    bounds, c = [0], 0
+    for k in counts:
+        c += k
+        bounds.append(c)
+    nw = len(words) if words else 0
+
+    def t_at(widx: int) -> float:
+        if nw < 2:
+            return total * widx / n
+        wi = min(nw - 1, max(0, round(widx * nw / n)))
+        return float(words[wi][1])   # the spoken word's start time ~ the segment boundary
+
+    durs = []
+    for i in range(len(seg_texts)):
+        t0 = t_at(bounds[i])
+        t1 = total if i == len(seg_texts) - 1 else t_at(bounds[i + 1])
+        durs.append(max(0.4, t1 - t0))
+    return durs
 
 
 def _llm_json(system: str, user: str, llm_cfg: dict, temperature: float | None = None) -> dict:
@@ -207,7 +237,16 @@ def _render_one(story: dict, item_id: str, channel: dict, cfg: dict) -> "object"
     if not pool:
         pool = rc.get("voices") or [rc.get("voice") or "en-US-AnaNeural"]
     voice = random.choice(pool)
-    narration = (story.get("narration") or "").strip()
+    # Illustrated: the scene texts ARE the narration, so each picture maps to the exact words
+    # being spoken (no drift). Fall back to the plain narration field otherwise.
+    scenes_list = story.get("scenes") or []
+    aligned = (visual == "ai_illustrated" and scenes_list
+               and all(isinstance(s, dict) and s.get("text") and s.get("image") for s in scenes_list))
+    if aligned:
+        seg_texts = [s["text"].strip() for s in scenes_list]
+        narration = " ".join(seg_texts)
+    else:
+        narration = (story.get("narration") or "").strip()
     if not narration:
         raise RuntimeError("empty narration")
     final = Path(cfg["paths"]["processed"]) / f"{item_id.replace(':', '_')}_final.mp4"
@@ -219,15 +258,24 @@ def _render_one(story: dict, item_id: str, channel: dict, cfg: dict) -> "object"
         adur = _probe_duration(audio) or (len(narration.split()) / WPM * 60)
 
         if visual == "ai_illustrated":
-            scene_prompts = story.get("scene_prompts") or []
-            if not scene_prompts:
-                raise RuntimeError("ai_illustrated visual requires scene_prompts from the LLM")
-            prompts = [f"{p}, {STORY_IMG_STYLE}" for p in scene_prompts]
-            images = visuals.gen_images(rc.get("image_provider", "fal"),
-                                        rc.get("image_model", "fal-ai/flux/schnell"),
-                                        prompts, tmp_dir)
-            bg = visuals.make_slideshow(images, adur + 0.4, tmp_dir / "bg.mp4", tmp_dir,
-                                        music_dir=rc.get("music_dir"))
+            if aligned:
+                prompts = [f"{s['image']}, {STORY_IMG_STYLE}" for s in scenes_list]
+                images = visuals.gen_images(rc.get("image_provider", "fal"),
+                                            rc.get("image_model", "fal-ai/flux/schnell"),
+                                            prompts, tmp_dir)
+                durs = _seg_durations(seg_texts, words, adur + 0.4)   # picture timed to its words
+                bg = visuals.make_slideshow(images, adur + 0.4, tmp_dir / "bg.mp4", tmp_dir,
+                                            music_dir=rc.get("music_dir"), durations=durs)
+            else:
+                scene_prompts = story.get("scene_prompts") or []
+                if not scene_prompts:
+                    raise RuntimeError("ai_illustrated visual requires 'scenes' or 'scene_prompts'")
+                prompts = [f"{p}, {STORY_IMG_STYLE}" for p in scene_prompts]
+                images = visuals.gen_images(rc.get("image_provider", "fal"),
+                                            rc.get("image_model", "fal-ai/flux/schnell"),
+                                            prompts, tmp_dir)
+                bg = visuals.make_slideshow(images, adur + 0.4, tmp_dir / "bg.mp4", tmp_dir,
+                                            music_dir=rc.get("music_dir"))
         else:
             bg = visuals.make_gameplay_bg(rc.get("broll_dir", "./data/broll_gameplay"),
                                           adur, tmp_dir / "bg.mp4")

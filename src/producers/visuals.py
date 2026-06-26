@@ -209,17 +209,24 @@ def pick_music(music_dir: str) -> Path | None:
 
 
 def make_slideshow(images: list[Path], seconds: float, out: Path, tmp_dir: Path,
-                   music_dir: str | None = None) -> Path:
-    """Ken-Burns slideshow: each still gets an equal slice with a slow zoom, concatenated,
-    then (if a track exists) a Content-ID-safe music bed mixed under it.
+                   music_dir: str | None = None, durations: list[float] | None = None) -> Path:
+    """Ken-Burns slideshow: each still gets a slice with a slow zoom, concatenated, then (if a
+    track exists) a Content-ID-safe music bed mixed under it.
+
+    `durations` (one entry per image) times each still to when its narration is spoken, so the
+    picture matches the story. Without it, images split `seconds` evenly.
 
     NOTE: the per-image command feeds a SINGLE frame (no -loop) so zoompan emits exactly
     `d` output frames — using -loop here makes zoompan multiply frames per looped input
     and effectively hang."""
     n = max(1, len(images))
-    seg = seconds / n
+    if durations and len(durations) == n:
+        segs = [max(0.4, d) for d in durations]
+    else:
+        segs = [seconds / n] * n
     seg_paths: list[Path] = []
     for i, img in enumerate(images):
+        seg = segs[i]
         sp = tmp_dir / f"seg_{i}.mp4"
         frames = max(2, int(round(seg * 30)))
         _run([
