@@ -5,12 +5,13 @@ name: post-shorts
 
 on:
   schedule:
-    # 3x/day, tuned for a TEXAS (US Central) audience. GitHub cron is always in UTC and does
-    # NOT follow daylight saving, so these are pinned to Central DAYLIGHT time (CDT, Mar–Nov).
-    # During winter (CST, Nov–Mar) every slot lands one hour earlier — still fine.
-    - cron: '0 17 * * *'   # 12:00 PM CT (11:00 AM in winter) — school-lunch phone window
+    # 3x/day, tuned for a TEXAS (US Central) audience and shifted to EVENING/NIGHT after the
+    # posting-time analysis showed midday is dead (noon/3pm ~5 views vs night dramatically higher
+    # across all 3 channels). GitHub cron is UTC and does NOT follow DST, so these are pinned to
+    # Central DAYLIGHT time (CDT); in winter (CST) each slot lands one hour earlier — still fine.
     - cron: '0 20 * * *'   # 3:00 PM  CT  (2:00 PM in winter) — after-school
-    - cron: '0 1  * * *'   # 8:00 PM  CT  (7:00 PM in winter) — evening prime time
+    - cron: '0 1  * * *'   # 8:00 PM  CT  (7:00 PM in winter) — prime evening
+    - cron: '0 4  * * *'   # 11:00 PM CT (10:00 PM in winter) — night (best-performing slot)
   workflow_dispatch: {}    # manual "Run workflow" button in the Actions tab (for testing)
 
 permissions:

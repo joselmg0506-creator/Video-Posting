@@ -25,7 +25,7 @@ from pathlib import Path
 from .config import env
 
 # UTC hours of the 3 daily posting slots (must mirror .github/workflows/post.yml cron).
-_SLOTS_UTC = [17, 20, 1]
+_SLOTS_UTC = [20, 1, 4]   # 3pm / 8pm / 11pm US Central
 
 # distinct accent per channel (assigned alphabetically) — warm "studio" trio from the design
 _PALETTE = ["#FF6B5E", "#3DDC97", "#7C9CFF", "#D9A441", "#FF9A6B", "#6BB6FF", "#E3B341"]
@@ -258,7 +258,7 @@ const API_KEY = __APIKEY__;
 const SLOTS = __SLOTS__;
 const SUGG = __SUGG__;                  // competitor-aware tips (or null -> built-in rules engine)
 const META = {};                       // channel -> {subs, totalViews, avatar}
-const SLOT_LABEL = {17:'12p',20:'3p',1:'8p'};
+const SLOT_LABEL = {20:'3p',1:'8p',4:'11p'};
 let TAB='all', WIN='all';
 const $=id=>document.getElementById(id);
 
