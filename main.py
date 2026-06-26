@@ -144,6 +144,19 @@ def gather_clips(cfg: dict) -> list[Clip]:
             except Exception as e:
                 print(f"  [youtube] {url}: {e}")
 
+    # Staged YouTube clips (downloaded locally, served from a Release) — this is how YouTube
+    # creators reach the cloud, where live YouTube download is bot-blocked. Treated as a youtube
+    # bucket so the creator-priority sort still applies to them.
+    if cfg["sources"].get("youtube_staged", {}).get("enabled", True):
+        try:
+            from src.sources.staged import available_clips
+            staged = available_clips(cfg)
+            if staged:
+                youtube_buckets.append(staged)
+                print(f"  [staged] {len(staged)} YouTube clip(s) from the cloud cache")
+        except Exception as e:
+            print(f"  [staged] unavailable: {e}")
+
     # Order buckets type-alternating (streamer, game, youtube, ...), then round-robin clips.
     ordered = _round_robin([streamer_buckets, game_buckets, youtube_buckets])
     clips = _round_robin(ordered)
@@ -160,6 +173,9 @@ def download_clip(clip: Clip, dest: Path) -> Path:
         return download_twitch(clip, dest)
     if clip.source == "youtube":
         return yt_download(clip, dest)
+    if clip.source == "youtube_staged":
+        from src.sources.staged import download_staged
+        return download_staged(clip, dest)
     raise ValueError(f"Unknown source: {clip.source}")
 
 
@@ -218,17 +234,20 @@ def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[Post
         try:
             print(f"    downloading: {clip.title!r}")
             raw = download_clip(clip, downloads)
-            out = processed / f"{clip.id.replace(':', '_')}.mp4"
-            print(f"    processing → {out.name}")
-            process_video(
-                raw,
-                out,
-                width=cfg["processing"]["target_width"],
-                height=cfg["processing"]["target_height"],
-                fit=cfg["processing"]["fit_mode"],
-                max_duration=cfg["processing"]["max_duration_seconds"],
-                peak_trim=cfg["processing"].get("peak_trim", True),
-            )
+            if clip.source == "youtube_staged":
+                out = raw   # already 9:16 + trimmed when it was staged locally — skip re-processing
+            else:
+                out = processed / f"{clip.id.replace(':', '_')}.mp4"
+                print(f"    processing → {out.name}")
+                process_video(
+                    raw,
+                    out,
+                    width=cfg["processing"]["target_width"],
+                    height=cfg["processing"]["target_height"],
+                    fit=cfg["processing"]["fit_mode"],
+                    max_duration=cfg["processing"]["max_duration_seconds"],
+                    peak_trim=cfg["processing"].get("peak_trim", True),
+                )
             if transform_on:
                 print("    transforming (AI commentary + voiceover + captions)…")
             item = build_item(clip, out, cfg)
@@ -444,6 +463,9 @@ def main() -> None:
                     help="with --dashboard, build the file but don't auto-open it")
     ap.add_argument("--suggestions", action="store_true",
                     help="generate competitor-aware improvement tips (data/suggestions.json) and exit")
+    ap.add_argument("--stage-youtube", dest="stage_youtube", action="store_true",
+                    help="download top YouTube clips locally + push to the cloud 'yt-clips' "
+                         "Release (run on your laptop; only stages, never posts)")
     args = ap.parse_args()
 
     cfg = load_config()
@@ -477,6 +499,11 @@ def main() -> None:
     if args.suggestions:
         from src.suggestions import generate
         generate(state, cfg)
+        return
+
+    if args.stage_youtube:
+        from src.sources.staged import stage
+        stage(state, cfg)
         return
 
     _cleanup_media(cfg)   # free disk: prune old local downloads/renders (never YouTube/state)

@@ -158,8 +158,9 @@ def _download_segment(clip: Clip, dest_dir: Path, start: float, end: float, tag:
         "outtmpl": out,
         "format": "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
         "merge_output_format": "mp4", "quiet": True, "no_warnings": True,
+        # download only this time window; cut at keyframes (no ffmpeg re-encode — the re-encode
+        # path errors on mid-video ranges, and we peak-trim afterward so exact start doesn't matter)
         "download_ranges": yt_dlp.utils.download_range_func(None, [(start, end)]),
-        "force_keyframes_at_cuts": True,
         **_common_opts(),
     }
     with yt_dlp.YoutubeDL(opts) as y:
