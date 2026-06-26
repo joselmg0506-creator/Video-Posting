@@ -294,13 +294,24 @@ def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
         title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
         title = title[:100]
         tags = list(ycfg.get("tags", [])) + it.hashtags
+        # Visible, clickable hashtags in the DESCRIPTION drive discovery — YouTube shows the first
+        # 3 above the title. Lead with the AI's niche/creator hashtags, then #Shorts + channel tags;
+        # dedup + cap at 8 (YouTube ignores ALL hashtags if a video has >15).
+        seen, htags = set(), []
+        for h in (it.hashtags + ["shorts"] + list(ycfg.get("tags", []))):
+            h = str(h).lstrip("#").strip().replace(" ", "")
+            if h and h.lower() not in seen:
+                seen.add(h.lower())
+                htags.append(h)
+        hashtag_line = " ".join("#" + h for h in htags[:8])
+        description = ((it.description or "").strip() + "\n\n" + hashtag_line).strip()[:5000]
         print(f"  posting (youtube shorts): {title!r}")
         state.begin(it.item_id)   # durable in-progress marker BEFORE the API call
         try:
             video_id = poster.post(
                 it.path,
                 title=title,
-                description=it.description,
+                description=description,
                 privacy=ycfg.get("privacy", "private"),
                 category_id=ycfg.get("category_id", "24"),
                 tags=tags,
