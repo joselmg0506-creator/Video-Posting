@@ -27,7 +27,8 @@ def _common_opts() -> dict:
     order and uses the first that resolves. This is best-effort — datacenter-IP blocking is
     fundamentally unreliable, so Twitch stays the dependable source for clips."""
     opts = {"extractor_args": {"youtube": {"player_client": ["tv", "mweb", "web_safari", "ios", "web"]}},
-            "retries": 5}
+            "retries": 5,
+            "socket_timeout": 30}   # abort a stalled download so the unattended stage task never hangs
     opts.update(_cookie_opts())
     return opts
 
