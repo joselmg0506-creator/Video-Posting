@@ -55,7 +55,9 @@ head; Tung Tung Tung Sahur = a wooden baseball-bat creature with a face holding 
 Bombardiro Crocodilo = a green military-bomber-plane crocodile hybrid).
 
 Return ONLY a JSON object:
-- "title": <= 80 chars, hooky, NO '#'.
+- "title": <= 80 chars, hooky, NO '#'. ALL-CAPS the character names plus a key word, add ONE
+  emoji, and a NUMBER when it fits (e.g. "BOMBARDIRO vs CAPPUCCINA: 3 SECONDS TO CHAOS 💥") —
+  the top Italian-brainrot Shorts use ALL-CAPS, emojis, and numbers.
 - "description": 1-2 sentences.
 - "hashtags": 3-6 lowercase tags, no '#' (include brainrot, italianbrainrot).
 - "hook": a 3-6 word ALL-CAPS on-screen banner.

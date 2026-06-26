@@ -4,10 +4,7 @@ Running list of what we want to build next. Newest priorities at the top.
 Each item gets its own file in this folder once we start scoping it.
 
 ## Up next
-- [ ] **Apply the title-pattern findings** → our generated titles use ~0% emojis/numbers/ALL-CAPS,
-  but niche leaders use them heavily (clips 83% emoji, characters 83% CAPS + 42% num). Update the
-  title-generation prompts in the producers to match the winning patterns. (Surfaced by the
-  competitor playbook below.)
+- [ ] (nothing queued — pick the next idea from Backlog, or react to the dashboard playbook)
 
 ## Backlog / someday
 - [ ] Confirm Google OAuth consent screen is **Published** (Testing → In production) so tokens don't expire after ~7 days
@@ -15,6 +12,9 @@ Each item gets its own file in this folder once we start scoping it.
 - [ ] (optional) commit `data/history.json` daily for REAL day-over-day trend lines + reliable WoW deltas
 
 ## Done
+- [x] **Title patterns matched to leaders** — title prompts now add emojis + ALL-CAPS hooks (and
+      numbers when natural): clips "Kai LOSES IT 😂", brainrot "CAPPUCCINA vs BOMBARDIRO 💥",
+      stories "New Kid DESTROYED The Bully 😱" — closing the 0%→winning-pattern gap
 - [x] **Compare videos/metrics vs creators (deeper)** — `src/suggestions.py` now benchmarks
       structured TITLE patterns (word count, emoji/CAPS/number/question %) + LENGTH, leaders vs us;
       tips cite the exact gaps; dashboard shows a "Title & length playbook · vs leaders" per channel

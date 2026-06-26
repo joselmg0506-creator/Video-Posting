@@ -30,7 +30,9 @@ Return ONLY a JSON object, no prose, with these keys:
   CRAZY", "NO WAY". Punchy, reaction-style, specific to what's happening, no emojis.
 - "commentary": spoken voiceover text used ONLY if narrate is true (else ""), <= {max_words}
   words, plain spoken sentences specific to this clip.
-- "title": a punchy title (<= 80 chars) matching the moment.
+- "title": a punchy title (<= 80 chars) matching the moment. Include ONE relevant emoji and a
+  SHORT ALL-CAPS hook word for emphasis (e.g. "Kai Cenat LOSES IT Over Speed 😂") — the top
+  streamer-clip Shorts almost always use an emoji.
 - "description": a 1-2 sentence varied description.
 - "hashtags": an array of 3-6 lowercase tags, no '#' symbol.
 - "quality": an integer 1-10 — how strong this is as a STANDALONE Short. 10 = grabbing hook

@@ -109,7 +109,9 @@ def _fetch_posts(rc: dict) -> list[dict]:
 
 def _keys_tail(target_words: int, illustrated: bool, scenes: int) -> str:
     common = """
-- "title": a YouTube-Shorts title, <= 80 chars, hooky, NO '#'.
+- "title": a YouTube-Shorts title, <= 80 chars, hooky, NO '#'. Add ONE relevant emoji and, when
+  it fits naturally, a specific NUMBER (e.g. "I Held It For 3 HOURS 😭") — winning kid-story
+  Shorts lean on emojis and numbers in the title.
 - "description": 1-2 sentences.
 - "hashtags": 3-6 lowercase tags, no '#'.
 - "hook": a 3-6 word ALL-CAPS-friendly on-screen banner.
