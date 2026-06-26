@@ -64,8 +64,11 @@ Return ONLY a JSON object:
   same.
 - "scenes": an array of EXACTLY {scenes} scene objects IN ORDER, each
   {{"description", "present", "motion", "speaker", "line"}}:
-    - "description": what is VISIBLE in this picture (the speaker should be the prominent
-      creature in frame, doing what the line is about — so the picture MATCHES the line).
+    - "description": the SPECIFIC dramatic scene the line is about — show the speaker creature
+      IN that exact moment/action (e.g. if the line threatens to feed someone to the crocodiles,
+      show that creature looming over crocodiles; if it reveals a prophecy, show the prophecy).
+      The PICTURE must literally illustrate what is being SAID in this scene's line — vivid and
+      specific, never a generic standing portrait — so the visuals always track the story.
     - "present": array of character names visible here (must include the speaker).
     - "motion": how things move in this shot (used only if animation is on; otherwise ignored).
     - "speaker": the ONE character name who talks in this scene.

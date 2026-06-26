@@ -30,8 +30,10 @@ from ..transform.script import _extract_json
 from . import visuals
 
 WPM = 150
-STORY_IMG_STYLE = ("cinematic digital illustration, consistent storybook art style, "
-                   "moody dramatic lighting, vertical 9:16 composition, no text")
+STORY_IMG_STYLE = ("simple hand-drawn doodle illustration, like a quick fun sketch drawn by hand "
+                   "with markers, bold rough outlines, flat solid colors, plain white background, "
+                   "charming and goofy, NOT realistic, no 3D, no cinematic, no text, vertical 9:16, "
+                   "consistent simple style across every image")
 
 _TOKEN: str | None = None
 _TOKEN_EXP: float = 0.0
@@ -261,6 +263,12 @@ def produce(channel: dict, cfg: dict, state, cap: int) -> list:
     source = rc.get("source", "reddit")
     illustrated = rc.get("visual", "gameplay") == "ai_illustrated"
     scenes = int(rc.get("scenes", 5))
+    if illustrated:
+        # Dense slideshow: ~one fresh hand-drawn image every `seconds_per_image` (~3s), so the
+        # visual keeps changing and tracks the narration (the format from the reference video).
+        spi = max(1.5, float(rc.get("seconds_per_image", 3)))
+        tsec = float(rc.get("target_seconds", 50))
+        scenes = max(scenes, min(20, int((tsec + spi - 1) // spi)))
     target_words = max(40, int(rc.get("target_seconds", 50) / 60 * WPM))
     lcfg = cfg["transform"]["llm"]
     items: list = []

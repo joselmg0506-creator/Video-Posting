@@ -215,7 +215,9 @@ channels:
       tags: [shorts, story, storytime, fyp, reels]
     reddit_story:
       source: original          # original (AI writes its own) | reddit (rewrite top posts)
-      visual: gameplay          # gameplay (looped b-roll) | ai_illustrated (per-scene Flux)
+      visual: ai_illustrated    # ai_illustrated = dense hand-drawn slideshow synced to the story
+                                # | gameplay = looped gameplay b-roll (the old style)
+      seconds_per_image: 3      # a fresh hand-drawn image every ~3s (image count scales with length)
       target_seconds: 45        # narration length (kept short/punchy for Shorts)
       # Narrator voices split by gender so the voice MATCHES the kid telling the story.
       # The AI tags each first-person story's narrator boy/girl; a random voice from that
