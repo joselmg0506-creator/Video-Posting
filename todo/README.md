@@ -41,6 +41,10 @@ hook, green-screen subscribe overlay, paid/ElevenLabs TTS, Gemini image provider
 atempo speed-fit, Haar faces (YuNet is better), per-niche YAML refactor. See workflow run wf_0e1020bf.
 
 ## Done (recent)
+- [x] **Clip cliffhanger fix** (commit f131be3) — clips no longer stop mid-sentence. `process()`
+      now transcript-snaps the cut to the sentence boundary nearest the target length (faster-whisper
+      punctuation), allowing up to `processing.end_grace_seconds` (6) past the cap to finish a thought;
+      best-effort fallback to the hard cap. Runs at staging for staged clips (no cloud cost).
 - [x] **LLM-as-judge clip ranker** (`src/clip_judge.py`) — before downloading, Claude scores each
       candidate clip on hook/clarity/shareability (1-5 each) from its title+views+length, and we
       post the best one WITHIN each creator-priority tier (Kai/Speed order preserved; the judge
