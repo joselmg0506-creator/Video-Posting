@@ -3,8 +3,17 @@
 Running list of what we want to build next. Newest priorities at the top.
 Each item gets its own file in this folder once we start scoping it.
 
-## Up next
-- [ ] (nothing queued — pick the next idea from Backlog, or react to the dashboard playbook)
+## Focus right now: make the VIDEOS as good as possible
+Strategy (set 2026-06-27): perfect video creation/quality on YouTube FIRST. Distribution
+(cross-posting to TikTok/IG) is deferred until we see videos actually landing — 3× of low
+views is still low; prove the content can pop on one platform, then multiply it.
+
+## Up next — video quality
+- [ ] Audit each channel's output end-to-end and list the concrete quality gaps (clips: crop/
+      zoom, pacing, hook in first 1s; stories: narration naturalness + image sync; brainrot:
+      voice clarity + scene-to-line alignment). Then knock them down one by one.
+- [ ] Candidate levers (pull from these): tighter hooks/cold-opens, caption timing polish,
+      Italian-voice Kokoro for brainrot, better thumbnails/first-frame, scene-image alignment.
 
 ## Done (recent)
 - [x] **LLM-as-judge clip ranker** (`src/clip_judge.py`) — before downloading, Claude scores each
@@ -32,6 +41,16 @@ Each item gets its own file in this folder once we start scoping it.
 - [x] **Title patterns + length** matched to niche leaders
 
 ## Backlog / someday
+- [ ] 🚀 **Cross-post to TikTok + IG Reels** — GATED: only once video creation is consistently good
+      (see Focus above). Biggest *reach* lever; TikTok is the native home of brainrot + reddit-story
+      formats, so it also tests a 2nd algorithm that may suit the content better than YT Shorts.
+      Two paths: (a) **relay** (Post for Me / PostPeer / upload-post, ~$3/mo at ~270 posts/mo) —
+      a pre-approved middleman that posts to TikTok+IG via one API, skipping the platform audits;
+      live in days, stays unattended, but a paid 3rd-party dependency. (b) **direct API (free)** —
+      native TikTok Content Posting API + IG Reels Graph API, but needs TikTok audit (2–6 wks, posts
+      forced private until approved) + IG Business acct & App Review (2–4 wks). Recommendation: start
+      with brainrot → TikTok to validate, then expand. Code is ~1 call after render; the cost is the
+      audits (direct) or the fee (relay). See `data/info` §7 for the exact API flows.
 - [ ] ⚠️ Confirm Google OAuth consent screen is **Published** (Testing → In production) so tokens
       don't expire after ~7 days — the #1 silent-failure risk for the unattended poster (USER action)
 - [x] commit `data/history.json` daily for REAL day-over-day trend lines — DONE: `main.py --snapshot`
