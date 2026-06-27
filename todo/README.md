@@ -19,15 +19,17 @@ the genuine polish gaps, ranked by impact-per-effort. Knock them down top to bot
 - [ ] **2. Music bed + speech-aware ducking on CLIPS** (medium, clips) — clips have NO music layer;
       add a Content-ID-safe bed looped+ducked (drop to ~0.12 during speech regions, ~0.25 in gaps
       using the word timings we already compute). `src/transform/compose.py` (3rd amix branch).
-- [ ] **3. Seed-pinned character images** (small, brainrot) — pin one Flux `seed` per character so
-      creatures stop drifting shape/color between scenes. `src/producers/visuals.py` (thread seed) +
-      `brainrot_movie.py` (assign stable seed/character). Biggest credibility fix for characters.
+- [x] **3. Seed-pinned character images** (small, brainrot) — DONE (commit 8e44167). `seeds` threaded
+      through visuals gen functions; brainrot assigns a stable sha1-derived seed per character and
+      seeds each scene on its speaker. Best-effort consistency (not a LoRA); shows on next render.
 - [ ] **4. Free caption timing from per-line TTS durations** (medium, stories) — derive caption
       windows from known Kokoro per-scene/per-line durations; skip a faster-whisper pass (whisper
       stays as fallback for long lines). `reddit_story.py` _seg_durations + `brainrot_movie.py`.
-- [ ] **5. Clip-judge overlap-dedupe + content-type hint** (small, clips) — drop candidates that
-      overlap >50% with an already-kept higher-scored one; inject a reaction/chatting/gameplay hint
-      into the judge prompt. `src/clip_judge.py` + `src/sources/staged.py`.
+- [x] **5. Clip-judge same-video dedupe + content-type hint** (small, clips) — DONE (commit d943134).
+      Staged peaks from one video (youtube:VID:120/:340) are grouped by _video_key and runners-up
+      demoted so a different video is picked first (variety); judge prompt now infers clip type
+      (reaction vs just-chatting) and weighs the hook accordingly. NB: literal time-overlap was
+      already prevented at staging (_pick_segments spaces peaks ≥1.2×clip_len).
 - [ ] **6. AI thumbnail / cover frame** (medium, all) — Pillow: word-wrap a 3-4-word ALL-CAPS title
       into the lower third over the best/cold-open frame, drawn twice (black shadow + white). New
       `src/transform/thumbnail.py`; reuse endcard.py frame grab + script.py title.
