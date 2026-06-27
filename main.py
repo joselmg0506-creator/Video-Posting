@@ -339,6 +339,7 @@ def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
                       .get("niche_hashtags", {}).get(channel.get("name"), []))
     except Exception:
         pass
+    thumb_on = bool((cfg.get("transform", {}).get("thumbnail", {}) or {}).get("enabled", True))
     posted = 0
     for it in items:
         title = it.title if "#shorts" in it.title.lower() else f"{it.title} #Shorts"
@@ -355,6 +356,10 @@ def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
                 htags.append(h)
         hashtag_line = " ".join("#" + h for h in htags[:8])
         description = ((it.description or "").strip() + "\n\n" + hashtag_line).strip()[:5000]
+        thumb = None
+        if thumb_on:
+            from src.transform.thumbnail import make_thumbnail
+            thumb = make_thumbnail(it.path, it.title, Path(it.path).with_suffix(".thumb.jpg"))
         print(f"  posting (youtube shorts): {title!r}")
         state.begin(it.item_id)   # durable in-progress marker BEFORE the API call
         try:
@@ -366,6 +371,7 @@ def _post_youtube(items: list[PostItem], channel: dict, cfg: dict,
                 category_id=ycfg.get("category_id", "24"),
                 tags=tags,
                 contains_synthetic_media=it.ai_label,
+                thumbnail_path=thumb,
             )
         except QuotaExceeded as e:
             state.clear_pending(it.item_id)   # rejected before upload → safe to retry later

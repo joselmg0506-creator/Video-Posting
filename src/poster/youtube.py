@@ -68,6 +68,7 @@ class YouTubeShortsPoster:
         category_id: str = "24",
         tags: list[str] | None = None,
         contains_synthetic_media: bool = False,
+        thumbnail_path: Path | None = None,
     ) -> str:
         body = {
             "snippet": {
@@ -110,4 +111,17 @@ class YouTubeShortsPoster:
                     raise
                 attempt += 1
                 time.sleep(min(2 ** attempt, 30))
-        return response["id"]
+
+        video_id = response["id"]
+        # Custom cover, best-effort: the video is already live, so a thumbnail failure (channel not
+        # enabled for custom thumbnails, quota, etc.) must NEVER fail the post — just log and move on.
+        if thumbnail_path and Path(thumbnail_path).exists():
+            try:
+                self._service.thumbnails().set(
+                    videoId=video_id,
+                    media_body=MediaFileUpload(str(thumbnail_path), mimetype="image/jpeg"),
+                ).execute()
+                print("    set custom thumbnail")
+            except Exception as e:
+                print(f"    thumbnail not set ({type(e).__name__}: {str(e)[:120]})")
+        return video_id

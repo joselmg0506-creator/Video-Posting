@@ -172,6 +172,12 @@ transform:
     loop_seconds: 0.5        # how long to echo frame 1 at the end
     cta_font_size: 46
 
+  # Custom cover/thumbnail: grab a midpoint frame + overlay a bold ALL-CAPS title (upper third,
+  # clear of captions) and upload it via the YouTube API. Best-effort — channels not enabled for
+  # custom thumbnails just keep the auto-picked frame. No image model/GPU (Pillow + ffmpeg).
+  thumbnail:
+    enabled: true
+
   # Disclose as AI-assisted on every post (YouTube containsSyntheticMedia / TikTok is_aigc).
   # Labeling has no reach/monetization penalty and avoids strikes for non-disclosure.
   ai_label: true

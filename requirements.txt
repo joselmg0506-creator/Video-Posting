@@ -14,3 +14,4 @@ librosa>=0.10           # beat detection for the music-edit mode
 soundfile>=0.12         # audio I/O for librosa
 matplotlib>=3.8         # daily metrics dashboard image
 opencv-python-headless>=4.9   # YuNet face detection for the 'track' smart-crop fit mode
+Pillow>=10.1            # custom thumbnail/cover title overlay (scalable default font needs >=10.1)
