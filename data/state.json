@@ -42,7 +42,9 @@
     "brmovie:bc4cc5a2d5ac",
     "twitch:HedonisticNeighborlyLardDeIlluminati-w5NozIWD899mNCWt",
     "story:d171f0699963",
-    "brmovie:2f866631d581"
+    "brmovie:2f866631d581",
+    "story:32d63a57fe60",
+    "brmovie:79d7bda07bc4"
   ],
   "uploading": [],
   "posts": [
@@ -561,6 +563,30 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-26T20:45:29.003367+00:00"
+    },
+    {
+      "clip_id": "story:32d63a57fe60",
+      "video_id": "gSVEwKaS-AE",
+      "url": "https://youtube.com/shorts/gSVEwKaS-AE",
+      "title": "The Bully's Secret Got EXPOSED \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-06-27T01:43:45.417872+00:00"
+    },
+    {
+      "clip_id": "brmovie:79d7bda07bc4",
+      "video_id": "6whvS1ExI2c",
+      "url": "https://youtube.com/shorts/6whvS1ExI2c",
+      "title": "TUNG TUNG TUNG SAHUR vs BALLERINA CAPPUCCINA: 5 SECOND MARRIAGE \ud83d\udc92 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Spatulo Inferno",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-27T01:48:38.954487+00:00"
     }
   ]
 }
