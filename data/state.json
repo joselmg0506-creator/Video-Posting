@@ -44,7 +44,10 @@
     "story:d171f0699963",
     "brmovie:2f866631d581",
     "story:32d63a57fe60",
-    "brmovie:79d7bda07bc4"
+    "brmovie:79d7bda07bc4",
+    "twitch:TameDeafSalamanderWow-1YMfChpNyrmx55Rp",
+    "story:79658eed6aac",
+    "brmovie:8208f251aaaa"
   ],
   "uploading": [],
   "posts": [
@@ -587,6 +590,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-27T01:48:38.954487+00:00"
+    },
+    {
+      "clip_id": "twitch:TameDeafSalamanderWow-1YMfChpNyrmx55Rp",
+      "video_id": "3Pin2jhT5jw",
+      "url": "https://youtube.com/shorts/3Pin2jhT5jw",
+      "title": "Rakai SPINNING FOR LOVE \ud83d\udc95 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-27T03:58:51.073397+00:00"
+    },
+    {
+      "clip_id": "story:79658eed6aac",
+      "video_id": "1L3WUn1vbj0",
+      "url": "https://youtube.com/shorts/1L3WUn1vbj0",
+      "title": "I Had To Pee During The TALENT SHOW \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-06-27T04:00:47.773897+00:00"
+    },
+    {
+      "clip_id": "brmovie:8208f251aaaa",
+      "video_id": "uPFZE8kqw7Q",
+      "url": "https://youtube.com/shorts/uPFZE8kqw7Q",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA INCIDENT \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Nonna Funghi",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-27T04:02:47.338292+00:00"
     }
   ]
 }
