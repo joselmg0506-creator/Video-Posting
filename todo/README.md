@@ -41,6 +41,12 @@ hook, green-screen subscribe overlay, paid/ElevenLabs TTS, Gemini image provider
 atempo speed-fit, Haar faces (YuNet is better), per-niche YAML refactor. See workflow run wf_0e1020bf.
 
 ## Done (recent)
+- [x] **Creator rotation + Speed clips fix** (commit 5b9f5a8) — IShowSpeed (and other lower-priority
+      creators) never posted because strict priority let Kai (rank 0) monopolize every run. Added
+      creator ROTATION (`sources.rotate_window`, default 4): demote creators posted in the last N
+      runs so others get airtime, priority still ordering within each bucket. Also tag staged search
+      clips with the searched creator (`ishowspeed funny clips` → creator `ishowspeed`) so they match
+      priority instead of ranking last. Verified: with last 4 posts = Kai, IShowSpeed rises to top.
 - [x] **Clip cliffhanger fix** (commit f131be3) — clips no longer stop mid-sentence. `process()`
       now transcript-snaps the cut to the sentence boundary nearest the target length (faster-whisper
       punctuation), allowing up to `processing.end_grace_seconds` (6) past the cap to finish a thought;
