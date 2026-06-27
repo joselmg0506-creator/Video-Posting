@@ -7,6 +7,16 @@ Each item gets its own file in this folder once we start scoping it.
 - [ ] (nothing queued — pick the next idea from Backlog, or react to the dashboard playbook)
 
 ## Done (recent)
+- [x] **LLM-as-judge clip ranker** (`src/clip_judge.py`) — before downloading, Claude scores each
+      candidate clip on hook/clarity/shareability (1-5 each) from its title+views+length, and we
+      post the best one WITHIN each creator-priority tier (Kai/Speed order preserved; the judge
+      only re-ranks a creator's own clips). Cheap (one metadata-only call/run on the transform
+      LLM), best-effort (any failure falls back to the old order). Verified live: it floated Kai's
+      "WILDEST Try Not To Laugh 😂" (16.8M views) over "Streamer University applications". Toggle:
+      `sources.clip_judge.enabled`. From the `data/info` research brief.
+      NOTE: skipped two-pass loudnorm from the same brief — audio is entangled in compose's
+      filter_complex, so it'd need a full extra render pass/clip (~2x time) for a minor gain;
+      single-pass already hits the -14 LUFS target.
 - [x] **Niche hashtag analysis** — `--suggestions` now scrapes the hashtags the niche LEADERS
       actually use (their video descriptions), ranks them by how many leaders use each, and
       stores `niche_hashtags` per channel in suggestions.json. New uploads blend these into the

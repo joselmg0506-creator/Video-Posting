@@ -160,11 +160,23 @@ def gather_clips(cfg: dict) -> list[Clip]:
     # Order buckets type-alternating (streamer, game, youtube, ...), then round-robin clips.
     ordered = _round_robin([streamer_buckets, game_buckets, youtube_buckets])
     clips = _round_robin(ordered)
-    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. A stable sort
-    # keeps the round-robin variety WITHIN each priority rank.
+
+    # LLM-as-judge: score candidates by predicted "pop" (hook/clarity/shareability) on metadata
+    # alone — no downloads. Scores are applied UNDER creator priority below, so the judge only
+    # reorders within a tier (post a creator's BEST clip, not just their first). Best-effort.
+    jcfg = cfg["sources"].get("clip_judge", {})
+    scores: dict[str, float] = {}
+    if jcfg.get("enabled", True) and cfg.get("transform", {}).get("enabled") and clips:
+        from src.clip_judge import score_clips
+        scores = score_clips(clips, cfg["transform"]["llm"], top_k=int(jcfg.get("top_k", 12)))
+
+    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. Within a tier,
+    # the judge's score breaks ties (higher = better); a stable sort keeps round-robin variety
+    # when scores are equal or absent.
     priority = cfg["sources"].get("priority_creators") or []
-    if priority:
-        clips.sort(key=lambda c: _creator_rank(getattr(c, "creator", ""), priority))
+    if priority or scores:
+        clips.sort(key=lambda c: (_creator_rank(getattr(c, "creator", ""), priority),
+                                  -scores.get(c.id, 0.0)))
     return clips
 
 

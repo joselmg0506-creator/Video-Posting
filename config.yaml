@@ -86,6 +86,15 @@ sources:
     keep: 14                       # max clips kept in the cloud cache (older ones pruned)
     download_cap_seconds: 600      # cap for opening-window/fallback downloads (bounds size)
 
+  # LLM-as-judge clip ranker: before downloading, Claude scores each candidate clip on
+  # hook / clarity / shareability (1-5 each) from its title + views + length, and we post the
+  # best one WITHIN each creator-priority tier (never overrides the creator hierarchy above).
+  # Cheap (one metadata-only call/run, uses the transform LLM) and best-effort — any failure
+  # falls back to the prior order. Needs transform.enabled + ANTHROPIC_API_KEY.
+  clip_judge:
+    enabled: true
+    top_k: 12                      # how many top candidates to score per run (bounds cost)
+
 processing:
   max_duration_seconds: 35   # 15-35s is the Shorts retention sweet spot (was 60)
   target_width: 1080
