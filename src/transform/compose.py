@@ -90,8 +90,8 @@ def _phrases(words: list[tuple[str, float, float]], max_words: int = 4, max_gap:
 
 
 def _ass_header(caption_font: int, hook_font: int) -> str:
-    # Caption style: Secondary (white) = upcoming word, Primary (yellow) = highlighted word,
-    # so \k karaoke pops each word yellow as it's spoken. Lifted to MarginV=520 (clear of UI).
+    # Caption style: base words are WHITE (Primary); the active word is recoloured yellow AND
+    # scaled up inline, per word (see _word_pop), for the modern "pop" look. MarginV=520 (UI-safe).
     return (
         "[Script Info]\n"
         "ScriptType: v4.00+\n"
@@ -103,7 +103,7 @@ def _ass_header(caption_font: int, hook_font: int) -> str:
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
         "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
         "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        f"Style: Caption,Arial,{caption_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
+        f"Style: Caption,Arial,{caption_font},&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,"
         "1,0,0,0,100,100,0,0,1,4,1,2,80,80,520,1\n"
         f"Style: Hook,Arial,{hook_font},&H0000FFFF,&H00FFFFFF,&H00000000,&H64000000,"
         "1,0,0,0,100,100,0,0,1,5,2,8,60,60,300,1\n"
@@ -117,6 +117,20 @@ def _ass_header(caption_font: int, hook_font: int) -> str:
 
 # Inline colours (ASS &HBBGGRR): yellow, white, green — cycled across labels.
 _LABEL_COLORS = ["&H0000FFFF&", "&H00FFFFFF&", "&H0000FF00&"]
+
+# Active-word "pop": the spoken word turns yellow and scales up with a quick pop-in bounce while
+# the rest of the phrase stays white — the modern Shorts/Hormozi caption look. Kept modest so the
+# centre-aligned line doesn't reflow too much as the highlight moves word to word.
+_HL_COLOR = "&H0000FFFF&"     # yellow (ASS BBGGRR)
+_HL_SCALE = 112              # settled size of the active word, % of base
+_HL_POP = 130               # size it pops in from
+_HL_POP_MS = 90             # pop-in duration (ms), eased back to _HL_SCALE
+
+
+def _word_pop(word: str) -> str:
+    """Wrap a (already _safe'd) word so it renders bigger + yellow with a pop-in, then resets."""
+    return (f"{{\\c{_HL_COLOR}\\fscx{_HL_POP}\\fscy{_HL_POP}"
+            f"\\t(0,{_HL_POP_MS},\\fscx{_HL_SCALE}\\fscy{_HL_SCALE})}}{word}{{\\r}}")
 
 
 def _build_ass(
@@ -148,15 +162,17 @@ def _build_ass(
 
     if caption_words:
         for phrase in _phrases(caption_words):
-            start, end = phrase[0][1], phrase[-1][2] + 0.1
-            parts = []
-            for j, (word, ws, _we) in enumerate(phrase):
-                nxt = phrase[j + 1][1] if j + 1 < len(phrase) else phrase[j][2]
-                k = max(1, int(round((nxt - ws) * 100)))     # centiseconds for \k
-                parts.append(f"{{\\k{k}}}{_safe(word)} ")
-            events.append(
-                f"Dialogue: 0,{_fmt_ts(start)},{_fmt_ts(end)},Caption,,0,0,0,,{''.join(parts).strip()}"
-            )
+            end = phrase[-1][2] + 0.1
+            safe = [_safe(w[0]) for w in phrase]
+            # One line per word: the whole phrase stays readable while the active word pops.
+            # Each word is "active" from its own start until the next word's start (tiles the
+            # phrase timeline so exactly one word is highlighted at any instant).
+            edges = [w[1] for w in phrase] + [end]
+            for j in range(len(phrase)):
+                line = " ".join(_word_pop(s) if i == j else s for i, s in enumerate(safe))
+                events.append(
+                    f"Dialogue: 0,{_fmt_ts(edges[j])},{_fmt_ts(edges[j + 1])},Caption,,0,0,0,,{line}"
+                )
     elif captions_text:
         chunks = _chunk(captions_text, 5)
         per = max(captions_dur, 0.5) / len(chunks)
