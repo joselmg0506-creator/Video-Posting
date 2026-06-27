@@ -30,9 +30,11 @@ the genuine polish gaps, ranked by impact-per-effort. Knock them down top to bot
       demoted so a different video is picked first (variety); judge prompt now infers clip type
       (reaction vs just-chatting) and weighs the hook accordingly. NB: literal time-overlap was
       already prevented at staging (_pick_segments spaces peaks ≥1.2×clip_len).
-- [ ] **6. AI thumbnail / cover frame** (medium, all) — Pillow: word-wrap a 3-4-word ALL-CAPS title
-      into the lower third over the best/cold-open frame, drawn twice (black shadow + white). New
-      `src/transform/thumbnail.py`; reuse endcard.py frame grab + script.py title.
+- [x] **6. AI thumbnail / cover frame** (medium, all) — DONE (commit a391089). `src/transform/
+      thumbnail.py`: midpoint frame (past the hook) + bold ALL-CAPS title in the UPPER third (clear
+      of captions) with heavy outline; emoji/hashtags stripped, wrapped ≤3 lines. Uploaded via
+      poster `thumbnails().set` best-effort (toggle `transform.thumbnail.enabled`). NB: custom Shorts
+      covers need a channel verified for custom thumbnails — else it logs + keeps the auto frame.
 
 Skipped (deliberately): MoviePy editing-engine rewrite, stock-footage/Bing scraping, fake Reddit-card
 hook, green-screen subscribe overlay, paid/ElevenLabs TTS, Gemini image provider, TikTok-TTS proxies,
