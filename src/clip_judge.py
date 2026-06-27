@@ -63,6 +63,9 @@ def score_clips(clips: list[Clip], llm_cfg: dict, top_k: int = 12) -> dict[str, 
         "  hook — does the first second stop a scroll?\n"
         "  clarity — is it self-contained and understandable without the stream's context?\n"
         "  shareable — is it funny/shocking/relatable enough that someone sends it to a friend?\n"
+        "First infer each clip's TYPE from its title and weigh accordingly: a reaction / funny "
+        "moment / fail / IRL-chaos clip can win on the visual alone, but a 'just chatting' or "
+        "talking-head clip needs an unusually strong verbal hook to score well on hook & clarity. "
         "Favor titles that promise a clear payoff and clips with strong views relative to peers; "
         "penalize vague titles and inside-baseline stream chatter.\n\n" + "\n".join(lines)
     )

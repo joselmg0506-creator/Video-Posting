@@ -80,6 +80,19 @@ def _creator_rank(creator: str, priority: list[str]) -> int:
     return len(priority)
 
 
+def _video_key(clip) -> str:
+    """Source-video identity for same-video dedupe. Staged peaks append a ':<seconds>' offset to
+    the base video id ('youtube:VID:120'), so strip that offset so all peaks of ONE video share a
+    key. Gated to youtube_staged peak-shaped ids only — every other id (twitch slugs, youtube
+    search ids, even numeric ones) is returned unchanged so unrelated clips never collapse."""
+    cid = getattr(clip, "id", "") or ""
+    if getattr(clip, "source", "") == "youtube_staged":
+        base, sep, tail = cid.rpartition(":")
+        if sep and tail.isdigit() and ":" in base:      # base still holds 'source:videoid'
+            return base
+    return cid
+
+
 def gather_clips(cfg: dict) -> list[Clip]:
     """Pull clips into per-source buckets, order the buckets so streamer/game/YouTube
     types alternate, then round-robin the clips. Result: every run is a varied mix
@@ -170,13 +183,27 @@ def gather_clips(cfg: dict) -> list[Clip]:
         from src.clip_judge import score_clips
         scores = score_clips(clips, cfg["transform"]["llm"], top_k=int(jcfg.get("top_k", 12)))
 
-    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. Within a tier,
-    # the judge's score breaks ties (higher = better); a stable sort keeps round-robin variety
-    # when scores are equal or absent.
+    # Same-source-video dedupe: staged peaks from one video share an id prefix (youtube:VID:120,
+    # youtube:VID:340). Don't let two clips of the SAME video compete — rank within each video by
+    # score (then views) and demote the runners-up so a DIFFERENT video is picked first (variety),
+    # without dropping them (a later run can still use them).
+    from collections import defaultdict
+    groups: dict[str, list] = defaultdict(list)
+    for c in clips:
+        groups[_video_key(c)].append(c)
+    dup_rank: dict[str, int] = {}
+    for g in groups.values():
+        for rank, c in enumerate(sorted(g, key=lambda c: (-scores.get(c.id, 0.0),
+                                                          -(c.view_count or 0)))):
+            dup_rank[c.id] = rank
+
+    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. Within a tier we
+    # take the best clip of each distinct video before any second clip (dup_rank), then break ties
+    # by judge score; a stable sort keeps round-robin variety when scores are equal or absent.
     priority = cfg["sources"].get("priority_creators") or []
     if priority or scores:
         clips.sort(key=lambda c: (_creator_rank(getattr(c, "creator", ""), priority),
-                                  -scores.get(c.id, 0.0)))
+                                  dup_rank.get(c.id, 0), -scores.get(c.id, 0.0)))
     return clips
 
 
