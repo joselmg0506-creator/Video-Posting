@@ -13,9 +13,9 @@ From the 4-repo research sweep (2026-06-27, SamurAIGPT/MoneyPrinter/ShortGPT/rus
 our code). We already do the advanced version of most of what those repos are known for; these are
 the genuine polish gaps, ranked by impact-per-effort. Knock them down top to bottom.
 
-- [ ] **1. Per-word caption POP** (small, ALL channels) — active karaoke word scales bigger+bolder,
-      not just recolors yellow. Pure ASS, no deps. `src/transform/compose.py` _build_ass + style.
-      Biggest *visible* gap vs modern Shorts captions.
+- [x] **1. Per-word caption POP** (small, ALL channels) — DONE (commit 30d122a). Active word now
+      scales up (130→112% pop-in bounce) + turns yellow while the rest stay white; one Dialogue line
+      per word in `src/transform/compose.py` (_word_pop). Verified via real render + frame grabs.
 - [ ] **2. Music bed + speech-aware ducking on CLIPS** (medium, clips) — clips have NO music layer;
       add a Content-ID-safe bed looped+ducked (drop to ~0.12 during speech regions, ~0.25 in gaps
       using the word timings we already compute). `src/transform/compose.py` (3rd amix branch).
