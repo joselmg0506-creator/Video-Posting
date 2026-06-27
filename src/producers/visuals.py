@@ -39,38 +39,51 @@ def _download(url: str, dest: Path) -> Path:
     return dest
 
 
+def _seed_at(seeds: "list[int | None] | None", i: int) -> "int | None":
+    """The seed for prompt i, or None. Pinning a stable seed per recurring subject makes Flux
+    render it more consistently across images (best-effort identity, not a LoRA)."""
+    if seeds and i < len(seeds) and seeds[i] is not None:
+        return int(seeds[i])
+    return None
+
+
 def gen_images(provider: str, model: str, prompts: list[str], out_dir: Path,
-               image_size: str = "portrait_16_9") -> list[Path]:
+               image_size: str = "portrait_16_9",
+               seeds: "list[int | None] | None" = None) -> list[Path]:
     if provider == "fal":
-        return _gen_fal(model, prompts, out_dir, image_size)
+        return _gen_fal(model, prompts, out_dir, image_size, seeds)
     if provider == "replicate":
-        return _gen_replicate(model, prompts, out_dir)
+        return _gen_replicate(model, prompts, out_dir, seeds)
     raise ValueError(f"Unknown image_provider: {provider!r} (use 'fal' or 'replicate')")
 
 
-def _gen_fal(model: str, prompts: list[str], out_dir: Path, image_size: str) -> list[Path]:
+def _gen_fal(model: str, prompts: list[str], out_dir: Path, image_size: str,
+             seeds: "list[int | None] | None" = None) -> list[Path]:
     key = env("FAL_KEY", required=True)
     headers = {"Authorization": f"Key {key}", "Content-Type": "application/json"}
     paths: list[Path] = []
     for i, prompt in enumerate(prompts):
-        r = requests.post(
-            f"https://fal.run/{model}",
-            headers=headers,
-            json={"prompt": prompt, "image_size": image_size, "num_images": 1},
-            timeout=180,
-        )
+        payload = {"prompt": prompt, "image_size": image_size, "num_images": 1}
+        seed = _seed_at(seeds, i)
+        if seed is not None:
+            payload["seed"] = seed
+        r = requests.post(f"https://fal.run/{model}", headers=headers, json=payload, timeout=180)
         r.raise_for_status()
         url = r.json()["images"][0]["url"]
         paths.append(_download(url, out_dir / f"img_{i}.jpg"))
     return paths
 
 
-def _gen_replicate(model: str, prompts: list[str], out_dir: Path) -> list[Path]:
+def _gen_replicate(model: str, prompts: list[str], out_dir: Path,
+                   seeds: "list[int | None] | None" = None) -> list[Path]:
     import replicate
     paths: list[Path] = []
     for i, prompt in enumerate(prompts):
-        out = replicate.run(model, input={"prompt": prompt, "aspect_ratio": "9:16",
-                                          "num_outputs": 1})
+        inp = {"prompt": prompt, "aspect_ratio": "9:16", "num_outputs": 1}
+        seed = _seed_at(seeds, i)
+        if seed is not None:
+            inp["seed"] = seed
+        out = replicate.run(model, input=inp)
         url = str(out[0] if isinstance(out, (list, tuple)) else out)
         paths.append(_download(url, out_dir / f"img_{i}.jpg"))
     return paths
@@ -83,15 +96,18 @@ def _fal_headers() -> dict:
 
 
 def gen_image_urls(model: str, prompts: list[str],
-                   image_size: str = "portrait_16_9") -> list[str]:
+                   image_size: str = "portrait_16_9",
+                   seeds: "list[int | None] | None" = None) -> list[str]:
     """Generate Flux stills and return their fal-hosted URLs (NOT downloaded) so they can be
     fed straight into the image-to-video model. fal.ai only."""
     headers = _fal_headers()
     urls: list[str] = []
-    for prompt in prompts:
-        r = requests.post(f"https://fal.run/{model}", headers=headers,
-                          json={"prompt": prompt, "image_size": image_size, "num_images": 1},
-                          timeout=180)
+    for i, prompt in enumerate(prompts):
+        payload = {"prompt": prompt, "image_size": image_size, "num_images": 1}
+        seed = _seed_at(seeds, i)
+        if seed is not None:
+            payload["seed"] = seed
+        r = requests.post(f"https://fal.run/{model}", headers=headers, json=payload, timeout=180)
         r.raise_for_status()
         urls.append(r.json()["images"][0]["url"])
     return urls

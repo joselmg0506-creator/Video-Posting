@@ -109,6 +109,13 @@ def _write_movie(llm_cfg: dict, scenes: int) -> dict:
 _NORM_VF = ("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1")
 
 
+def _char_seed(name: str) -> int:
+    """Stable per-character image seed (derived from the name) so the same creature renders
+    consistently across this film's scenes — and across films — instead of drifting in
+    shape/colour each scene. Best-effort identity pinning, not a LoRA."""
+    return int(hashlib.sha1(name.strip().lower().encode()).hexdigest()[:8], 16) % 2_000_000_000
+
+
 def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object":
     bc = channel["brainrot_movie"]
     tcfg = cfg.get("transform", {})
@@ -123,6 +130,7 @@ def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object"
     cast_app = {c["name"]: c.get("appearance", "") for c in chars if c.get("name")}
     char_voice = {c["name"]: ITALIAN_VOICES[i % len(ITALIAN_VOICES)]
                   for i, c in enumerate(chars)}
+    char_seed = {name: _char_seed(name) for name in cast_app}   # consistent look per creature
     default_voice = ITALIAN_VOICES[0]
     final = Path(cfg["paths"]["processed"]) / f"{item_id.replace(':', '_')}_final.mp4"
 
@@ -140,6 +148,7 @@ def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object"
             # for exactly the length of the line — i.e. the picture MATCHES what's being said.
             speaker = sc.get("speaker") or (chars[0]["name"] if chars else "")
             voice = char_voice.get(speaker, default_voice)
+            seed = char_seed.get(speaker)   # seed on the focal/speaking creature for consistency
             line = (sc.get("line") or "").strip()
             audio, words = (None, None)
             if line:
@@ -150,7 +159,7 @@ def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object"
             clip = tmp_dir / f"clip_{i}.mp4"
             if animate_mode:
                 # animated: still -> fal image-to-video (retry once on a flaky response) -> normalize
-                url = visuals.gen_image_urls(img_model, [img])[0]
+                url = visuals.gen_image_urls(img_model, [img], seeds=[seed])[0]
                 motion = (sc.get("motion") or "dynamic motion") + ", chaotic brainrot energy, smooth animation"
                 raw = None
                 for attempt in range(2):
@@ -167,7 +176,7 @@ def _render_one(movie: dict, item_id: str, channel: dict, cfg: dict) -> "object"
                               "-pix_fmt", "yuv420p", str(clip)])
             else:
                 # stills (cheap, default): one dramatic picture shown for the length of its line
-                still = visuals.gen_images("fal", img_model, [img], tmp_dir)[0]
+                still = visuals.gen_images("fal", img_model, [img], tmp_dir, seeds=[seed])[0]
                 visuals.still_clip(still, line_dur + 0.4, clip)
 
             # composite: line audio + karaoke caption on the clip (hook only on scene 0)
