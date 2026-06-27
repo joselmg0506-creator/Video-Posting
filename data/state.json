@@ -47,7 +47,10 @@
     "brmovie:79d7bda07bc4",
     "twitch:TameDeafSalamanderWow-1YMfChpNyrmx55Rp",
     "story:79658eed6aac",
-    "brmovie:8208f251aaaa"
+    "brmovie:8208f251aaaa",
+    "youtube:1f67838c4acf",
+    "story:f56f47607458",
+    "brmovie:f369648e7e97"
   ],
   "uploading": [],
   "posts": [
@@ -626,6 +629,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-27T04:02:47.338292+00:00"
+    },
+    {
+      "clip_id": "youtube:1f67838c4acf",
+      "video_id": "xybxRYP5eLg",
+      "url": "https://youtube.com/shorts/xybxRYP5eLg",
+      "title": "Kai Cenat LOSES IT During Try Not To Laugh \ud83d\ude02 #Shorts",
+      "creator": "Kai Cenat Live",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-27T05:17:38.633811+00:00"
+    },
+    {
+      "clip_id": "story:f56f47607458",
+      "video_id": "QndEpPy5yM4",
+      "url": "https://youtube.com/shorts/QndEpPy5yM4",
+      "title": "New Kid Broke The Bathroom Record \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-06-27T05:19:53.601039+00:00"
+    },
+    {
+      "clip_id": "brmovie:f369648e7e97",
+      "video_id": "GHA1-ODUDv8",
+      "url": "https://youtube.com/shorts/GHA1-ODUDv8",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO 2 SIPS \ud83d\udd25 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-27T05:22:35.006530+00:00"
     }
   ]
 }
