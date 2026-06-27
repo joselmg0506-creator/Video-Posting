@@ -168,6 +168,21 @@ def _download_segment(clip: Clip, dest_dir: Path, start: float, end: float, tag:
         return Path(y.prepare_filename(info)).with_suffix(".mp4")
 
 
+def _norm(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+
+def _query_creator(query: str, priority: list[str]) -> str | None:
+    """If a search query names a priority creator (e.g. 'ishowspeed funny clips'), return that
+    creator so the staged clip is tagged with it — otherwise search clips get the random uploader
+    channel name ('Speedy Boykins', 'ViralClipszzz') and never match the creator priority."""
+    nq = _norm(query)
+    for p in priority:
+        if _norm(p) and _norm(p) in nq:
+            return p
+    return None
+
+
 def _ytsearch(query: str, n: int) -> list[Clip]:
     """Surface viral clips via yt-dlp search (no API quota)."""
     import yt_dlp
@@ -270,17 +285,21 @@ def stage(state, cfg: dict) -> None:
     # 2) viral curated clips via search. "<creator> clips" mostly surfaces COMPILATIONS, so we
     #    prefer genuine short clips, and for longer ones download just the first ~150s and
     #    peak-trim to the best 35s (a compilation is wall-to-wall highlights anyway).
+    prio = cfg["sources"].get("priority_creators") or []
     for q in clip_searches:
         try:
             results = _ytsearch(q, per_search + 8)
         except Exception as e:
             print(f"  [stage] search {q!r} failed: {e}")
             continue
+        hint = _query_creator(q, prio)   # tag e.g. 'ishowspeed funny clips' results as 'ishowspeed'
         results.sort(key=lambda c: c.duration or 9999)   # genuine short clips before compilations
         n = 0
         for clip in results:
             if n >= per_search:
                 break
+            if hint:
+                clip.creator = hint
             d = clip.duration or 0
             kind = "clip" if d and d <= 180 else "compilation→peak"
             print(f"  [stage] search {q!r}: {clip.title[:46]!r} ({kind})")

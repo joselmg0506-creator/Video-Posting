@@ -93,7 +93,7 @@ def _video_key(clip) -> str:
     return cid
 
 
-def gather_clips(cfg: dict) -> list[Clip]:
+def gather_clips(cfg: dict, state: "State | None" = None) -> list[Clip]:
     """Pull clips into per-source buckets, order the buckets so streamer/game/YouTube
     types alternate, then round-robin the clips. Result: every run is a varied mix
     rather than one source filling the per-run cap."""
@@ -197,12 +197,30 @@ def gather_clips(cfg: dict) -> list[Clip]:
                                                           -(c.view_count or 0)))):
             dup_rank[c.id] = rank
 
-    # Creator hierarchy: clip the top streamers/YouTubers FIRST, then the rest. Within a tier we
-    # take the best clip of each distinct video before any second clip (dup_rank), then break ties
-    # by judge score; a stable sort keeps round-robin variety when scores are equal or absent.
+    # Creator ROTATION: demote creators we posted in the last few runs so DIFFERENT creators get
+    # airtime. Without this, strict priority lets the #1 creator (Kai) monopolize every run and
+    # lower-priority creators (e.g. IShowSpeed) never surface. Recently-posted creators sort into a
+    # later bucket; within each bucket priority still applies, so top creators still appear often.
+    window = int(cfg["sources"].get("rotate_window", 4))
+    recent: set[str] = set()
+    if state is not None and window > 0:
+        try:
+            cp = [p for p in state.posts()
+                  if p.get("channel") == "clips"
+                  or p.get("source") in ("twitch", "youtube", "youtube_staged")]
+            cp.sort(key=lambda p: p.get("posted_at", ""))
+            recent = {_norm_creator(p.get("creator", "")) for p in cp[-window:] if p.get("creator")}
+        except Exception:
+            recent = set()
+
+    def _recent_penalty(creator: str) -> int:
+        return 1 if _norm_creator(creator) in recent else 0
+
+    # Sort: (not-recently-posted first) -> creator priority -> best clip per distinct video -> score.
     priority = cfg["sources"].get("priority_creators") or []
-    if priority or scores:
-        clips.sort(key=lambda c: (_creator_rank(getattr(c, "creator", ""), priority),
+    if priority or scores or recent:
+        clips.sort(key=lambda c: (_recent_penalty(getattr(c, "creator", "")),
+                                  _creator_rank(getattr(c, "creator", ""), priority),
                                   dup_rank.get(c.id, 0), -scores.get(c.id, 0.0)))
     return clips
 
@@ -256,7 +274,7 @@ def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[Post
     transform_on = bool(cfg.get("transform", {}).get("enabled"))
 
     print("  gathering clips…")
-    clips = gather_clips(cfg)
+    clips = gather_clips(cfg, state)
     print(f"    found {len(clips)}")
 
     items: list[PostItem] = []
