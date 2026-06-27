@@ -9,11 +9,32 @@ Strategy (set 2026-06-27): perfect video creation/quality on YouTube FIRST. Dist
 views is still low; prove the content can pop on one platform, then multiply it.
 
 ## Up next — video quality
-- [ ] Audit each channel's output end-to-end and list the concrete quality gaps (clips: crop/
-      zoom, pacing, hook in first 1s; stories: narration naturalness + image sync; brainrot:
-      voice clarity + scene-to-line alignment). Then knock them down one by one.
-- [ ] Candidate levers (pull from these): tighter hooks/cold-opens, caption timing polish,
-      Italian-voice Kokoro for brainrot, better thumbnails/first-frame, scene-image alignment.
+From the 4-repo research sweep (2026-06-27, SamurAIGPT/MoneyPrinter/ShortGPT/rushindrasinha vs
+our code). We already do the advanced version of most of what those repos are known for; these are
+the genuine polish gaps, ranked by impact-per-effort. Knock them down top to bottom.
+
+- [ ] **1. Per-word caption POP** (small, ALL channels) — active karaoke word scales bigger+bolder,
+      not just recolors yellow. Pure ASS, no deps. `src/transform/compose.py` _build_ass + style.
+      Biggest *visible* gap vs modern Shorts captions.
+- [ ] **2. Music bed + speech-aware ducking on CLIPS** (medium, clips) — clips have NO music layer;
+      add a Content-ID-safe bed looped+ducked (drop to ~0.12 during speech regions, ~0.25 in gaps
+      using the word timings we already compute). `src/transform/compose.py` (3rd amix branch).
+- [ ] **3. Seed-pinned character images** (small, brainrot) — pin one Flux `seed` per character so
+      creatures stop drifting shape/color between scenes. `src/producers/visuals.py` (thread seed) +
+      `brainrot_movie.py` (assign stable seed/character). Biggest credibility fix for characters.
+- [ ] **4. Free caption timing from per-line TTS durations** (medium, stories) — derive caption
+      windows from known Kokoro per-scene/per-line durations; skip a faster-whisper pass (whisper
+      stays as fallback for long lines). `reddit_story.py` _seg_durations + `brainrot_movie.py`.
+- [ ] **5. Clip-judge overlap-dedupe + content-type hint** (small, clips) — drop candidates that
+      overlap >50% with an already-kept higher-scored one; inject a reaction/chatting/gameplay hint
+      into the judge prompt. `src/clip_judge.py` + `src/sources/staged.py`.
+- [ ] **6. AI thumbnail / cover frame** (medium, all) — Pillow: word-wrap a 3-4-word ALL-CAPS title
+      into the lower third over the best/cold-open frame, drawn twice (black shadow + white). New
+      `src/transform/thumbnail.py`; reuse endcard.py frame grab + script.py title.
+
+Skipped (deliberately): MoviePy editing-engine rewrite, stock-footage/Bing scraping, fake Reddit-card
+hook, green-screen subscribe overlay, paid/ElevenLabs TTS, Gemini image provider, TikTok-TTS proxies,
+atempo speed-fit, Haar faces (YuNet is better), per-niche YAML refactor. See workflow run wf_0e1020bf.
 
 ## Done (recent)
 - [x] **LLM-as-judge clip ranker** (`src/clip_judge.py`) — before downloading, Claude scores each
