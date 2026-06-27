@@ -107,6 +107,50 @@ def _peak_start(src: Path, max_duration: int) -> float:
     return max(0.0, min(peak - lead, dur - max_duration))
 
 
+def _ends_sentence(word: str) -> bool:
+    """True if a (whisper) word token ends a sentence — terminal punctuation, ignoring any
+    trailing closing quote/bracket the model attached."""
+    return word.rstrip("\")'”’").endswith((".", "!", "?"))
+
+
+def _snap_end(src: Path, start: float, max_duration: int,
+              grace: float = 6.0, model: str = "base", language: str = "en") -> float:
+    """Choose a cut DURATION that ends on a complete sentence so the clip doesn't stop on a
+    cliffhanger. Transcribes the candidate window from `start`, then picks the sentence-ending
+    boundary CLOSEST to the target length, allowing up to `grace` extra seconds to finish a
+    thought. Best-effort: returns max_duration on no transcript / no boundary / any failure.
+
+    For staged clips this runs at staging time (laptop), so it adds no cloud cost."""
+    cap = float(max_duration)
+    dur = _duration(src) or 0.0
+    win = min(cap + grace, dur - start)
+    if win <= cap * 0.5:                      # not enough material to bother snapping
+        return cap
+    try:
+        from ..transform.transcribe import transcribe
+        with tempfile.TemporaryDirectory(prefix="vp_snap_") as td:
+            wav = Path(td) / "a.wav"
+            r = subprocess.run(
+                ["ffmpeg", "-y", "-ss", f"{start:.2f}", "-i", str(src), "-t", f"{win:.2f}",
+                 "-vn", "-ac", "1", "-ar", "16000", str(wav)],
+                capture_output=True,
+            )
+            if r.returncode != 0 or not wav.exists():
+                return cap
+            words = transcribe(wav, model=model, language=language)   # times relative to `start`
+    except Exception as e:
+        print(f"  [end-snap] skipped ({type(e).__name__}: {e})")
+        return cap
+    floor = cap * 0.5                         # don't snap to a too-short clip
+    ceiling = cap + grace
+    ends = [we for (w, _ws, we) in words if _ends_sentence(w) and floor <= we <= ceiling]
+    if not ends:
+        return cap
+    chosen = min(ends, key=lambda e: abs(e - cap))   # sentence end nearest the target length
+    print(f"  [end-snap] ending on a sentence at {chosen:.1f}s (cap {int(cap)}s, +{grace:g}s grace)")
+    return min(chosen + 0.3, win)            # small tail pad, never past the available window
+
+
 def _build_filter(width: int, height: int, fit: str) -> str:
     """Build an ffmpeg filtergraph that fits arbitrary input into width x height."""
     if fit == "crop":
@@ -140,10 +184,21 @@ def process(
     max_duration: int = 60,
     peak_trim: bool = True,
     track_zoom: float = 1.0,
+    end_snap: bool = False,
+    end_grace: float = 6.0,
+    snap_model: str = "base",
 ) -> Path:
     dest.parent.mkdir(parents=True, exist_ok=True)
     # Cold-open on the highlight instead of the clip's first seconds.
     start = _peak_start(src, max_duration) if peak_trim else 0.0
+
+    # End on a complete sentence (no cliffhangers) instead of a hard time cut — only when we're
+    # actually slicing a window out of a LONGER source (short curated clips already end cleanly).
+    dur = _duration(src) or 0.0
+    if end_snap and dur > max_duration:
+        length = _snap_end(src, start, max_duration, grace=end_grace, model=snap_model)
+    else:
+        length = float(max_duration)
 
     if fit == "track":
         # Smart crop: follow the streamer's face so they stay centered (not cut off). Falls
@@ -151,7 +206,7 @@ def process(
         tracked = None
         try:
             from .facetrack import track_crop_x
-            tracked = track_crop_x(src, start, float(max_duration), zoom=track_zoom)
+            tracked = track_crop_x(src, start, length, zoom=track_zoom)
         except Exception as e:
             print(f"  [track] face-tracking unavailable ({e}); using center crop")
         if tracked:
@@ -184,7 +239,7 @@ def process(
         cmd += ["-ss", f"{start:.2f}"]      # input seek (fast) to the peak window
     cmd += [
         "-i", str(src),
-        "-t", str(max_duration),
+        "-t", f"{length:.2f}",
         filter_flag, vf,
         "-c:v", "libx264",
         "-preset", "medium",

@@ -287,6 +287,10 @@ def produce_clips(channel: dict, cfg: dict, state: State, cap: int) -> list[Post
                     max_duration=cfg["processing"]["max_duration_seconds"],
                     peak_trim=cfg["processing"].get("peak_trim", True),
                     track_zoom=float(cfg["processing"].get("track_zoom", 1.0)),
+                    end_snap=bool(cfg["processing"].get("end_snap", True)),
+                    end_grace=float(cfg["processing"].get("end_grace_seconds", 6)),
+                    snap_model=cfg.get("transform", {}).get("captions", {})
+                                  .get("asr", {}).get("model", "base"),
                 )
             if transform_on:
                 print("    transforming (AI commentary + voiceover + captions)…")

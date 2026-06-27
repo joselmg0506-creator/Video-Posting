@@ -222,7 +222,11 @@ def stage(state, cfg: dict) -> None:
         out = processed / (re.sub(r"[^A-Za-z0-9_-]", "_", seg_id) + "_staged.mp4")
         process_video(raw, out, width=pc["target_width"], height=pc["target_height"],
                       fit=pc["fit_mode"], max_duration=clip_len, peak_trim=pc.get("peak_trim", True),
-                      track_zoom=float(pc.get("track_zoom", 1.0)))
+                      track_zoom=float(pc.get("track_zoom", 1.0)),
+                      end_snap=bool(pc.get("end_snap", True)),
+                      end_grace=float(pc.get("end_grace_seconds", 6)),
+                      snap_model=cfg.get("transform", {}).get("captions", {})
+                                    .get("asr", {}).get("model", "base"))
         asset = out.with_name(_safe(seg_id))
         if asset != out:
             shutil.copy(out, asset)

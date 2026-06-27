@@ -105,6 +105,10 @@ processing:
                        # in) | <1.0 = wider view around the face with blurred top/bottom (0.8 ~ 25%
                        # more scene visible). Lower = more zoomed out / more of the scene.
   peak_trim: true      # cold-open on the loudest moment instead of the clip's first seconds
+  end_snap: true       # end clips on a COMPLETE SENTENCE (transcript-aware) instead of a hard
+                       # time cut, so a clip never stops mid-thought on a cliffhanger. Runs at
+                       # staging time for staged clips, so it adds no cloud cost.
+  end_grace_seconds: 6 # allow up to this many seconds past max_duration to finish a sentence
 
 # Transformative layer: AI commentary + voiceover + captions per clip.
 # This is what moves the content out of YouTube's "reused/inauthentic content" and
