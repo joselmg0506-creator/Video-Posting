@@ -53,7 +53,10 @@
     "brmovie:f369648e7e97",
     "youtube:58ae2c1a8c15",
     "story:f1311fd92c38",
-    "brmovie:2a204cb7b84a"
+    "brmovie:2a204cb7b84a",
+    "youtube:a7aabade26c2:0",
+    "story:cef933f3c614",
+    "brmovie:1d0e4c74423b"
   ],
   "uploading": [],
   "posts": [
@@ -704,6 +707,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-27T06:24:20.097793+00:00"
+    },
+    {
+      "clip_id": "youtube:a7aabade26c2:0",
+      "video_id": "5N_1KptGKF4",
+      "url": "https://youtube.com/shorts/5N_1KptGKF4",
+      "title": "IShowSpeed WORLD CUP 2026 TOUR \ud83c\udf0d #Shorts",
+      "creator": "IShowSpeed - Videos",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-27T20:27:54.498045+00:00"
+    },
+    {
+      "clip_id": "story:cef933f3c614",
+      "video_id": "JoaGPUnug3I",
+      "url": "https://youtube.com/shorts/JoaGPUnug3I",
+      "title": "The Bathroom Emergency NO ONE Saw Coming \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_heart",
+      "posted_at": "2026-06-27T20:30:02.384574+00:00"
+    },
+    {
+      "clip_id": "brmovie:1d0e4c74423b",
+      "video_id": "Kdn72PSGc30",
+      "url": "https://youtube.com/shorts/Kdn72PSGc30",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Ballerina Cappuccina",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-27T20:32:16.565884+00:00"
     }
   ]
 }
