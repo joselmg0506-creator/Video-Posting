@@ -62,7 +62,10 @@
     "brmovie:6997414216ae",
     "twitch:CrazyAthleticTardigradePartyTime-RbmjblRfJXChU9p7",
     "story:e9df730441b6",
-    "brmovie:d94a2a0bb5f1"
+    "brmovie:d94a2a0bb5f1",
+    "twitch:ArtsyPlayfulWatermelonPMSTwin-EAL3CjsoULJ5W8Z3",
+    "story:c8098648f844",
+    "brmovie:6cc78ee7442c"
   ],
   "uploading": [],
   "posts": [
@@ -821,6 +824,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-28T05:36:33.991252+00:00"
+    },
+    {
+      "clip_id": "twitch:ArtsyPlayfulWatermelonPMSTwin-EAL3CjsoULJ5W8Z3",
+      "video_id": "OeePTua7Wx0",
+      "url": "https://youtube.com/shorts/OeePTua7Wx0",
+      "title": "PlaqueBoyMax BLOWS OUT His Mic \ud83d\udc80 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-28T20:32:24.615332+00:00"
+    },
+    {
+      "clip_id": "story:c8098648f844",
+      "video_id": "v7uasAxCDbM",
+      "url": "https://youtube.com/shorts/v7uasAxCDbM",
+      "title": "I Proved It Wasn't Me \ud83c\udfa5 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-06-28T20:34:36.056733+00:00"
+    },
+    {
+      "clip_id": "brmovie:6cc78ee7442c",
+      "video_id": "kdbHvgE18pk",
+      "url": "https://youtube.com/shorts/kdbHvgE18pk",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca3 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Prophecy Nonna",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-28T20:37:15.187981+00:00"
     }
   ]
 }
