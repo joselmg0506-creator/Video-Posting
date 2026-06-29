@@ -71,7 +71,10 @@
     "brmovie:3ff03a7fa307",
     "youtube:a7aabade26c2:46",
     "story:a89f4adddb77",
-    "brmovie:efc49514f462"
+    "brmovie:efc49514f462",
+    "twitch:ResilientTsundereSwanDatBoi-yKqvXY7E1Ozrkgiw",
+    "story:463b5141caa4",
+    "brmovie:ccd17844e37d"
   ],
   "uploading": [],
   "posts": [
@@ -938,6 +941,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-29T05:39:43.635063+00:00"
+    },
+    {
+      "clip_id": "twitch:ResilientTsundereSwanDatBoi-yKqvXY7E1Ozrkgiw",
+      "video_id": "cdXjVkFpDJA",
+      "url": "https://youtube.com/shorts/cdXjVkFpDJA",
+      "title": "Fishing Rod SLAPS Face \ud83c\udfa3 OUCH #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-29T20:43:37.241915+00:00"
+    },
+    {
+      "clip_id": "story:463b5141caa4",
+      "video_id": "dPvwUOkWDqA",
+      "url": "https://youtube.com/shorts/dPvwUOkWDqA",
+      "title": "I Traded Lunches With The New Girl \ud83c\udf71 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_heart",
+      "posted_at": "2026-06-29T20:45:55.762925+00:00"
+    },
+    {
+      "clip_id": "brmovie:ccd17844e37d",
+      "video_id": "s09QlWsBFcw",
+      "url": "https://youtube.com/shorts/s09QlWsBFcw",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S LATTE \ud83d\udd25 CHAOS ERUPTS #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-29T20:48:42.002630+00:00"
     }
   ]
 }
