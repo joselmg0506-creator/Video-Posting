@@ -68,7 +68,10 @@
     "brmovie:6cc78ee7442c",
     "twitch:DistinctAmazonianDinosaurMVGame-ROm5BsV-OCaoCA2W",
     "story:536d050cc86f",
-    "brmovie:3ff03a7fa307"
+    "brmovie:3ff03a7fa307",
+    "youtube:a7aabade26c2:46",
+    "story:a89f4adddb77",
+    "brmovie:efc49514f462"
   ],
   "uploading": [],
   "posts": [
@@ -899,6 +902,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-29T01:56:54.319726+00:00"
+    },
+    {
+      "clip_id": "youtube:a7aabade26c2:46",
+      "video_id": "fhHw8ZkMA1o",
+      "url": "https://youtube.com/shorts/fhHw8ZkMA1o",
+      "title": "IShowSpeed WORLD CUP 2026 TOUR \ud83c\udf0d #Shorts",
+      "creator": "IShowSpeed - Videos",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-29T05:32:22.818745+00:00"
+    },
+    {
+      "clip_id": "story:a89f4adddb77",
+      "video_id": "I6k35ihbvas",
+      "url": "https://youtube.com/shorts/I6k35ihbvas",
+      "title": "I Ate the MYSTERY Taco \ud83c\udf2e (BIGGEST MISTAKE) #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_michael",
+      "posted_at": "2026-06-29T05:36:57.364153+00:00"
+    },
+    {
+      "clip_id": "brmovie:efc49514f462",
+      "video_id": "tmBn8neBo9o",
+      "url": "https://youtube.com/shorts/tmBn8neBo9o",
+      "title": "BOMBARDIRO vs CAPPUCCINA: 5 SECONDS TO CAPPUCCINO WAR \ud83d\udca5 #Shorts",
+      "creator": "Bombardiro Crocodilo, Ballerina Cappuccina, Espresso Gorilla",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-29T05:39:43.635063+00:00"
     }
   ]
 }
