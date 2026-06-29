@@ -65,7 +65,10 @@
     "brmovie:d94a2a0bb5f1",
     "twitch:ArtsyPlayfulWatermelonPMSTwin-EAL3CjsoULJ5W8Z3",
     "story:c8098648f844",
-    "brmovie:6cc78ee7442c"
+    "brmovie:6cc78ee7442c",
+    "twitch:DistinctAmazonianDinosaurMVGame-ROm5BsV-OCaoCA2W",
+    "story:536d050cc86f",
+    "brmovie:3ff03a7fa307"
   ],
   "uploading": [],
   "posts": [
@@ -860,6 +863,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-28T20:37:15.187981+00:00"
+    },
+    {
+      "clip_id": "twitch:DistinctAmazonianDinosaurMVGame-ROm5BsV-OCaoCA2W",
+      "video_id": "1wnDOJZ5f6g",
+      "url": "https://youtube.com/shorts/1wnDOJZ5f6g",
+      "title": "Ray PANICS Over Mystery \ud83d\udc80 #Shorts",
+      "creator": "Ray",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-29T01:49:46.591980+00:00"
+    },
+    {
+      "clip_id": "story:536d050cc86f",
+      "video_id": "YSAioq6lIEk",
+      "url": "https://youtube.com/shorts/YSAioq6lIEk",
+      "title": "Popular Kid's BIG Secret \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-06-29T01:52:11.278018+00:00"
+    },
+    {
+      "clip_id": "brmovie:3ff03a7fa307",
+      "video_id": "m652mrKWkHM",
+      "url": "https://youtube.com/shorts/m652mrKWkHM",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO 3X \ud83d\udd25 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Tralalero Tralala",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-29T01:56:54.319726+00:00"
     }
   ]
 }
