@@ -74,7 +74,10 @@
     "brmovie:efc49514f462",
     "twitch:ResilientTsundereSwanDatBoi-yKqvXY7E1Ozrkgiw",
     "story:463b5141caa4",
-    "brmovie:ccd17844e37d"
+    "brmovie:ccd17844e37d",
+    "twitch:FrigidEphemeralChipmunkUncleNox-DOpXk_nUJe-OYdwt",
+    "story:0d950c9a529c",
+    "brmovie:ff91b21c079f"
   ],
   "uploading": [],
   "posts": [
@@ -977,6 +980,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-29T20:48:42.002630+00:00"
+    },
+    {
+      "clip_id": "twitch:FrigidEphemeralChipmunkUncleNox-DOpXk_nUJe-OYdwt",
+      "video_id": "3eIs2naYX1k",
+      "url": "https://youtube.com/shorts/3eIs2naYX1k",
+      "title": "totaamc Gets MOBBED in Brazil \ud83c\udde7\ud83c\uddf7 #Shorts",
+      "creator": "totaamc",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-30T01:48:00.442666+00:00"
+    },
+    {
+      "clip_id": "story:0d950c9a529c",
+      "video_id": "Tn-R189mCHU",
+      "url": "https://youtube.com/shorts/Tn-R189mCHU",
+      "title": "Popular Girl's Secret Hobby \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_heart",
+      "posted_at": "2026-06-30T01:50:18.952424+00:00"
+    },
+    {
+      "clip_id": "brmovie:ff91b21c079f",
+      "video_id": "zZ9mmCbGhrI",
+      "url": "https://youtube.com/shorts/zZ9mmCbGhrI",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO: 90 SECONDS \u2615\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-30T01:53:13.393091+00:00"
     }
   ]
 }
