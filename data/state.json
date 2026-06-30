@@ -80,7 +80,10 @@
     "brmovie:ff91b21c079f",
     "twitch:AdorableManlyWaffleDansGame-jZ11-FYtDxNsfrUr",
     "story:0cb9405070bd",
-    "brmovie:b506d7e52852"
+    "brmovie:b506d7e52852",
+    "twitch:SourYummyPlumberBrokeBack-WxTAsSa5-XvXmmyR",
+    "story:21a6f734b56f",
+    "brmovie:fa4ea750d92a"
   ],
   "uploading": [],
   "posts": [
@@ -1055,6 +1058,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-06-30T05:29:46.139072+00:00"
+    },
+    {
+      "clip_id": "twitch:SourYummyPlumberBrokeBack-WxTAsSa5-XvXmmyR",
+      "video_id": "_xWAKfA43wg",
+      "url": "https://youtube.com/shorts/_xWAKfA43wg",
+      "title": "PlaqueBoyMax LOSES IT Over Chicken Wings \ud83d\ude2d #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-06-30T20:45:06.951634+00:00"
+    },
+    {
+      "clip_id": "story:21a6f734b56f",
+      "video_id": "_sE9mEBnTBk",
+      "url": "https://youtube.com/shorts/_sE9mEBnTBk",
+      "title": "I'm 3 FEET TALL but saved the whole school \ud83e\uddb8\u200d\u2640\ufe0f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-06-30T20:47:32.314655+00:00"
+    },
+    {
+      "clip_id": "brmovie:fa4ea750d92a",
+      "video_id": "egv05PM2tRA",
+      "url": "https://youtube.com/shorts/egv05PM2tRA",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO MACHINE \ud83d\udd28\u2615 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-06-30T20:50:32.525238+00:00"
     }
   ]
 }
