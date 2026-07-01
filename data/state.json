@@ -89,7 +89,10 @@
     "brmovie:d6a74c02880f",
     "twitch:AmazonianColorfulDelicataTheRinger-RfGUzmUBTyf9a59_",
     "story:b29550e03db2",
-    "brmovie:38e832cd1377"
+    "brmovie:38e832cd1377",
+    "twitch:ObliviousElatedGuanacoBIRB-OVIUDbRrL5QY_6sS",
+    "story:3f21e5b479f7",
+    "brmovie:f10aeab53c2b"
   ],
   "uploading": [],
   "posts": [
@@ -1172,6 +1175,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-01T05:37:34.363881+00:00"
+    },
+    {
+      "clip_id": "twitch:ObliviousElatedGuanacoBIRB-OVIUDbRrL5QY_6sS",
+      "video_id": "d42JeOdKnCA",
+      "url": "https://youtube.com/shorts/d42JeOdKnCA",
+      "title": "totaamc ASKS FOR A KISS \ud83d\udc80 #Shorts",
+      "creator": "totaamc",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-01T20:42:48.669869+00:00"
+    },
+    {
+      "clip_id": "story:3f21e5b479f7",
+      "video_id": "AFa6S1kkPm4",
+      "url": "https://youtube.com/shorts/AFa6S1kkPm4",
+      "title": "I Ruined The Talent Show \ud83d\udc80 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-01T20:45:27.257894+00:00"
+    },
+    {
+      "clip_id": "brmovie:f10aeab53c2b",
+      "video_id": "qOlH804Z_P0",
+      "url": "https://youtube.com/shorts/qOlH804Z_P0",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S RECIPE \ud83d\udd2a\u2615 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Tralalero Tralala",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-01T20:48:16.853809+00:00"
     }
   ]
 }
