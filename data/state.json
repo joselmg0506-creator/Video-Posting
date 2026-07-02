@@ -95,7 +95,10 @@
     "brmovie:f10aeab53c2b",
     "twitch:FunnyPeppyLampTwitchRPG-wFloDVps3BUdGCVN",
     "story:2cb726f73115",
-    "brmovie:731788ba7fd6"
+    "brmovie:731788ba7fd6",
+    "twitch:DarlingAttractiveSalmonBIRB-vrJBS7KcZ-bAP9Ec",
+    "story:28fdd9ec89a4",
+    "brmovie:307bc3e235ae"
   ],
   "uploading": [],
   "posts": [
@@ -1250,6 +1253,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-02T01:49:32.152822+00:00"
+    },
+    {
+      "clip_id": "twitch:DarlingAttractiveSalmonBIRB-vrJBS7KcZ-bAP9Ec",
+      "video_id": "gsXwd5OC3Hw",
+      "url": "https://youtube.com/shorts/gsXwd5OC3Hw",
+      "title": "PlaqueBoyMax BRINGS THE ENERGY \ud83d\udd25 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-02T05:22:15.987113+00:00"
+    },
+    {
+      "clip_id": "story:28fdd9ec89a4",
+      "video_id": "FN_P-sqFkGM",
+      "url": "https://youtube.com/shorts/FN_P-sqFkGM",
+      "title": "My Bully Best Friend Got DESTROYED \ud83d\ude2d #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-02T05:24:58.878782+00:00"
+    },
+    {
+      "clip_id": "brmovie:307bc3e235ae",
+      "video_id": "dUDHPjbfTw8",
+      "url": "https://youtube.com/shorts/dUDHPjbfTw8",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, The Noodle Oracle",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-02T05:28:09.945557+00:00"
     }
   ]
 }
