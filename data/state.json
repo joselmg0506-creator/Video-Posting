@@ -92,7 +92,10 @@
     "brmovie:38e832cd1377",
     "twitch:ObliviousElatedGuanacoBIRB-OVIUDbRrL5QY_6sS",
     "story:3f21e5b479f7",
-    "brmovie:f10aeab53c2b"
+    "brmovie:f10aeab53c2b",
+    "twitch:FunnyPeppyLampTwitchRPG-wFloDVps3BUdGCVN",
+    "story:2cb726f73115",
+    "brmovie:731788ba7fd6"
   ],
   "uploading": [],
   "posts": [
@@ -1211,6 +1214,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-01T20:48:16.853809+00:00"
+    },
+    {
+      "clip_id": "twitch:FunnyPeppyLampTwitchRPG-wFloDVps3BUdGCVN",
+      "video_id": "MZtF2jnX_Kk",
+      "url": "https://youtube.com/shorts/MZtF2jnX_Kk",
+      "title": "Agent00 Gets DESTROYED By Chat \ud83d\udc80 #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-02T01:44:19.570746+00:00"
+    },
+    {
+      "clip_id": "story:2cb726f73115",
+      "video_id": "pe4WI1lrxOg",
+      "url": "https://youtube.com/shorts/pe4WI1lrxOg",
+      "title": "I Filled His Sandwich With GLITTER \ud83c\udf1f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-07-02T01:46:54.271629+00:00"
+    },
+    {
+      "clip_id": "brmovie:731788ba7fd6",
+      "video_id": "aJHuKik6Xco",
+      "url": "https://youtube.com/shorts/aJHuKik6Xco",
+      "title": "TUNG TUNG TUNG vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Nonna Marinara (Original)",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-02T01:49:32.152822+00:00"
     }
   ]
 }
