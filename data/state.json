@@ -101,7 +101,10 @@
     "brmovie:307bc3e235ae",
     "twitch:WisePerfectSquirrelKappaRoss-b4UT21Kye4iSyDew",
     "story:abae79985ec1",
-    "brmovie:098d3d21d376"
+    "brmovie:098d3d21d376",
+    "twitch:WimpyYawningHorseCharlietheUnicorn-iVL00B8Yqwmfvywc",
+    "story:40875dc76c1b",
+    "brmovie:e3551e22b170"
   ],
   "uploading": [],
   "posts": [
@@ -1328,6 +1331,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-02T20:41:43.129394+00:00"
+    },
+    {
+      "clip_id": "twitch:WimpyYawningHorseCharlietheUnicorn-iVL00B8Yqwmfvywc",
+      "video_id": "WRGN0KDi-k4",
+      "url": "https://youtube.com/shorts/WRGN0KDi-k4",
+      "title": "Duke Got SMACKED \ud83d\udca5 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-03T04:43:12.892878+00:00"
+    },
+    {
+      "clip_id": "story:40875dc76c1b",
+      "video_id": "GwBPM71WErs",
+      "url": "https://youtube.com/shorts/GwBPM71WErs",
+      "title": "New Kid Used the Bathroom 47 TIMES \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-03T04:46:10.601493+00:00"
+    },
+    {
+      "clip_id": "brmovie:e3551e22b170",
+      "video_id": "_fR4-40a6s8",
+      "url": "https://youtube.com/shorts/_fR4-40a6s8",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO: CHAOS ERUPTS \ud83d\udd25 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-03T04:48:52.494856+00:00"
     }
   ]
 }
