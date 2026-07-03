@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-02 04:28 UTC",
+  "generated_at": "2026-07-03 06:34 UTC",
   "channels": {
     "clips": [
       {
         "tag": "TITLES",
         "impact": "High impact",
-        "title": "Stop Overusing ALL-CAPS, Add Missing Emojis",
-        "body": "You use ALL-CAPS in 69% of titles vs. leaders' 17%\u2014it signals low-effort edits. Leaders hit 100% emoji usage; you're at 62%. Rewrite titles like 'Kai Can't Find Ellery \ud83d\ude02' (1,067 views) into the leader format: 'Kai LOSES Ellery in Chaos \ud83d\ude2d\ud83d\ude02' "
+        "title": "Stop ALL-CAPS overuse, add specificity",
+        "body": "You use ALL-CAPS in 71% of titles vs niche leaders' 17%\u2014it signals desperation, not intrigue. Swap \"SMACKED \ud83d\udca5\" style for leader patterns: name the actual moment (\"Kai Cenat Leaks iShowSpeed's Number\") or reveal a surprising detail (\"Tota's "
       },
       {
         "tag": "POSTING",
         "impact": "High impact",
-        "title": "Post at 23:00 & 1:00 UTC, Cut Midday Slots",
-        "body": "Your 23:00 slot averages 1,122 views (3.6x your overall average); your 1:00 slot hit 540 views. Leaders post around 15:00, 13:00, 5:00 UTC. Stop posting at 12:00 (7 views). Consolidate to 2\u20133 daily posts timed at 1:00 & 23:00 UTC instead of"
+        "title": "Cut cadence in half, post at 23:00",
+        "body": "You post 3.0 Shorts/day while leaders do 1.2\u2014this tanks algorithmic reward per video. Your 23:00 slot averages 898 views (3x your daily average) but leaders cluster around 13:00\u201315:00 US Central. Test consolidating to 1\u20132 daily posts at 23:"
       },
       {
-        "tag": "CONTENT",
+        "tag": "EMOJI",
         "impact": "Med impact",
-        "title": "Clip Crew Dynamics, Not Solo Member Moments",
-        "body": "Leaders' top clips feature multi-person interactions (Kai + Speed, Kai + Tota, group trolls)\u2014see 'Kai Cenat Tries Barking Like Speed' (18.4M views). Your best performer 'Kai Can't Find Ellery' works because it's group chaos. Stop posting so"
+        "title": "Match leader emoji consistency at 100%",
+        "body": "Leaders use emojis in 100% of titles; you're at 66%. Every top Shorts has 1\u20132 strategic emojis (\"\ud83d\ude02\", \"\ud83d\udc80\", \"\ud83d\ude31\")\u2014they signal tone and boost CTR. Audit your 0-view Shorts: 7 of your last 12 have no emoji. Add one relevant emoji to every title "
       }
     ],
     "stories": [
@@ -26,19 +26,19 @@
         "tag": "TITLES",
         "impact": "High impact",
         "title": "Add numbers and questions to titles",
-        "body": "Niche leaders use numbers in 40% of titles vs. your 9%, and questions in 20% vs. your 0%. Your best performer ('I Traded Lunches With The New Girl') got 50 views, but try 'I Traded Lunches With 5 New Girls: Here's What Happened \ud83c\udf71' or 'What "
+        "body": "Niche leaders use numbers in 33% of titles and questions in 17%; you use neither. Your best performer (53 views) had a number ('Lunches'). Test titles like 'Why Did The Bully Do THIS? \ud83d\ude32' or 'I Found 5 SECRETS In Minecraft \ud83c\udfae' to match the pa"
       },
       {
         "tag": "LENGTH",
-        "impact": "High impact",
-        "title": "Extend Shorts to ~70-85 seconds",
-        "body": "Your Shorts average 47 seconds while niche leaders average 84 seconds. Your longer slot (likely 60+ sec) doesn't match leader pacing, which gives YouTube more time to hook viewers and reduces early drops. Expand your story beats and pacing "
+        "impact": "Med impact",
+        "title": "Extend Shorts to 65-80 seconds minimum",
+        "body": "Niche leaders average 77s; your Shorts are 48s\u201429s shorter. Longer narrative breathing room performs better on YouTube's algorithm. Your 3-day-old 'Lunch Trade' (53 views) likely succeeded partly due to having more story beats. Add dialogue"
       },
       {
-        "tag": "TIMING",
-        "impact": "Med impact",
-        "title": "Shift uploads to 2\u20138 PM US Central",
-        "body": "Your 3 PM slot averages 20 views (best), but leaders post around 2 PM, 6 PM, and 8 PM. Your 1 AM and noon posts are underperforming. Cut your 3.7/day cadence to ~1.5/day and consolidate posts to 2\u20138 PM window to match algorithm prime time a"
+        "tag": "POSTING",
+        "impact": "High impact",
+        "title": "Post at 14:00-18:00 Central, cut cadence",
+        "body": "Niche leaders post around 14:00 and 18:00 UTC Central; your 15:00 slot averages 19 views but you're posting 3.1x/day vs leaders' 1.8x. Cut to 1-2 Shorts daily at 14:00 or 17:00 to match winner timing and give each upload more algorithmic pu"
       }
     ],
     "characters": [
@@ -46,19 +46,19 @@
         "tag": "TITLES",
         "impact": "High impact",
         "title": "Add numbers and ALL-CAPS to titles",
-        "body": "Niche leaders use ALL-CAPS in 83% of titles vs your 62%, and numbers in 50% vs your 19%. Your best performer (21 views) used \"ESPRESSO HEIST\" \u2014 try \"5 SECOND CAPPUCCINA vs BOMBARDIRO PASTA WAR \ud83c\udf5d\ud83d\udca5\" to match the pattern that's winning 100k+ v"
+        "body": "Niche leaders use ALL-CAPS in 83% of titles vs your 66%, and numbers in 50% vs your 17%. Your best recent performer (18 views) used neither\u2014try \"TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S LATTE 3X: CHAOS ERUPTS \ud83d\udd25\" to match the pattern that's "
       },
       {
-        "tag": "TIMING",
+        "tag": "POSTING",
         "impact": "High impact",
-        "title": "Shift uploads to 1pm\u20132pm window",
-        "body": "Your 1:00am slot averages 146 views (5.4x your overall average), but niche leaders post around 11am\u20132pm US Central and dominate. You're uploading 26 Shorts/week at random times \u2014 consolidate to 4\u20135 daily drops between 12pm\u20132pm instead of sp"
+        "title": "Shift uploads to midday peak window",
+        "body": "Your 1:00 AM slot averages 146 views (6x your baseline), but niche leaders concentrate posts at 11:00\u201314:00 US Central where algorithm momentum is strongest. You're posting ~22/week across scattered times\u2014consolidate to 3\u20134 posts daily clus"
       },
       {
-        "tag": "REPETITION",
+        "tag": "HASHTAGS",
         "impact": "Med impact",
-        "title": "Reduce title duplication, add variety",
-        "body": "You posted \"THE PASTA PROPHECY\" 7 times in 7 days \u2014 zero engagement. Leaders repeat character names (Bombardiro, Tralalero) but vary the story hook (heist, war, betrayal, choice). Use your top performer formula (character name + action verb"
+        "title": "Use proven hashtag set in every title",
+        "body": "Your titles lack #brainrot, #italianbrainrot, and #bombardirocrocodilo\u2014tags in 80%+ of niche leaders' 100k+ view posts. Add these three + #viral to every Short; you're currently using generic #Shorts which gives zero discoverability boost i"
       }
     ]
   },
@@ -66,37 +66,37 @@
     {
       "tag": "TITLES",
       "impact": "High impact",
-      "title": "Stop Overusing ALL-CAPS, Add Missing Emojis",
-      "body": "You use ALL-CAPS in 69% of titles vs. leaders' 17%\u2014it signals low-effort edits. Leaders hit 100% emoji usage; you're at 62%. Rewrite titles like 'Kai Can't Find Ellery \ud83d\ude02' (1,067 views) into the leader format: 'Kai LOSES Ellery in Chaos \ud83d\ude2d\ud83d\ude02' ",
+      "title": "Stop ALL-CAPS overuse, add specificity",
+      "body": "You use ALL-CAPS in 71% of titles vs niche leaders' 17%\u2014it signals desperation, not intrigue. Swap \"SMACKED \ud83d\udca5\" style for leader patterns: name the actual moment (\"Kai Cenat Leaks iShowSpeed's Number\") or reveal a surprising detail (\"Tota's ",
       "channel": "clips"
     },
     {
       "tag": "TITLES",
       "impact": "High impact",
       "title": "Add numbers and questions to titles",
-      "body": "Niche leaders use numbers in 40% of titles vs. your 9%, and questions in 20% vs. your 0%. Your best performer ('I Traded Lunches With The New Girl') got 50 views, but try 'I Traded Lunches With 5 New Girls: Here's What Happened \ud83c\udf71' or 'What ",
+      "body": "Niche leaders use numbers in 33% of titles and questions in 17%; you use neither. Your best performer (53 views) had a number ('Lunches'). Test titles like 'Why Did The Bully Do THIS? \ud83d\ude32' or 'I Found 5 SECRETS In Minecraft \ud83c\udfae' to match the pa",
       "channel": "stories"
     },
     {
       "tag": "TITLES",
       "impact": "High impact",
       "title": "Add numbers and ALL-CAPS to titles",
-      "body": "Niche leaders use ALL-CAPS in 83% of titles vs your 62%, and numbers in 50% vs your 19%. Your best performer (21 views) used \"ESPRESSO HEIST\" \u2014 try \"5 SECOND CAPPUCCINA vs BOMBARDIRO PASTA WAR \ud83c\udf5d\ud83d\udca5\" to match the pattern that's winning 100k+ v",
+      "body": "Niche leaders use ALL-CAPS in 83% of titles vs your 66%, and numbers in 50% vs your 17%. Your best recent performer (18 views) used neither\u2014try \"TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S LATTE 3X: CHAOS ERUPTS \ud83d\udd25\" to match the pattern that's ",
       "channel": "characters"
     }
   ],
   "benchmarks": {
     "clips": {
       "niche": "kai cenat ishowspeed streamer clips funny moments",
-      "your_avg": 315,
-      "niche_top_avg": 23726871,
+      "your_avg": 288,
+      "niche_top_avg": 24112121,
       "top": [
         {
           "title": "Kai Cenat Leaks iShowSpeed&#39;s Number After He Leaked KSI&#39;s! \ud83d\ude31\ud83d\ude02",
           "channel": "BKVC",
           "published": "2026-06-09T10:30:00Z",
           "channel_id": "UCSss4dUq665V0FE-pyejNYg",
-          "views": 46659623,
+          "views": 47076043,
           "duration_s": 37,
           "hashtags": [
             "shorts",
@@ -122,7 +122,7 @@
           "channel": "Dempsey",
           "published": "2026-05-19T10:30:04Z",
           "channel_id": "UCbVE2e8w3zj-yxTk7nwb2Vw",
-          "views": 23008218,
+          "views": 23032756,
           "duration_s": 40,
           "hashtags": [
             "shorts"
@@ -133,7 +133,7 @@
           "channel": "WClipMedia",
           "published": "2026-06-19T20:57:17Z",
           "channel_id": "UCe-7F2eYv7DvJzh_YMUNGBA",
-          "views": 18791698,
+          "views": 18993336,
           "duration_s": 27,
           "hashtags": [
             "kaicenat",
@@ -149,18 +149,18 @@
         "titles": {
           "leaders": {
             "n": 12,
-            "avg_words": 8.6,
+            "avg_words": 8.9,
             "emoji_pct": 100,
             "caps_pct": 17,
             "num_pct": 17,
             "question_pct": 0
           },
           "yours": {
-            "n": 32,
-            "avg_words": 7.1,
-            "emoji_pct": 62,
-            "caps_pct": 69,
-            "num_pct": 19,
+            "n": 35,
+            "avg_words": 7.0,
+            "emoji_pct": 66,
+            "caps_pct": 71,
+            "num_pct": 17,
             "question_pct": 3
           }
         },
@@ -171,24 +171,24 @@
         "timing": {
           "ours": {
             "23": {
-              "n": 4,
-              "avg": 1122
+              "n": 5,
+              "avg": 898
             },
             "0": {
-              "n": 7,
-              "avg": 316
+              "n": 8,
+              "avg": 278
             },
             "12": {
               "n": 3,
               "avg": 7
             },
             "15": {
-              "n": 8,
-              "avg": 131
+              "n": 9,
+              "avg": 117
             },
             "20": {
               "n": 7,
-              "avg": 156
+              "avg": 158
             },
             "1": {
               "n": 2,
@@ -203,15 +203,14 @@
             "5": 2,
             "15": 3,
             "13": 3,
-            "11": 1,
+            "11": 2,
             "17": 1,
-            "9": 1,
             "12": 1
           }
         },
         "cadence": {
           "leaders_per_day": 1.2,
-          "yours_per_day": 3.6,
+          "yours_per_day": 3.0,
           "samples": [
             1.0,
             1.0,
@@ -230,28 +229,28 @@
               "n": 7
             },
             {
-              "tag": "kaicenatstream",
-              "n": 6
-            },
-            {
               "tag": "stream",
               "n": 6
             },
             {
               "tag": "shorts",
-              "n": 4
+              "n": 5
+            },
+            {
+              "tag": "ishowspeed",
+              "n": 5
+            },
+            {
+              "tag": "kaicenatstream",
+              "n": 5
             },
             {
               "tag": "tota",
               "n": 4
             },
             {
-              "tag": "ishowspeed",
-              "n": 4
-            },
-            {
               "tag": "rakai",
-              "n": 3
+              "n": 4
             },
             {
               "tag": "ray",
@@ -262,12 +261,12 @@
               "n": 2
             },
             {
-              "tag": "edit",
+              "tag": "twitch",
               "n": 2
             },
             {
-              "tag": "shrots",
-              "n": 1
+              "tag": "edit",
+              "n": 2
             }
           ]
         }
@@ -276,14 +275,14 @@
     "stories": {
       "niche": "minecraft parkour story time pov reddit",
       "your_avg": 11,
-      "niche_top_avg": 11495,
+      "niche_top_avg": 11741,
       "top": [
         {
           "title": "Don&#39;t Accept That Request\ud83d\ude30#text #textingstory #redditstories #minecraftparkour #gf #boyfriend #drama",
           "channel": "Oh Snap",
           "published": "2026-06-08T19:00:25Z",
           "channel_id": "UClgVtHdZlmQy7Z7mTh8wdMQ",
-          "views": 56398,
+          "views": 56473,
           "duration_s": 48,
           "hashtags": [
             "text",
@@ -294,6 +293,32 @@
             "boyfriend",
             "drama",
             "youtubeshorts"
+          ]
+        },
+        {
+          "title": "The Reddit User Who Disappeared After One Post... #aita #redditstories #storytime #reddit",
+          "channel": "newsmania",
+          "published": "2026-06-26T08:13:18Z",
+          "channel_id": "UCpsUHJyL7kpbeA6WSQM5vnQ",
+          "views": 1160,
+          "duration_s": 45,
+          "hashtags": [
+            "aita",
+            "redditstories",
+            "storytime",
+            "reddit",
+            "shorts",
+            "mystery",
+            "internetmystery",
+            "psychology",
+            "thriller",
+            "minecraft",
+            "minecraftparkour",
+            "gaming",
+            "viral",
+            "creepy",
+            "unexplained",
+            "ytshorts"
           ]
         },
         {
@@ -312,70 +337,30 @@
             "shorts",
             "viral"
           ]
-        },
-        {
-          "title": "POV :You&#39;ve been in love with your best friend for 3 years | Reddit Stories #viral #redditstories",
-          "channel": "ThreadVerse",
-          "published": "2026-06-01T23:14:15Z",
-          "channel_id": "UCdXZFjrJfUrEBwbMsD3xeNw",
-          "views": 8,
-          "duration_s": 42,
-          "hashtags": [
-            "viral",
-            "redditstories",
-            "reddit",
-            "minecraft",
-            "minecraftparkour",
-            "minecraftgameplay",
-            "storytime",
-            "aita",
-            "askreddit",
-            "redditreadings",
-            "reddittiktok",
-            "viralstories",
-            "scarystories",
-            "relationshipstories",
-            "cheatingstories",
-            "revengestories",
-            "confessionstories",
-            "crazystories",
-            "interestingstories",
-            "storytelling",
-            "fyp",
-            "foryou",
-            "foryoupage",
-            "trending",
-            "shorts",
-            "minecraftshorts",
-            "gaming",
-            "satisfying",
-            "threadverse",
-            "redditposts"
-          ]
         }
       ],
       "compare": {
         "titles": {
           "leaders": {
-            "n": 5,
-            "avg_words": 10.0,
-            "emoji_pct": 20,
-            "caps_pct": 40,
-            "num_pct": 40,
-            "question_pct": 20
+            "n": 6,
+            "avg_words": 10.3,
+            "emoji_pct": 17,
+            "caps_pct": 33,
+            "num_pct": 33,
+            "question_pct": 17
           },
           "yours": {
-            "n": 32,
+            "n": 35,
             "avg_words": 8.6,
-            "emoji_pct": 62,
-            "caps_pct": 47,
-            "num_pct": 9,
+            "emoji_pct": 66,
+            "caps_pct": 51,
+            "num_pct": 11,
             "question_pct": 0
           }
         },
         "length_s": {
-          "leaders": 84,
-          "yours": 47
+          "leaders": 77,
+          "yours": 48
         },
         "timing": {
           "ours": {
@@ -384,7 +369,7 @@
               "avg": 11
             },
             "0": {
-              "n": 7,
+              "n": 8,
               "avg": 6
             },
             "12": {
@@ -392,16 +377,16 @@
               "avg": 5
             },
             "15": {
-              "n": 8,
-              "avg": 20
+              "n": 9,
+              "avg": 19
             },
             "20": {
               "n": 8,
               "avg": 7
             },
             "23": {
-              "n": 3,
-              "avg": 17
+              "n": 4,
+              "avg": 12
             },
             "1": {
               "n": 2,
@@ -410,70 +395,71 @@
           },
           "niche_hours": {
             "14": 1,
+            "3": 1,
             "18": 2,
             "20": 1,
             "19": 1
           }
         },
         "cadence": {
-          "leaders_per_day": 1.5,
-          "yours_per_day": 3.7,
+          "leaders_per_day": 1.8,
+          "yours_per_day": 3.1,
           "samples": [
             2.0,
+            1.5,
             2.6,
-            1.1,
-            0.4
+            1.1
           ]
         },
         "hashtags": {
           "leaders": [
             {
-              "tag": "minecraft",
-              "n": 4
+              "tag": "shorts",
+              "n": 5
             },
             {
-              "tag": "shorts",
-              "n": 4
+              "tag": "minecraft",
+              "n": 5
             },
             {
               "tag": "redditstories",
-              "n": 3
+              "n": 4
             },
             {
               "tag": "minecraftparkour",
-              "n": 3
-            },
-            {
-              "tag": "reddit",
-              "n": 3
+              "n": 4
             },
             {
               "tag": "storytime",
+              "n": 4
+            },
+            {
+              "tag": "reddit",
+              "n": 4
+            },
+            {
+              "tag": "viral",
               "n": 3
+            },
+            {
+              "tag": "aita",
+              "n": 2
+            },
+            {
+              "tag": "gaming",
+              "n": 2
+            },
+            {
+              "tag": "ytshorts",
+              "n": 2
             },
             {
               "tag": "fyp",
               "n": 2
             },
             {
-              "tag": "viral",
-              "n": 2
-            },
-            {
               "tag": "scarystories",
               "n": 2
-            },
-            {
-              "tag": "minecraftshorts",
-              "n": 2
-            },
-            {
-              "tag": "text",
-              "n": 1
-            },
-            {
-              "tag": "textingstory",
-              "n": 1
             }
           ]
         }
@@ -481,15 +467,15 @@
     },
     "characters": {
       "niche": "italian brainrot shorts tralalero bombardiro",
-      "your_avg": 27,
-      "niche_top_avg": 122136,
+      "your_avg": 25,
+      "niche_top_avg": 123699,
       "top": [
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
           "published": "2026-06-24T16:00:30Z",
           "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 247573,
+          "views": 247786,
           "duration_s": 59,
           "hashtags": [
             "shorts",
@@ -592,11 +578,95 @@
           ]
         },
         {
+          "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 2",
+          "channel": "MENGCRAFT STUDIOS",
+          "published": "2026-06-29T17:00:23Z",
+          "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
+          "views": 117945,
+          "duration_s": 59,
+          "hashtags": [
+            "shorts",
+            "ytshorts",
+            "viral",
+            "trending",
+            "fyp",
+            "minecraft",
+            "brainrot",
+            "italianbrainrot",
+            "tralalerotralala",
+            "bombardirocrocodilo",
+            "aphmau",
+            "gaming",
+            "funny",
+            "funnyshorts",
+            "challenge",
+            "battle",
+            "epic",
+            "crazy",
+            "mustwatch",
+            "viralshorts",
+            "gamingshorts",
+            "funnymoments",
+            "adventure",
+            "survival",
+            "entertainment",
+            "explore",
+            "recommended",
+            "watchnow",
+            "subscribe",
+            "viralvideo",
+            "trend",
+            "gamingcommunity",
+            "minecraftfun",
+            "epicchallenge",
+            "action",
+            "familyfriendly",
+            "shortvideo",
+            "viralcontent",
+            "mustsee",
+            "gaminglife",
+            "creative",
+            "bestshorts",
+            "dailyshorts",
+            "topviral",
+            "insane",
+            "omg",
+            "legendary",
+            "gamingclips",
+            "challengeaccepted",
+            "viralgaming",
+            "funnygaming",
+            "satisfying",
+            "explorepage",
+            "youtube",
+            "youtubeshorts",
+            "videogames",
+            "animation",
+            "gamingfun",
+            "reaction",
+            "crazychallenge",
+            "bestvideo",
+            "viralreels",
+            "share",
+            "like",
+            "comment",
+            "subscribeformore",
+            "viralclip",
+            "foryou",
+            "foryoupage",
+            "laugh",
+            "comedy",
+            "fun",
+            "storymode",
+            "decisiontime"
+          ]
+        },
+        {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
           "published": "2026-06-21T00:00:27Z",
           "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 117018,
+          "views": 117054,
           "duration_s": 59,
           "hashtags": [
             "shorts",
@@ -719,122 +789,6 @@
             "crazyminecraft",
             "viralchaos"
           ]
-        },
-        {
-          "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 2",
-          "channel": "MENGCRAFT STUDIOS",
-          "published": "2026-06-21T07:00:04Z",
-          "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 112607,
-          "duration_s": 59,
-          "hashtags": [
-            "minecraft",
-            "shorts",
-            "ytshorts",
-            "funnyshorts",
-            "viral",
-            "trending",
-            "fyp",
-            "foryou",
-            "foryoupage",
-            "gaming",
-            "aphmau",
-            "italianbrainrot",
-            "brainrot",
-            "tralalerotralala",
-            "bombardirocrocodilo",
-            "meme",
-            "memes",
-            "chaos",
-            "minecraftshorts",
-            "minecraftmeme",
-            "gamingcommunity",
-            "animation",
-            "cartoon",
-            "familyfriendly",
-            "entertainment",
-            "epic",
-            "crazy",
-            "insane",
-            "funny",
-            "funnymoments",
-            "viralvideo",
-            "trendingvideo",
-            "mustwatch",
-            "battle",
-            "versus",
-            "vs",
-            "challenge",
-            "choice",
-            "vote",
-            "votenow",
-            "whowillwin",
-            "ultimatechallenge",
-            "gamers",
-            "kidsgaming",
-            "viralcontent",
-            "youtubecreator",
-            "contentcreator",
-            "gaminglife",
-            "shortvideo",
-            "reels",
-            "tiktokviral",
-            "internetviral",
-            "watchnow",
-            "mustsee",
-            "roadto1k",
-            "roadto10k",
-            "millionviews",
-            "blowup",
-            "viralclip",
-            "ytviral",
-            "shortsfeed",
-            "viralgaming",
-            "gamingvideo",
-            "dailycontent",
-            "recommended",
-            "watchtilltheend",
-            "dontmiss",
-            "epicmoment",
-            "shocking",
-            "unexpected",
-            "crazyfinish",
-            "minecraftfunny",
-            "gamingshorts",
-            "minecraftvideo",
-            "viral2026",
-            "trendingnow",
-            "mustwatchshorts",
-            "fypviral",
-            "challengevideo",
-            "superviral",
-            "actionpacked",
-            "epicgaming",
-            "topcreator",
-            "globalviral",
-            "youtubegrowth",
-            "viraltrend",
-            "bestgamingcontent",
-            "gamingfans",
-            "nextlevel",
-            "legendarychallenge",
-            "fanvote",
-            "commentnow",
-            "subscribeformore",
-            "likeforpart2",
-            "sharewithfriends",
-            "roadtomillionviews",
-            "minecraftroleplay",
-            "minecraftadventure",
-            "viralreels",
-            "trendalert",
-            "mustseevideo",
-            "gamingworld",
-            "bestshorts",
-            "newshorts",
-            "epicchoice",
-            "whichonewins"
-          ]
         }
       ],
       "compare": {
@@ -848,17 +802,17 @@
             "question_pct": 17
           },
           "yours": {
-            "n": 32,
-            "avg_words": 8.8,
-            "emoji_pct": 62,
-            "caps_pct": 62,
-            "num_pct": 19,
+            "n": 35,
+            "avg_words": 8.9,
+            "emoji_pct": 66,
+            "caps_pct": 66,
+            "num_pct": 17,
             "question_pct": 0
           }
         },
         "length_s": {
           "leaders": 43,
-          "yours": 41
+          "yours": 42
         },
         "timing": {
           "ours": {
@@ -867,15 +821,15 @@
               "avg": 33
             },
             "0": {
-              "n": 7,
-              "avg": 20
+              "n": 8,
+              "avg": 17
             },
             "12": {
               "n": 3,
               "avg": 25
             },
             "15": {
-              "n": 8,
+              "n": 9,
               "avg": 7
             },
             "20": {
@@ -883,8 +837,8 @@
               "avg": 22
             },
             "23": {
-              "n": 3,
-              "avg": 28
+              "n": 4,
+              "avg": 21
             },
             "1": {
               "n": 2,
@@ -893,9 +847,9 @@
           },
           "niche_hours": {
             "11": 1,
+            "12": 2,
             "19": 1,
             "2": 1,
-            "12": 2,
             "3": 1,
             "14": 2,
             "17": 1,
@@ -905,10 +859,10 @@
           }
         },
         "cadence": {
-          "leaders_per_day": 4.4,
-          "yours_per_day": 3.7,
+          "leaders_per_day": 3.7,
+          "yours_per_day": 3.1,
           "samples": [
-            15.0,
+            12.0,
             0.3,
             1.4,
             1.0
@@ -973,26 +927,26 @@
     "clips": [
       "kaicenat",
       "streamer",
-      "kaicenatstream",
       "stream",
       "shorts",
-      "tota",
       "ishowspeed",
+      "kaicenatstream",
+      "tota",
       "rakai",
       "ray",
       "funny"
     ],
     "stories": [
-      "minecraft",
       "shorts",
+      "minecraft",
       "redditstories",
       "minecraftparkour",
-      "reddit",
       "storytime",
-      "fyp",
+      "reddit",
       "viral",
-      "scarystories",
-      "minecraftshorts"
+      "aita",
+      "gaming",
+      "ytshorts"
     ],
     "characters": [
       "brainrot",
