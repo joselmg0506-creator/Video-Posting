@@ -104,7 +104,10 @@
     "brmovie:098d3d21d376",
     "twitch:WimpyYawningHorseCharlietheUnicorn-iVL00B8Yqwmfvywc",
     "story:40875dc76c1b",
-    "brmovie:e3551e22b170"
+    "brmovie:e3551e22b170",
+    "youtube:ef0434da63d3",
+    "story:3a15749f618c",
+    "brmovie:78782caddf28"
   ],
   "uploading": [],
   "posts": [
@@ -1367,6 +1370,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-03T04:48:52.494856+00:00"
+    },
+    {
+      "clip_id": "youtube:ef0434da63d3",
+      "video_id": "zLpEGzWnCsg",
+      "url": "https://youtube.com/shorts/zLpEGzWnCsg",
+      "title": "iShowSpeed JUMPSCARED By Dame Tu Cosita \ud83d\ude02 #Shorts",
+      "creator": "Speedy Boykins",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-03T06:55:48.377106+00:00"
+    },
+    {
+      "clip_id": "story:3a15749f618c",
+      "video_id": "4oqtRBCKtEM",
+      "url": "https://youtube.com/shorts/4oqtRBCKtEM",
+      "title": "My BFF Became a BULLY Until THIS Happened \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-03T06:58:06.208227+00:00"
+    },
+    {
+      "clip_id": "brmovie:78782caddf28",
+      "video_id": "A4HC9nn8B5c",
+      "url": "https://youtube.com/shorts/A4HC9nn8B5c",
+      "title": "TUNG TUNG TUNG SAHUR vs CAPPUCCINA: THE PROPHECY OF PASTA \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-03T07:01:05.182183+00:00"
     }
   ]
 }
