@@ -116,7 +116,10 @@
     "brmovie:c510b334c0c8",
     "twitch:YummyAmusedBarracudaYouWHY-4eMRavv-OXdWEjbQ",
     "story:f44dc0240b0c",
-    "brmovie:41c21e685258"
+    "brmovie:41c21e685258",
+    "twitch:BadTastyChickenFunRun-FDQrgtmHBU9d7HGy",
+    "story:0b76ca3327ab",
+    "brmovie:69ef5d4cb758"
   ],
   "uploading": [],
   "posts": [
@@ -1523,6 +1526,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-04T06:46:41.731772+00:00"
+    },
+    {
+      "clip_id": "twitch:BadTastyChickenFunRun-FDQrgtmHBU9d7HGy",
+      "video_id": "eKGKq30qB_8",
+      "url": "https://youtube.com/shorts/eKGKq30qB_8",
+      "title": "2xRaKai FISHING CHAOS \ud83c\udfa3 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-04T20:56:34.901070+00:00"
+    },
+    {
+      "clip_id": "story:0b76ca3327ab",
+      "video_id": "s2fd0u9wb0g",
+      "url": "https://youtube.com/shorts/s2fd0u9wb0g",
+      "title": "I Held It For 45 MINUTES \ud83d\udc80 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-04T20:58:54.714957+00:00"
+    },
+    {
+      "clip_id": "brmovie:69ef5d4cb758",
+      "video_id": "HOLyUBiKTW0",
+      "url": "https://youtube.com/shorts/HOLyUBiKTW0",
+      "title": "TUNG TUNG TUNG SAHUR vs CAPPUCCINA: 7 MINUTES OF PURE CHAOS \u26a1 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-04T21:01:26.469848+00:00"
     }
   ]
 }
