@@ -113,7 +113,10 @@
     "brmovie:4c194b5635ef",
     "twitch:BusyRenownedKimchiPeoplesChamp-yoGu7ax8J7GRTtLz",
     "story:264f8edfc327",
-    "brmovie:c510b334c0c8"
+    "brmovie:c510b334c0c8",
+    "twitch:YummyAmusedBarracudaYouWHY-4eMRavv-OXdWEjbQ",
+    "story:f44dc0240b0c",
+    "brmovie:41c21e685258"
   ],
   "uploading": [],
   "posts": [
@@ -1484,6 +1487,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-04T04:40:13.131631+00:00"
+    },
+    {
+      "clip_id": "twitch:YummyAmusedBarracudaYouWHY-4eMRavv-OXdWEjbQ",
+      "video_id": "1P1xJu8ATrE",
+      "url": "https://youtube.com/shorts/1P1xJu8ATrE",
+      "title": "PlaqueBoyMax LOSES IT Over Betrayal \ud83d\ude24 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-04T06:42:04.892568+00:00"
+    },
+    {
+      "clip_id": "story:f44dc0240b0c",
+      "video_id": "CMC6e3B7Zws",
+      "url": "https://youtube.com/shorts/CMC6e3B7Zws",
+      "title": "Bully Challenged Me to a DANCE-OFF \ud83d\udc83 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-04T06:44:11.887120+00:00"
+    },
+    {
+      "clip_id": "brmovie:41c21e685258",
+      "video_id": "b4x-QpG7wG8",
+      "url": "https://youtube.com/shorts/b4x-QpG7wG8",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO: 2 MINUTES CHAOS \u2615\ud83d\udca5 #Shorts",
+      "creator": "TUNG TUNG TUNG SAHUR, BALLERINA CAPPUCCINA, BOMBARDIRO CROCODILO",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-04T06:46:41.731772+00:00"
     }
   ]
 }
