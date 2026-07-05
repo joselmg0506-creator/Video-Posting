@@ -119,7 +119,10 @@
     "brmovie:41c21e685258",
     "twitch:BadTastyChickenFunRun-FDQrgtmHBU9d7HGy",
     "story:0b76ca3327ab",
-    "brmovie:69ef5d4cb758"
+    "brmovie:69ef5d4cb758",
+    "twitch:JazzyLovelyFerretAMPEnergyCherry-5sF2FaK7cb6MQ6Ni",
+    "story:f1461d3276b8",
+    "brmovie:7857b93d6ddc"
   ],
   "uploading": [],
   "posts": [
@@ -1562,6 +1565,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-04T21:01:26.469848+00:00"
+    },
+    {
+      "clip_id": "twitch:JazzyLovelyFerretAMPEnergyCherry-5sF2FaK7cb6MQ6Ni",
+      "video_id": "LNTsh-ArOK0",
+      "url": "https://youtube.com/shorts/LNTsh-ArOK0",
+      "title": "Silky SPEAKS ON Fake Love \ud83c\udfa4 #Shorts",
+      "creator": "Silky",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-05T04:57:06.249435+00:00"
+    },
+    {
+      "clip_id": "story:f1461d3276b8",
+      "video_id": "qtAMGYe225U",
+      "url": "https://youtube.com/shorts/qtAMGYe225U",
+      "title": "I Filled His Sandwich With GHOST PEPPERS \ud83c\udf36\ufe0f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_michael",
+      "posted_at": "2026-07-05T04:59:31.867468+00:00"
+    },
+    {
+      "clip_id": "brmovie:7857b93d6ddc",
+      "video_id": "atrhbCDaJbk",
+      "url": "https://youtube.com/shorts/atrhbCDaJbk",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Spaghetti Nonno",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-05T05:02:29.250676+00:00"
     }
   ]
 }
