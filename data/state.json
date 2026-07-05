@@ -122,7 +122,10 @@
     "brmovie:69ef5d4cb758",
     "twitch:JazzyLovelyFerretAMPEnergyCherry-5sF2FaK7cb6MQ6Ni",
     "story:f1461d3276b8",
-    "brmovie:7857b93d6ddc"
+    "brmovie:7857b93d6ddc",
+    "youtube:e7001977366f",
+    "story:a42c371c2fdb",
+    "brmovie:dda3ef8fb086"
   ],
   "uploading": [],
   "posts": [
@@ -1601,6 +1604,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-05T05:02:29.250676+00:00"
+    },
+    {
+      "clip_id": "youtube:e7001977366f",
+      "video_id": "nLk53FfqwJE",
+      "url": "https://youtube.com/shorts/nLk53FfqwJE",
+      "title": "IShowSpeed Flying SHIRTLESS \ud83d\ude02 UNHINGED #Shorts",
+      "creator": "ViralClipszzz",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-05T07:02:02.633580+00:00"
+    },
+    {
+      "clip_id": "story:a42c371c2fdb",
+      "video_id": "LFAr2cj_jwY",
+      "url": "https://youtube.com/shorts/LFAr2cj_jwY",
+      "title": "I Ruined the Talent Show \ud83d\ude2d #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-05T07:04:28.566702+00:00"
+    },
+    {
+      "clip_id": "brmovie:dda3ef8fb086",
+      "video_id": "phyORlFoRmQ",
+      "url": "https://youtube.com/shorts/phyORlFoRmQ",
+      "title": "TUNG TUNG TUNG SAHUR STEALS THE PASTA: A CRIME \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-05T07:07:24.673107+00:00"
     }
   ]
 }
