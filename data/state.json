@@ -128,7 +128,10 @@
     "brmovie:dda3ef8fb086",
     "twitch:FuriousAmazingZebraAMPEnergy-2XqxBFkewN-kkvoJ",
     "story:e2b26dcdbb3e",
-    "brmovie:ece79c25ae29"
+    "brmovie:ece79c25ae29",
+    "twitch:GloriousPrettiestWolverinePeanutButterJellyTime-PtPbJ5SsK5OKtVU7",
+    "story:0cc87b1d2837",
+    "brmovie:9d27259865ba"
   ],
   "uploading": [],
   "posts": [
@@ -1679,6 +1682,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-05T21:02:51.575852+00:00"
+    },
+    {
+      "clip_id": "twitch:GloriousPrettiestWolverinePeanutButterJellyTime-PtPbJ5SsK5OKtVU7",
+      "video_id": "oi-maH53ls4",
+      "url": "https://youtube.com/shorts/oi-maH53ls4",
+      "title": "PlaqueBoyMax SPOTS OzGangJohnny \ud83d\ude32 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-06T05:09:17.693245+00:00"
+    },
+    {
+      "clip_id": "story:0cc87b1d2837",
+      "video_id": "fVhWH4pKxAI",
+      "url": "https://youtube.com/shorts/fVhWH4pKxAI",
+      "title": "The Mystery Note That Started It All \ud83d\udcdd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-07-06T05:11:58.125763+00:00"
+    },
+    {
+      "clip_id": "brmovie:9d27259865ba",
+      "video_id": "ExnvIhtsh1Q",
+      "url": "https://youtube.com/shorts/ExnvIhtsh1Q",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca3 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Salsa Screamo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-06T05:15:32.722306+00:00"
     }
   ]
 }
