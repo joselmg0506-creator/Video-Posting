@@ -149,7 +149,10 @@
     "brmovie:015e2fb14373",
     "twitch:GiftedProductiveAsteriskTheThing-HXcbzIN_c2yhTVxV",
     "story:cadae4aee2f6",
-    "brmovie:3ec6734f82cb"
+    "brmovie:3ec6734f82cb",
+    "twitch:BreakableInnocentMacaroniCharlietheUnicorn-dMg2mAsX2c3ODBgd",
+    "story:014a1838dcc3",
+    "brmovie:bd34665c7bb4"
   ],
   "uploading": [],
   "posts": [
@@ -1952,6 +1955,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-08T06:30:20.882978+00:00"
+    },
+    {
+      "clip_id": "twitch:BreakableInnocentMacaroniCharlietheUnicorn-dMg2mAsX2c3ODBgd",
+      "video_id": "dmRZbXEK5Ww",
+      "url": "https://youtube.com/shorts/dmRZbXEK5Ww",
+      "title": "2xRaKai's 4TH OF JULY WENT CRAZY \ud83c\udf86 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-08T21:07:53.284229+00:00"
+    },
+    {
+      "clip_id": "story:014a1838dcc3",
+      "video_id": "voYbhZzLO-M",
+      "url": "https://youtube.com/shorts/voYbhZzLO-M",
+      "title": "New Kid Broke The Bathroom Record \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-08T21:10:30.948785+00:00"
+    },
+    {
+      "clip_id": "brmovie:bd34665c7bb4",
+      "video_id": "k4E7yszdSS8",
+      "url": "https://youtube.com/shorts/k4E7yszdSS8",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca3 #Shorts",
+      "creator": "TUNG TUNG TUNG SAHUR, BOMBARDIRO CROCODILO, BALLERINA CAPPUCCINA",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-08T21:13:28.340676+00:00"
     }
   ]
 }
