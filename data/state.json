@@ -146,7 +146,10 @@
     "brmovie:e99f734b9a04",
     "twitch:SneakyGeniusRavenThisIsSparta-HHHCpU3ELWx08U55",
     "story:1f5516eaa9a0",
-    "brmovie:015e2fb14373"
+    "brmovie:015e2fb14373",
+    "twitch:GiftedProductiveAsteriskTheThing-HXcbzIN_c2yhTVxV",
+    "story:cadae4aee2f6",
+    "brmovie:3ec6734f82cb"
   ],
   "uploading": [],
   "posts": [
@@ -1913,6 +1916,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-08T04:22:28.180750+00:00"
+    },
+    {
+      "clip_id": "twitch:GiftedProductiveAsteriskTheThing-HXcbzIN_c2yhTVxV",
+      "video_id": "RBdMdyPzz3c",
+      "url": "https://youtube.com/shorts/RBdMdyPzz3c",
+      "title": "Silky UNFILTERED on Marvel Rivals \ud83d\udd77\ufe0f #Shorts",
+      "creator": "Silky",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-08T06:25:08.136300+00:00"
+    },
+    {
+      "clip_id": "story:cadae4aee2f6",
+      "video_id": "lCLlwvyw-3I",
+      "url": "https://youtube.com/shorts/lCLlwvyw-3I",
+      "title": "Nobody Believed My Field Trip \ud83e\udd86 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-08T06:27:23.607256+00:00"
+    },
+    {
+      "clip_id": "brmovie:3ec6734f82cb",
+      "video_id": "Iq4ja0LE2OY",
+      "url": "https://youtube.com/shorts/Iq4ja0LE2OY",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO 8\ufe0f\u20e3 CHAOS #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-08T06:30:20.882978+00:00"
     }
   ]
 }
