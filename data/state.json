@@ -143,7 +143,10 @@
     "brmovie:4c0dacf49d1a",
     "twitch:SingleGentleGrasshopperRalpherZ-2DkqKMP6WyT2klnq",
     "story:ff534a8f5c03",
-    "brmovie:e99f734b9a04"
+    "brmovie:e99f734b9a04",
+    "twitch:SneakyGeniusRavenThisIsSparta-HHHCpU3ELWx08U55",
+    "story:1f5516eaa9a0",
+    "brmovie:015e2fb14373"
   ],
   "uploading": [],
   "posts": [
@@ -1874,6 +1877,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-07T07:37:07.218953+00:00"
+    },
+    {
+      "clip_id": "twitch:SneakyGeniusRavenThisIsSparta-HHHCpU3ELWx08U55",
+      "video_id": "c-ajEwJJXag",
+      "url": "https://youtube.com/shorts/c-ajEwJJXag",
+      "title": "PlaqueBoyMax LOSES IT at World Cup Penalty \ud83d\ude02 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-08T04:16:52.169604+00:00"
+    },
+    {
+      "clip_id": "story:1f5516eaa9a0",
+      "video_id": "pgOSOdesIK4",
+      "url": "https://youtube.com/shorts/pgOSOdesIK4",
+      "title": "4 Feet Tall, SAVED THE WHOLE SCHOOL \ud83e\uddb8\u200d\u2640\ufe0f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-07-08T04:19:30.966385+00:00"
+    },
+    {
+      "clip_id": "brmovie:015e2fb14373",
+      "video_id": "-1QW6Fyoqeg",
+      "url": "https://youtube.com/shorts/-1QW6Fyoqeg",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO: 60 SECONDS \ud83d\udd25 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-08T04:22:28.180750+00:00"
     }
   ]
 }
