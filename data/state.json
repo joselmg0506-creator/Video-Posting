@@ -152,7 +152,10 @@
     "brmovie:3ec6734f82cb",
     "twitch:BreakableInnocentMacaroniCharlietheUnicorn-dMg2mAsX2c3ODBgd",
     "story:014a1838dcc3",
-    "brmovie:bd34665c7bb4"
+    "brmovie:bd34665c7bb4",
+    "twitch:RefinedRamshackleOtterCharlieBitMe-8IJ1IwKQXHXQn7J7",
+    "story:6da7224c17aa",
+    "brmovie:09df6b6f2c53"
   ],
   "uploading": [],
   "posts": [
@@ -1991,6 +1994,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-08T21:13:28.340676+00:00"
+    },
+    {
+      "clip_id": "twitch:RefinedRamshackleOtterCharlieBitMe-8IJ1IwKQXHXQn7J7",
+      "video_id": "NuEp_ecGCXI",
+      "url": "https://youtube.com/shorts/NuEp_ecGCXI",
+      "title": "Maya APPOINTED As Streamer University Professor \ud83c\udf93 #Shorts",
+      "creator": "KaiCenat",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-09T04:52:42.239274+00:00"
+    },
+    {
+      "clip_id": "story:6da7224c17aa",
+      "video_id": "1V8384W_Nd4",
+      "url": "https://youtube.com/shorts/1V8384W_Nd4",
+      "title": "My Stomach ROARED During Silent Reading \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-09T04:55:16.975696+00:00"
+    },
+    {
+      "clip_id": "brmovie:09df6b6f2c53",
+      "video_id": "yNFNhVHvyUs",
+      "url": "https://youtube.com/shorts/yNFNhVHvyUs",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-09T04:58:41.006743+00:00"
     }
   ]
 }
