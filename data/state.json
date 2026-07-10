@@ -161,7 +161,10 @@
     "brmovie:3ade943c5dde",
     "twitch:AltruisticDaintyShallotHotPokket-T9JnRZdy1jSeEH72",
     "story:3cb18fac8a0f",
-    "brmovie:cf73511877fd"
+    "brmovie:cf73511877fd",
+    "twitch:DependableColdQuailSuperVinlin-cvOkdHwr8XdcE-Bw",
+    "story:f32b6f4daa7c",
+    "brmovie:3685c8dc4d33"
   ],
   "uploading": [],
   "posts": [
@@ -2108,6 +2111,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-09T21:29:31.185050+00:00"
+    },
+    {
+      "clip_id": "twitch:DependableColdQuailSuperVinlin-cvOkdHwr8XdcE-Bw",
+      "video_id": "Hfh3z7WcZgU",
+      "url": "https://youtube.com/shorts/Hfh3z7WcZgU",
+      "title": "Chris LOSES IT Over Stolen Role \ud83d\ude24 #Shorts",
+      "creator": "Chrisnxtdoor",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-10T04:49:21.311892+00:00"
+    },
+    {
+      "clip_id": "story:f32b6f4daa7c",
+      "video_id": "CuZhYS5kRgM",
+      "url": "https://youtube.com/shorts/CuZhYS5kRgM",
+      "title": "My Stomach Made THE LOUDEST Sound \ud83d\udd0a #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-10T04:51:47.879381+00:00"
+    },
+    {
+      "clip_id": "brmovie:3685c8dc4d33",
+      "video_id": "xfxguHCXYNY",
+      "url": "https://youtube.com/shorts/xfxguHCXYNY",
+      "title": "TRALALERO vs CAPPUCCINA: 5 SECONDS OF PURE CHAOS \ud83e\udd88 #Shorts",
+      "creator": "Tralalero Tralala, Ballerina Cappuccina",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-10T04:54:10.397627+00:00"
     }
   ]
 }
