@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-09 06:46 UTC",
+  "generated_at": "2026-07-10 06:47 UTC",
   "channels": {
     "clips": [
       {
         "tag": "TITLES",
         "impact": "High impact",
-        "title": "Strip ALL-CAPS words, add 3+ more words",
-        "body": "You're using ALL-CAPS in 81% of titles (\"LOSES IT\", \"SHOCKED\") while niche leaders use it only 8%\u2014they instead add specificity: \"Kai Cenat Leaks iShowSpeed's Number After He Leaked KSI's\" (11 words vs your avg 6.9). Drop caps formatting and"
+        "title": "Drop ALL-CAPS, add descriptive words + emojis",
+        "body": "You use ALL-CAPS in 82% of titles vs niche leaders at 8%\u2014this looks clickbait-y and performs poorly. Niche leaders average 9.8 words per title vs your 6.9; match their pattern: \"Kai Cenat & IShowSpeed React to [specific moment]\" with 2 emoj"
       },
       {
         "tag": "POSTING",
         "impact": "High impact",
-        "title": "Post at 23:00 and 13:00\u201315:00 UTC-6 only",
-        "body": "Your 23:00 slot averages 451 views (2.3x your daily average of 199), while 2:00\u20133:00 AM slots average 12 views. Niche leaders post around 12:00\u201315:00 (when Kai's audience is most active), but your peak is clearly late evening. Post once dai"
+        "title": "Post at 23:00 & 13:00 Central, not 2:00 & 3:00",
+        "body": "Your 23:00 slot averages 410 views vs 2:00\u20133:00 averaging 11 views\u2014a 37x difference. Niche leaders cluster posts around 13:00, 15:00, 12:00 Central. You're uploading 2.9/day; cut to ~1.5/day and concentrate on 23:00, 13:00, and 15:00 slots "
       },
       {
-        "tag": "CONTENT",
+        "tag": "CADENCE",
         "impact": "Med impact",
-        "title": "Clip Kai + Speed interactions, not side streamers",
-        "body": "Your recent Shorts focus on secondary streamers (Silky, Agent00, PlaqueBoyMax, Reggie) with 1\u20133 views each, while niche leaders' top 10 all feature Kai Cenat directly (49M\u20133M views). Shift 80% of your clips to Kai + iShowSpeed moments toget"
+        "title": "Trim Shorts to 24\u201327 seconds, match niche length",
+        "body": "Niche leaders average ~26s per Short; yours run ~29s. YouTube Shorts algorithm favors faster loops\u2014trim 2\u20133 seconds of setup/silence. Combined with better titles and posting times, this reduces friction to completion and re-watch, which dri"
       }
     ],
     "stories": [
@@ -26,19 +26,19 @@
         "tag": "TITLES",
         "impact": "High impact",
         "title": "Add numbers and questions to titles",
-        "body": "Niche leaders use numbers in 33% of titles vs your 13%, and questions in 22% vs your 0%. Your best performer (24 views) had an emoji but no number/question. Try: 'I HELD IT For 47 Minutes \u2014 Can You? \ud83d\ude2d' or 'WHAT Happens When You Skip Lunch? "
+        "body": "Niche leaders use numbers in 33% of titles and questions in 22%; you use neither. Your titles average 8.5 words vs leaders' 11.3\u2014expand to include hooks like \"5 Reasons Why...\" or \"Did You Know...?\" paired with a number to match the 11+ wor"
+      },
+      {
+        "tag": "TIMING",
+        "impact": "High impact",
+        "title": "Shift posts to 3pm-7pm window",
+        "body": "Your best slot is 3pm (18 views), but niche leaders post heavily at 7am, 2pm, and 6pm US Central. You're posting 20 Shorts across all hours\u2014consolidate to 2.3/day like leaders and prioritize the 2pm\u20137pm window where your 3pm post already ou"
       },
       {
         "tag": "LENGTH",
         "impact": "Med impact",
-        "title": "Extend Shorts to 70+ seconds",
-        "body": "Leaders average 77s vs your 48s \u2014 you're 40% too short. Longer videos signal authority and give YouTube more engagement window. Expand your story beats: add setup, conflict, and payoff instead of cramming into 45s."
-      },
-      {
-        "tag": "POSTING",
-        "impact": "High impact",
-        "title": "Post only at 15:00 and 22:00 US Central",
-        "body": "Your 15:00 slot averages 18 views \u2014 2.6x your overall mean. Your 22:00 slot gets 11 views. Yet you're posting 19 times in 7 days across dead zones (3:00 = 0 views, 2:00 = 4 views). Cut to 2\u20133 posts daily, only in these two windows, to conce"
+        "title": "Extend videos to 70+ seconds",
+        "body": "Leaders average 77 seconds; you're at 48 seconds. Longer watch time signals better ranking. Add more story detail, tension pauses, or plot twists to hit 70s minimum\u2014this also gives YouTube more data to understand your content and improve re"
       }
     ],
     "characters": [
@@ -46,19 +46,19 @@
         "tag": "TITLES",
         "impact": "High impact",
         "title": "Add numbers and questions to titles",
-        "body": "Niche leaders use numbers in 50% of titles vs your 27%, and 8% are questions (you 0%). Your top performer had 9 views with no number or question. Test \"TRALALERO vs BOMBARDIRO: WHO WINS? 5 PASTA BETS \ud83c\udf5d\" format \u2014 leaders average 328k views u"
+        "body": "Niche leaders use numbers in 50% of titles vs your 29%, and questions in 8% vs your 0%. Try \"TRALALERO vs BOMBARDIRO: WHO WINS IN 5 SECONDS?\" or \"TUNG TUNG TUNG SAHUR: 3 PASTA HEISTS RANKED\" to match proven patterns that drive clicks."
       },
       {
-        "tag": "POSTING",
+        "tag": "POSTING_TIME",
         "impact": "High impact",
-        "title": "Post 3x more daily at peak hours",
-        "body": "You post 2.7/day vs leaders' 5.8/day. Your 1:00 UTC slot averages 74 views (best by far), but niche leaders cluster around 14:00, 11:00, 21:00 US Central. Shift to 5-6 posts/day concentrated in 11:00-14:00 and 20:00-22:00 US Central to matc"
+        "title": "Shift posts to 1:00 PM / 2:00 PM slots",
+        "body": "Your 1:00 AM slot averages 74 views (best performer), but niche leaders post around 2:00 PM / 6:00 AM / 11:00 AM UTC. Test moving your cadence to 1:00\u20132:00 PM US Central where leaders cluster; you're currently posting 3:00 AM\u201312:00 PM with "
       },
       {
-        "tag": "LENGTH",
+        "tag": "CADENCE",
         "impact": "Med impact",
-        "title": "Cut video length to 35-40 seconds",
-        "body": "Leaders average 41s, you 44s. Your only viral anchor (9 views) likely benefited from tighter pacing. Trim fluff to 35-40s range \u2014 gives more watch-time retention on the algorithm's initial engagement phase."
+        "title": "Increase uploads from 2.9 to 4+ Shorts/day",
+        "body": "Niche leaders post 4.5 Shorts daily vs your 2.9. You posted 20 in 7 days (2.9/day); scaling to 4\u20135/day gives YouTube's algorithm more chances to surface your content and test which character combos resonate fastest."
       }
     ]
   },
@@ -66,37 +66,37 @@
     {
       "tag": "TITLES",
       "impact": "High impact",
-      "title": "Strip ALL-CAPS words, add 3+ more words",
-      "body": "You're using ALL-CAPS in 81% of titles (\"LOSES IT\", \"SHOCKED\") while niche leaders use it only 8%\u2014they instead add specificity: \"Kai Cenat Leaks iShowSpeed's Number After He Leaked KSI's\" (11 words vs your avg 6.9). Drop caps formatting and",
+      "title": "Drop ALL-CAPS, add descriptive words + emojis",
+      "body": "You use ALL-CAPS in 82% of titles vs niche leaders at 8%\u2014this looks clickbait-y and performs poorly. Niche leaders average 9.8 words per title vs your 6.9; match their pattern: \"Kai Cenat & IShowSpeed React to [specific moment]\" with 2 emoj",
       "channel": "clips"
     },
     {
       "tag": "TITLES",
       "impact": "High impact",
       "title": "Add numbers and questions to titles",
-      "body": "Niche leaders use numbers in 33% of titles vs your 13%, and questions in 22% vs your 0%. Your best performer (24 views) had an emoji but no number/question. Try: 'I HELD IT For 47 Minutes \u2014 Can You? \ud83d\ude2d' or 'WHAT Happens When You Skip Lunch? ",
+      "body": "Niche leaders use numbers in 33% of titles and questions in 22%; you use neither. Your titles average 8.5 words vs leaders' 11.3\u2014expand to include hooks like \"5 Reasons Why...\" or \"Did You Know...?\" paired with a number to match the 11+ wor",
       "channel": "stories"
     },
     {
       "tag": "TITLES",
       "impact": "High impact",
       "title": "Add numbers and questions to titles",
-      "body": "Niche leaders use numbers in 50% of titles vs your 27%, and 8% are questions (you 0%). Your top performer had 9 views with no number or question. Test \"TRALALERO vs BOMBARDIRO: WHO WINS? 5 PASTA BETS \ud83c\udf5d\" format \u2014 leaders average 328k views u",
+      "body": "Niche leaders use numbers in 50% of titles vs your 29%, and questions in 8% vs your 0%. Try \"TRALALERO vs BOMBARDIRO: WHO WINS IN 5 SECONDS?\" or \"TUNG TUNG TUNG SAHUR: 3 PASTA HEISTS RANKED\" to match proven patterns that drive clicks.",
       "channel": "characters"
     }
   ],
   "benchmarks": {
     "clips": {
       "niche": "kai cenat ishowspeed streamer clips funny moments",
-      "your_avg": 199,
-      "niche_top_avg": 24435048,
+      "your_avg": 188,
+      "niche_top_avg": 25014976,
       "top": [
         {
           "title": "Kai Cenat Leaks iShowSpeed&#39;s Number After He Leaked KSI&#39;s! \ud83d\ude31\ud83d\ude02",
           "channel": "BKVC",
           "published": "2026-06-09T10:30:00Z",
           "channel_id": "UCSss4dUq665V0FE-pyejNYg",
-          "views": 49723675,
+          "views": 50384500,
           "duration_s": 37,
           "hashtags": [
             "shorts",
@@ -122,7 +122,7 @@
           "channel": "WClipMedia",
           "published": "2026-06-19T20:57:17Z",
           "channel_id": "UCe-7F2eYv7DvJzh_YMUNGBA",
-          "views": 20906346,
+          "views": 21910041,
           "duration_s": 27,
           "hashtags": [
             "kaicenat",
@@ -134,24 +134,19 @@
           ]
         },
         {
-          "title": "Kai Cenat Tries Barking Like Speed \ud83d\ude02",
-          "channel": "Stream Vortex",
-          "published": "2026-06-15T18:25:24Z",
-          "channel_id": "UC2-EqUuvrr6Xoobxf6C_HgA",
-          "views": 19527084,
-          "duration_s": 38,
+          "title": "Solo aura farming\ud83d\udc80  #kaicenat  #ray #rakai  #tota  #marfiathon3  #edit  2",
+          "channel": "KaiNFriends",
+          "published": "2026-06-13T16:00:10Z",
+          "channel_id": "UCZfSMIzz1hIjT9jxCtwDJFw",
+          "views": 19808074,
+          "duration_s": 32,
           "hashtags": [
-            "shorts",
             "kaicenat",
-            "ishowspeed",
-            "stream",
-            "twitch",
-            "streamer",
-            "speed",
-            "edit",
-            "funny",
-            "viral",
-            "youtubeshorts"
+            "ray",
+            "rakai",
+            "tota",
+            "marfiathon3",
+            "edit"
           ]
         }
       ],
@@ -166,11 +161,11 @@
             "question_pct": 0
           },
           "yours": {
-            "n": 52,
+            "n": 55,
             "avg_words": 6.9,
-            "emoji_pct": 77,
-            "caps_pct": 81,
-            "num_pct": 23,
+            "emoji_pct": 78,
+            "caps_pct": 82,
+            "num_pct": 22,
             "question_pct": 2
           }
         },
@@ -181,8 +176,8 @@
         "timing": {
           "ours": {
             "23": {
-              "n": 10,
-              "avg": 451
+              "n": 11,
+              "avg": 410
             },
             "0": {
               "n": 9,
@@ -202,19 +197,19 @@
             },
             "1": {
               "n": 5,
-              "avg": 229
+              "avg": 230
             },
             "22": {
               "n": 1,
               "avg": 128
             },
             "16": {
-              "n": 3,
+              "n": 4,
               "avg": 1
             },
             "2": {
-              "n": 2,
-              "avg": 8
+              "n": 3,
+              "avg": 6
             },
             "3": {
               "n": 1,
@@ -224,8 +219,8 @@
           "niche_hours": {
             "5": 1,
             "15": 2,
-            "13": 3,
             "11": 1,
+            "13": 3,
             "14": 1,
             "17": 1,
             "12": 2,
@@ -233,13 +228,13 @@
           }
         },
         "cadence": {
-          "leaders_per_day": 1.1,
-          "yours_per_day": 2.7,
+          "leaders_per_day": 1.2,
+          "yours_per_day": 2.9,
           "samples": [
             1.0,
             1.8,
-            1.0,
-            0.8
+            0.9,
+            1.0
           ]
         },
         "hashtags": {
@@ -299,14 +294,14 @@
     "stories": {
       "niche": "minecraft parkour story time pov reddit",
       "your_avg": 9,
-      "niche_top_avg": 12317,
+      "niche_top_avg": 12319,
       "top": [
         {
           "title": "Don&#39;t Accept That Request\ud83d\ude30#text #textingstory #redditstories #minecraftparkour #gf #boyfriend #drama",
           "channel": "Oh Snap",
           "published": "2026-06-08T19:00:25Z",
           "channel_id": "UClgVtHdZlmQy7Z7mTh8wdMQ",
-          "views": 56792,
+          "views": 56798,
           "duration_s": 48,
           "hashtags": [
             "text",
@@ -324,7 +319,7 @@
           "channel": "MB Reddit Story",
           "published": "2026-07-03T12:30:29Z",
           "channel_id": "UC4780gm2h0-qdXc54ldRAZg",
-          "views": 1325,
+          "views": 1327,
           "duration_s": 91,
           "hashtags": [
             "reddit",
@@ -361,7 +356,7 @@
           "channel": "MB Reddit Story",
           "published": "2026-07-03T11:18:45Z",
           "channel_id": "UC4780gm2h0-qdXc54ldRAZg",
-          "views": 1255,
+          "views": 1256,
           "duration_s": 48,
           "hashtags": [
             "redditstories",
@@ -405,11 +400,11 @@
             "question_pct": 22
           },
           "yours": {
-            "n": 52,
+            "n": 55,
             "avg_words": 8.5,
-            "emoji_pct": 77,
-            "caps_pct": 56,
-            "num_pct": 13,
+            "emoji_pct": 78,
+            "caps_pct": 58,
+            "num_pct": 15,
             "question_pct": 0
           }
         },
@@ -440,20 +435,20 @@
               "avg": 7
             },
             "23": {
-              "n": 9,
-              "avg": 10
+              "n": 10,
+              "avg": 9
             },
             "1": {
               "n": 5,
               "avg": 9
             },
             "16": {
-              "n": 4,
-              "avg": 6
+              "n": 5,
+              "avg": 5
             },
             "2": {
-              "n": 2,
-              "avg": 4
+              "n": 3,
+              "avg": 9
             },
             "3": {
               "n": 1,
@@ -472,7 +467,7 @@
         },
         "cadence": {
           "leaders_per_day": 2.3,
-          "yours_per_day": 2.7,
+          "yours_per_day": 2.9,
           "samples": [
             1.6,
             3.4,
@@ -536,15 +531,15 @@
     },
     "characters": {
       "niche": "italian brainrot shorts tralalero bombardiro",
-      "your_avg": 17,
-      "niche_top_avg": 328249,
+      "your_avg": 16,
+      "niche_top_avg": 351465,
       "top": [
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
           "published": "2026-07-04T19:00:13Z",
           "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 881743,
+          "views": 906173,
           "duration_s": 59,
           "hashtags": [
             "shorts",
@@ -662,9 +657,111 @@
         {
           "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
           "channel": "MENGCRAFT STUDIOS",
+          "published": "2026-07-08T11:00:35Z",
+          "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
+          "views": 257642,
+          "duration_s": 59,
+          "hashtags": [
+            "shorts",
+            "ytshorts",
+            "minecraft",
+            "minecraftshorts",
+            "funnyshorts",
+            "viral",
+            "trending",
+            "fyp",
+            "foryou",
+            "foryoupage",
+            "viralshorts",
+            "italianbrainrot",
+            "brainrot",
+            "tralalero",
+            "tralalerotralala",
+            "bombardirocrocodilo",
+            "minecraftmemes",
+            "minecraftanimation",
+            "minecraftgaming",
+            "minecraftchallenge",
+            "minecraftfun",
+            "minecraftvideos",
+            "aphmau",
+            "gaming",
+            "gamingshorts",
+            "gamingclips",
+            "battle",
+            "vs",
+            "showdown",
+            "chaos",
+            "crazy",
+            "insane",
+            "funny",
+            "comedy",
+            "animation",
+            "cartoon",
+            "epic",
+            "epicbattle",
+            "winner",
+            "champion",
+            "challenge",
+            "meme",
+            "memes",
+            "viralvideo",
+            "mustwatch",
+            "dailyshorts",
+            "subscribe",
+            "like",
+            "comment",
+            "share",
+            "youtube",
+            "youtubegaming",
+            "gaminglife",
+            "shortvideo",
+            "viralcontent",
+            "explore",
+            "explorepage",
+            "newvideo",
+            "popular",
+            "amazing",
+            "fun",
+            "exciting",
+            "watchnow",
+            "dontmiss",
+            "topshorts",
+            "creative",
+            "blockgame",
+            "gamingmemes",
+            "familyfriendly",
+            "entertainment",
+            "clutch",
+            "victory",
+            "gamingworld",
+            "funchallenge",
+            "epicgaming",
+            "viralclip",
+            "bestshorts",
+            "gamingreels",
+            "trendingnow",
+            "exploremore",
+            "dailycontent",
+            "contentcreator",
+            "youtubecreator",
+            "challengeaccepted",
+            "gamingfun",
+            "animationshorts",
+            "minecraftcreator",
+            "viralreels",
+            "epicshowdown",
+            "watchtilltheend",
+            "shockending",
+            "brainrotmemes"
+          ]
+        },
+        {
+          "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 1",
+          "channel": "MENGCRAFT STUDIOS",
           "published": "2026-06-24T16:00:30Z",
           "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 249939,
+          "views": 249975,
           "duration_s": 59,
           "hashtags": [
             "shorts",
@@ -765,96 +862,6 @@
             "bestshortvideo",
             "gamingfansunite"
           ]
-        },
-        {
-          "title": "TRALALERO TRALALA VS BOMBARDIRO CROCODILO \u2014 ITALIAN BRAINROT MINECRAFT CHAOS! HELP APHMAU DECIDE N 2",
-          "channel": "MENGCRAFT STUDIOS",
-          "published": "2026-07-06T02:00:20Z",
-          "channel_id": "UCPetNauTzSSJde8EyCI3o5Q",
-          "views": 223394,
-          "duration_s": 59,
-          "hashtags": [
-            "shorts",
-            "ytshorts",
-            "minecraft",
-            "minecraftshorts",
-            "gaming",
-            "brainrot",
-            "italianbrainrot",
-            "aphmau",
-            "tralalerotralala",
-            "bombardirocrocodilo",
-            "vs",
-            "battle",
-            "challenge",
-            "choice",
-            "vote",
-            "choose",
-            "decision",
-            "epic",
-            "funny",
-            "meme",
-            "memes",
-            "gamingmemes",
-            "chaos",
-            "crazy",
-            "insane",
-            "omg",
-            "unbelievable",
-            "clutch",
-            "skills",
-            "speed",
-            "parkour",
-            "obby",
-            "survival",
-            "trap",
-            "adventure",
-            "story",
-            "plot",
-            "twist",
-            "ending",
-            "mustwatch",
-            "watchtillend",
-            "epicmoments",
-            "gamingcommunity",
-            "minecraftfun",
-            "gamers",
-            "gaminglife",
-            "subscribe",
-            "like",
-            "comment",
-            "share",
-            "viralvideo",
-            "explore",
-            "explorepage",
-            "trend",
-            "tiktokviral",
-            "reels",
-            "viralreels",
-            "dailyshorts",
-            "bestshorts",
-            "gamingclips",
-            "funvideo",
-            "newshorts",
-            "dailygaming",
-            "kidsgaming",
-            "familyfriendly",
-            "minecraftworld",
-            "blockgame",
-            "epicchoice",
-            "whowillwin",
-            "top",
-            "best",
-            "popular",
-            "mustsee",
-            "viralcontent",
-            "brainrotedit",
-            "memeedit",
-            "chaosedit",
-            "minecraftedit",
-            "funnyshorts",
-            "viraltrend"
-          ]
         }
       ],
       "compare": {
@@ -868,17 +875,17 @@
             "question_pct": 8
           },
           "yours": {
-            "n": 52,
-            "avg_words": 9.6,
-            "emoji_pct": 75,
-            "caps_pct": 77,
-            "num_pct": 27,
+            "n": 55,
+            "avg_words": 9.7,
+            "emoji_pct": 76,
+            "caps_pct": 78,
+            "num_pct": 29,
             "question_pct": 0
           }
         },
         "length_s": {
           "leaders": 41,
-          "yours": 44
+          "yours": 45
         },
         "timing": {
           "ours": {
@@ -903,19 +910,19 @@
               "avg": 23
             },
             "23": {
-              "n": 8,
-              "avg": 12
+              "n": 9,
+              "avg": 10
             },
             "1": {
               "n": 4,
               "avg": 74
             },
             "2": {
-              "n": 3,
+              "n": 4,
               "avg": 2
             },
             "16": {
-              "n": 5,
+              "n": 6,
               "avg": 2
             },
             "3": {
@@ -925,9 +932,9 @@
           },
           "niche_hours": {
             "14": 2,
+            "6": 1,
             "11": 1,
             "21": 1,
-            "6": 1,
             "19": 1,
             "2": 1,
             "20": 1,
@@ -938,11 +945,11 @@
           }
         },
         "cadence": {
-          "leaders_per_day": 5.8,
-          "yours_per_day": 2.7,
+          "leaders_per_day": 4.5,
+          "yours_per_day": 2.9,
           "samples": [
-            20.6,
-            1.0,
+            14.8,
+            1.3,
             0.3,
             1.4
           ]
