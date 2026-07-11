@@ -173,7 +173,10 @@
     "brmovie:261d017eda1c",
     "twitch:PowerfulBombasticAlpacaChocolateRain-6cO-6qzfh6FgfPI9",
     "story:22d9972d009b",
-    "brmovie:f112b4250100"
+    "brmovie:f112b4250100",
+    "twitch:ShortCooperativeSeahorsePJSugar-CXq3ODA8xulaCXzE",
+    "story:ee5127ba3372",
+    "brmovie:7050733f9a9f"
   ],
   "uploading": [],
   "posts": [
@@ -2264,6 +2267,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-11T04:20:05.900070+00:00"
+    },
+    {
+      "clip_id": "twitch:ShortCooperativeSeahorsePJSugar-CXq3ODA8xulaCXzE",
+      "video_id": "Ju6XDRwxYAY",
+      "url": "https://youtube.com/shorts/Ju6XDRwxYAY",
+      "title": "PlaqueBoyMax TERRIFIED By Mascot \ud83d\ude31 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-11T06:10:40.971403+00:00"
+    },
+    {
+      "clip_id": "story:ee5127ba3372",
+      "video_id": "pXp4oeA7BPY",
+      "url": "https://youtube.com/shorts/pXp4oeA7BPY",
+      "title": "I Held It For 45 MINUTES \ud83d\udc80 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-07-11T06:12:33.150756+00:00"
+    },
+    {
+      "clip_id": "brmovie:7050733f9a9f",
+      "video_id": "rjJ5GB3OqEk",
+      "url": "https://youtube.com/shorts/rjJ5GB3OqEk",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S RECIPE \ud83d\udd25 #4463724 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-11T06:15:21.236620+00:00"
     }
   ]
 }
