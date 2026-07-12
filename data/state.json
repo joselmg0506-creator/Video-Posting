@@ -182,7 +182,10 @@
     "brmovie:e724e2315896",
     "twitch:OilyImportantConsoleTBTacoLeft-_k9pM5ce5ZEQJYUJ",
     "story:667ddfd62889",
-    "brmovie:c0ca4f29e70a"
+    "brmovie:c0ca4f29e70a",
+    "twitch:ScaryFlaccidJayPrimeMe-s2ADSZM-D-Ac4Reb",
+    "story:d39b00c3b090",
+    "brmovie:3a7a84462196"
   ],
   "uploading": [],
   "posts": [
@@ -2381,6 +2384,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-12T04:31:23.568927+00:00"
+    },
+    {
+      "clip_id": "twitch:ScaryFlaccidJayPrimeMe-s2ADSZM-D-Ac4Reb",
+      "video_id": "KVK33b4xf3w",
+      "url": "https://youtube.com/shorts/KVK33b4xf3w",
+      "title": "2xRaKai QUITS STREAMING for RAP \ud83c\udfa4 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-12T06:29:32.089182+00:00"
+    },
+    {
+      "clip_id": "story:d39b00c3b090",
+      "video_id": "QBZfjxRUHbk",
+      "url": "https://youtube.com/shorts/QBZfjxRUHbk",
+      "title": "The Substitute Teacher's Secret Camera \ud83d\udcf9 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-12T06:31:52.169292+00:00"
+    },
+    {
+      "clip_id": "brmovie:3a7a84462196",
+      "video_id": "YwBEom82f90",
+      "url": "https://youtube.com/shorts/YwBEom82f90",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA THEFT \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "TUNG TUNG TUNG SAHUR, BOMBARDIRO CROCODILO, BALLERINA CAPPUCCINA",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-12T06:34:40.459774+00:00"
     }
   ]
 }
