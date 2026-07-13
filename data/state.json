@@ -191,7 +191,10 @@
     "brmovie:527b495b86c2",
     "twitch:ExpensiveSourTapirSSSsss-jBaNxdr8QNjnU2A-",
     "story:7f779643c1ac",
-    "brmovie:1eca6471be20"
+    "brmovie:1eca6471be20",
+    "twitch:VenomousTransparentVelociraptorFrankerZ-73k17YV7idQaGGX5",
+    "story:882b6497ce6d",
+    "brmovie:2bbe7b4f87a2"
   ],
   "uploading": [],
   "posts": [
@@ -2498,6 +2501,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-13T04:35:53.180789+00:00"
+    },
+    {
+      "clip_id": "twitch:VenomousTransparentVelociraptorFrankerZ-73k17YV7idQaGGX5",
+      "video_id": "J1VkP5bIVbw",
+      "url": "https://youtube.com/shorts/J1VkP5bIVbw",
+      "title": "PlaqueBoyMax LOSES IT at Guest \ud83d\ude2d #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-13T06:47:28.974872+00:00"
+    },
+    {
+      "clip_id": "story:882b6497ce6d",
+      "video_id": "ap12BwQpiKo",
+      "url": "https://youtube.com/shorts/ap12BwQpiKo",
+      "title": "New Kid Used The Bathroom 47 TIMES \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_bella",
+      "posted_at": "2026-07-13T06:50:07.635639+00:00"
+    },
+    {
+      "clip_id": "brmovie:2bbe7b4f87a2",
+      "video_id": "IrJCP2nzQLg",
+      "url": "https://youtube.com/shorts/IrJCP2nzQLg",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Nonno Spaghettino",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-13T06:53:05.489434+00:00"
     }
   ]
 }
