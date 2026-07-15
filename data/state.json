@@ -206,7 +206,10 @@
     "brmovie:c462a5d3718d",
     "twitch:EasyHorribleMarjoramPipeHype-1psJ3eFX7Ett5w4T",
     "story:6e671535c8ee",
-    "brmovie:f4d2a8c4aaef"
+    "brmovie:f4d2a8c4aaef",
+    "twitch:DreamySweetEndiveM4xHeh-0PecpC7v6CHKYV6B",
+    "story:71305b29aade",
+    "brmovie:073bc4bba653"
   ],
   "uploading": [],
   "posts": [
@@ -2693,6 +2696,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-14T21:06:40.639711+00:00"
+    },
+    {
+      "clip_id": "twitch:DreamySweetEndiveM4xHeh-0PecpC7v6CHKYV6B",
+      "video_id": "MTAycy5ed8Q",
+      "url": "https://youtube.com/shorts/MTAycy5ed8Q",
+      "title": "PlaqueBoyMax DISRESPECTS England \ud83d\udd25 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-15T04:01:15.123376+00:00"
+    },
+    {
+      "clip_id": "story:71305b29aade",
+      "video_id": "CIC64lFKZFQ",
+      "url": "https://youtube.com/shorts/CIC64lFKZFQ",
+      "title": "I'm 3 Feet Tall and I Saved Everyone \ud83e\uddb8\u200d\u2640\ufe0f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-15T04:03:49.320341+00:00"
+    },
+    {
+      "clip_id": "brmovie:073bc4bba653",
+      "video_id": "IXDBOLrpqPw",
+      "url": "https://youtube.com/shorts/IXDBOLrpqPw",
+      "title": "CAPPUCCINA & SAHUR: 5 MINUTES TO DESTINY \u2615 #Shorts",
+      "creator": "Ballerina Cappuccina, Tung Tung Tung Sahur",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-15T04:06:41.870818+00:00"
     }
   ]
 }
