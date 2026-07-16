@@ -218,7 +218,9 @@
     "brmovie:dd132f85f694",
     "twitch:TubularMiniatureZebraOhMyDog-4PxfO7jTBHKM69Ub",
     "story:aeda45dbcea0",
-    "brmovie:c529e20dff14"
+    "brmovie:c529e20dff14",
+    "twitch:YummyAlertGuanacoPlanking--Y5soGn9Dcz5dWHw",
+    "story:f3229a850fc3"
   ],
   "uploading": [],
   "posts": [
@@ -2849,6 +2851,30 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-16T04:04:58.085469+00:00"
+    },
+    {
+      "clip_id": "twitch:YummyAlertGuanacoPlanking--Y5soGn9Dcz5dWHw",
+      "video_id": "8g_VORx981Q",
+      "url": "https://youtube.com/shorts/8g_VORx981Q",
+      "title": "Lacy SNITCHING Already \ud83d\udc80 #Shorts",
+      "creator": "Fanum",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-16T06:15:01.235421+00:00"
+    },
+    {
+      "clip_id": "story:f3229a850fc3",
+      "video_id": "lv8mIzilRZc",
+      "url": "https://youtube.com/shorts/lv8mIzilRZc",
+      "title": "I FINALLY Proved It Wasn't Me \ud83c\udfa5 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-16T06:17:33.300294+00:00"
     }
   ]
 }
