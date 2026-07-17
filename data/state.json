@@ -229,7 +229,10 @@
     "brmovie:6467f3af0b4c",
     "twitch:TastyIcyDelicataHoneyBadger-SDk9ydqxC_C3Uyyh",
     "story:7637ef9cb021",
-    "brmovie:74f04e73d474"
+    "brmovie:74f04e73d474",
+    "twitch:TawdryEncouragingLadiesDoritosChip-4ZKoqIAzZ3bzKPUv",
+    "story:78e1141de773",
+    "brmovie:e5e48b52e224"
   ],
   "uploading": [],
   "posts": [
@@ -2992,6 +2995,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-17T06:15:56.867181+00:00"
+    },
+    {
+      "clip_id": "twitch:TawdryEncouragingLadiesDoritosChip-4ZKoqIAzZ3bzKPUv",
+      "video_id": "OU4rV433EwQ",
+      "url": "https://youtube.com/shorts/OU4rV433EwQ",
+      "title": "Kai Meets Anime Girl IRL \ud83e\udd2f #Shorts",
+      "creator": "KaiCenat",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-17T20:54:37.016591+00:00"
+    },
+    {
+      "clip_id": "story:78e1141de773",
+      "video_id": "Eg_vBxwvCP8",
+      "url": "https://youtube.com/shorts/Eg_vBxwvCP8",
+      "title": "I Ate the MYSTERY TACO and Regretted It \ud83d\ude2d #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "bm_george",
+      "posted_at": "2026-07-17T20:56:46.758129+00:00"
+    },
+    {
+      "clip_id": "brmovie:e5e48b52e224",
+      "video_id": "KO2edmLP_ig",
+      "url": "https://youtube.com/shorts/KO2edmLP_ig",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Nonna Linguine",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-17T20:59:28.431891+00:00"
     }
   ]
 }
