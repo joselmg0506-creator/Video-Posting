@@ -238,7 +238,10 @@
     "brmovie:fbc6ff52f321",
     "twitch:DeterminedSoftLasagnaEleGiggle-z5Nh5aTFknZjV0OU",
     "story:8b9432db2505",
-    "brmovie:4ae05018d611"
+    "brmovie:4ae05018d611",
+    "twitch:SneakyPerfectCrocodileDeIlluminati-daF2n18tdsMp_IP7",
+    "story:6b019a9d60d6",
+    "brmovie:e42aa96da4fe"
   ],
   "uploading": [],
   "posts": [
@@ -3109,6 +3112,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-18T06:04:00.547047+00:00"
+    },
+    {
+      "clip_id": "twitch:SneakyPerfectCrocodileDeIlluminati-daF2n18tdsMp_IP7",
+      "video_id": "R38N7Wd-lto",
+      "url": "https://youtube.com/shorts/R38N7Wd-lto",
+      "title": "Totaamc DRAINS IT at Convention \ud83c\udfc0 #Shorts",
+      "creator": "totaamc",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-18T20:45:17.348872+00:00"
+    },
+    {
+      "clip_id": "story:6b019a9d60d6",
+      "video_id": "Kzwudwm7rvQ",
+      "url": "https://youtube.com/shorts/Kzwudwm7rvQ",
+      "title": "Only 1 Stall Worked & I Lost The Race \ud83d\ude31 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_heart",
+      "posted_at": "2026-07-18T20:47:41.023058+00:00"
+    },
+    {
+      "clip_id": "brmovie:e42aa96da4fe",
+      "video_id": "PuwVCraCUzA",
+      "url": "https://youtube.com/shorts/PuwVCraCUzA",
+      "title": "TUNG TUNG TUNG SAHUR STEALS THE CAPPUCCINO \ud83d\udd28\u2615 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-18T20:50:54.695311+00:00"
     }
   ]
 }
