@@ -235,7 +235,10 @@
     "brmovie:e5e48b52e224",
     "twitch:TentativeHomelyElephantAMPEnergy-OlJIUfCMEubKdJ9w",
     "story:303229be30fd",
-    "brmovie:fbc6ff52f321"
+    "brmovie:fbc6ff52f321",
+    "twitch:DeterminedSoftLasagnaEleGiggle-z5Nh5aTFknZjV0OU",
+    "story:8b9432db2505",
+    "brmovie:4ae05018d611"
   ],
   "uploading": [],
   "posts": [
@@ -3070,6 +3073,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-18T04:01:59.331085+00:00"
+    },
+    {
+      "clip_id": "twitch:DeterminedSoftLasagnaEleGiggle-z5Nh5aTFknZjV0OU",
+      "video_id": "N7GqUxBCDxs",
+      "url": "https://youtube.com/shorts/N7GqUxBCDxs",
+      "title": "Agent CONFUSED About Emily's Setup \ud83d\ude02 #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-18T05:59:09.372112+00:00"
+    },
+    {
+      "clip_id": "story:8b9432db2505",
+      "video_id": "ZUIAWdRXn0w",
+      "url": "https://youtube.com/shorts/ZUIAWdRXn0w",
+      "title": "The Mystery Note Changed EVERYTHING \ud83d\udcdd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-18T06:01:17.731224+00:00"
+    },
+    {
+      "clip_id": "brmovie:4ae05018d611",
+      "video_id": "_JQAe271EPE",
+      "url": "https://youtube.com/shorts/_JQAe271EPE",
+      "title": "TUNG TUNG TUNG vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-18T06:04:00.547047+00:00"
     }
   ]
 }
