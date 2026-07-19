@@ -241,7 +241,10 @@
     "brmovie:4ae05018d611",
     "twitch:SneakyPerfectCrocodileDeIlluminati-daF2n18tdsMp_IP7",
     "story:6b019a9d60d6",
-    "brmovie:e42aa96da4fe"
+    "brmovie:e42aa96da4fe",
+    "twitch:CrispyGenerousNewtBIRB-dDe064LZ7SCmJegy",
+    "story:bf820d2117e0",
+    "brmovie:6c596bb59fd1"
   ],
   "uploading": [],
   "posts": [
@@ -3148,6 +3151,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-18T20:50:54.695311+00:00"
+    },
+    {
+      "clip_id": "twitch:CrispyGenerousNewtBIRB-dDe064LZ7SCmJegy",
+      "video_id": "JkrliVYudi4",
+      "url": "https://youtube.com/shorts/JkrliVYudi4",
+      "title": "2xRaKai POURS SAUCE ON HER \ud83d\udc80 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-19T04:22:38.988127+00:00"
+    },
+    {
+      "clip_id": "story:bf820d2117e0",
+      "video_id": "BMqzl98NEvk",
+      "url": "https://youtube.com/shorts/BMqzl98NEvk",
+      "title": "I Had 2 Minutes Left \ud83d\udc80 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-19T04:24:41.550147+00:00"
+    },
+    {
+      "clip_id": "brmovie:6c596bb59fd1",
+      "video_id": "6bC4ZDajFFg",
+      "url": "https://youtube.com/shorts/6bC4ZDajFFg",
+      "title": "TUNG TUNG TUNG SAHUR STEALS CAPPUCCINA'S ESPRESSO: 60 SECONDS OF CHAOS \u2615\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-19T04:27:07.148500+00:00"
     }
   ]
 }
