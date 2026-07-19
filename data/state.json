@@ -247,7 +247,10 @@
     "brmovie:6c596bb59fd1",
     "twitch:DaintyBoldCiderStrawBeary-WFhL2jI0QYXRH2J-",
     "story:5b0b2c479d80",
-    "brmovie:162b66e0e1c3"
+    "brmovie:162b66e0e1c3",
+    "twitch:CuriousDelightfulRutabagaYee-6Y5EI-cljFtRY_tC",
+    "story:a9daff92df4b",
+    "brmovie:dff23f42c7e5"
   ],
   "uploading": [],
   "posts": [
@@ -3226,6 +3229,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-19T06:26:54.294303+00:00"
+    },
+    {
+      "clip_id": "twitch:CuriousDelightfulRutabagaYee-6Y5EI-cljFtRY_tC",
+      "video_id": "IIGEm5aF-uQ",
+      "url": "https://youtube.com/shorts/IIGEm5aF-uQ",
+      "title": "Fanum GETS KICKED \ud83d\ude2d Bangkok Reality #Shorts",
+      "creator": "Fanum",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-19T20:46:28.869204+00:00"
+    },
+    {
+      "clip_id": "story:a9daff92df4b",
+      "video_id": "9AgV2Cpbma4",
+      "url": "https://youtube.com/shorts/9AgV2Cpbma4",
+      "title": "I Held It For 45 Minutes \ud83d\udc80 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-19T20:48:47.921073+00:00"
+    },
+    {
+      "clip_id": "brmovie:dff23f42c7e5",
+      "video_id": "ysHS7DpA66M",
+      "url": "https://youtube.com/shorts/ysHS7DpA66M",
+      "title": "TUNG TUNG TUNG SAHUR vs BOMBARDIRO: THE PASTA PROPHECY \ud83c\udf5d\ud83d\udca3 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo, Pasta Spectre",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-19T20:51:01.347023+00:00"
     }
   ]
 }
