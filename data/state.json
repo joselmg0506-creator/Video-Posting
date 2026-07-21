@@ -262,7 +262,10 @@
     "brmovie:3fbdce6ce696",
     "twitch:SwissManlyKangarooPRChase-fCO_OHO9QUIuPGlg",
     "story:f04740c41dab",
-    "brmovie:a136df9c61bf"
+    "brmovie:a136df9c61bf",
+    "youtube:781e932023e8:27",
+    "story:506eb0990bb3",
+    "brmovie:e646cda79e91"
   ],
   "uploading": [],
   "posts": [
@@ -3421,6 +3424,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-21T04:19:43.210702+00:00"
+    },
+    {
+      "clip_id": "youtube:781e932023e8:27",
+      "video_id": "l50hqCXHdx4",
+      "url": "https://youtube.com/shorts/l50hqCXHdx4",
+      "title": "IShowSpeed CARIBBEAN TOUR \ud83c\udfdd\ufe0f #Shorts",
+      "creator": "IShowSpeed - Videos",
+      "source": "youtube_staged",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-21T06:22:31.123460+00:00"
+    },
+    {
+      "clip_id": "story:506eb0990bb3",
+      "video_id": "yVhRxqNlKm0",
+      "url": "https://youtube.com/shorts/yVhRxqNlKm0",
+      "title": "Popular Girl's Secret Made Me CRY \ud83d\ude2d #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-21T06:24:53.687106+00:00"
+    },
+    {
+      "clip_id": "brmovie:e646cda79e91",
+      "video_id": "JB5P-0QlTgQ",
+      "url": "https://youtube.com/shorts/JB5P-0QlTgQ",
+      "title": "TUNG TUNG TUNG SAHUR STEALS THE LASAGNA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-21T06:27:34.022053+00:00"
     }
   ]
 }
