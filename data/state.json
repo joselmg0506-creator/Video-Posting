@@ -265,7 +265,10 @@
     "brmovie:a136df9c61bf",
     "youtube:781e932023e8:27",
     "story:506eb0990bb3",
-    "brmovie:e646cda79e91"
+    "brmovie:e646cda79e91",
+    "twitch:DirtyProductiveCattleKevinTurtle-klYrl5G9M8YUdr4L",
+    "story:4b0e966a4f11",
+    "brmovie:74fb662792a6"
   ],
   "uploading": [],
   "posts": [
@@ -3460,6 +3463,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-21T06:27:34.022053+00:00"
+    },
+    {
+      "clip_id": "twitch:DirtyProductiveCattleKevinTurtle-klYrl5G9M8YUdr4L",
+      "video_id": "iEyVXfh6uhc",
+      "url": "https://youtube.com/shorts/iEyVXfh6uhc",
+      "title": "Agent00 TEACHES the clip farming TRUTH \ud83d\udcda #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-21T21:08:13.470292+00:00"
+    },
+    {
+      "clip_id": "story:4b0e966a4f11",
+      "video_id": "U8PWMdnwdDE",
+      "url": "https://youtube.com/shorts/U8PWMdnwdDE",
+      "title": "I Finally Figured Out My Bathroom Curse \ud83d\udebd #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-21T21:10:43.129311+00:00"
+    },
+    {
+      "clip_id": "brmovie:74fb662792a6",
+      "video_id": "tm4UEpgxQqE",
+      "url": "https://youtube.com/shorts/tm4UEpgxQqE",
+      "title": "BOMBARDIRO vs CAPPUCCINA: THE ESPRESSO HEIST \ud83d\udca3 #Shorts",
+      "creator": "Bombardiro Crocodilo, Ballerina Cappuccina, Tung Tung Tung Sahur",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-21T21:13:47.920189+00:00"
     }
   ]
 }
