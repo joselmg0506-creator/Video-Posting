@@ -280,7 +280,10 @@
     "brmovie:8feb6832592d",
     "twitch:DifferentDarkShieldBatChest-xLycC02APWStsVV-",
     "story:62b51a2b2a7c",
-    "brmovie:5d411df23d89"
+    "brmovie:5d411df23d89",
+    "twitch:JollyGeniusLegRlyTho-BD7EhTyOPaf1ayUE",
+    "story:0fe4aa554d3b",
+    "brmovie:4f8865c0d2c3"
   ],
   "uploading": [],
   "posts": [
@@ -3655,6 +3658,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-23T04:21:09.996984+00:00"
+    },
+    {
+      "clip_id": "twitch:JollyGeniusLegRlyTho-BD7EhTyOPaf1ayUE",
+      "video_id": "CwXh8-BzhmY",
+      "url": "https://youtube.com/shorts/CwXh8-BzhmY",
+      "title": "Agent00 DEFENDS ExtraEmily \ud83d\udc10 #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-23T06:27:24.890228+00:00"
+    },
+    {
+      "clip_id": "story:0fe4aa554d3b",
+      "video_id": "JyeuO9UTrCA",
+      "url": "https://youtube.com/shorts/JyeuO9UTrCA",
+      "title": "I Held It For 47 Minutes \ud83d\udca9 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "am_adam",
+      "posted_at": "2026-07-23T06:29:42.101853+00:00"
+    },
+    {
+      "clip_id": "brmovie:4f8865c0d2c3",
+      "video_id": "T87kChy3MgQ",
+      "url": "https://youtube.com/shorts/T87kChy3MgQ",
+      "title": "TUNG TUNG TUNG vs BOMBARDIRO: THE PASTA BETRAYAL \ud83c\udf5d\ud83d\udca5 #Shorts",
+      "creator": "Tung Tung Tung Sahur, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-23T06:32:22.407493+00:00"
     }
   ]
 }
