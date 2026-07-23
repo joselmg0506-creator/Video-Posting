@@ -277,7 +277,10 @@
     "brmovie:10af0ace764c",
     "twitch:InquisitiveSillyGaurHassaanChop-jMCWr0-Ug7x-VrT2",
     "story:df52a1eddaf5",
-    "brmovie:8feb6832592d"
+    "brmovie:8feb6832592d",
+    "twitch:DifferentDarkShieldBatChest-xLycC02APWStsVV-",
+    "story:62b51a2b2a7c",
+    "brmovie:5d411df23d89"
   ],
   "uploading": [],
   "posts": [
@@ -3616,6 +3619,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-22T21:10:11.213992+00:00"
+    },
+    {
+      "clip_id": "twitch:DifferentDarkShieldBatChest-xLycC02APWStsVV-",
+      "video_id": "I7clm3fkYpA",
+      "url": "https://youtube.com/shorts/I7clm3fkYpA",
+      "title": "Fanum PURGES \ud83d\udc80 #Shorts",
+      "creator": "Fanum",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-23T04:16:30.915139+00:00"
+    },
+    {
+      "clip_id": "story:62b51a2b2a7c",
+      "video_id": "BCi4olE9b38",
+      "url": "https://youtube.com/shorts/BCi4olE9b38",
+      "title": "I'm 3 Feet Tall And I Saved The Day \ud83e\uddb8\u200d\u2640\ufe0f #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-23T04:18:39.937814+00:00"
+    },
+    {
+      "clip_id": "brmovie:5d411df23d89",
+      "video_id": "TqDI7v1uK0I",
+      "url": "https://youtube.com/shorts/TqDI7v1uK0I",
+      "title": "TUNG TUNG TUNG SAHUR STEALS THE PASTA PROPHECY \ud83c\udf5d #Shorts",
+      "creator": "Tung Tung Tung Sahur, Ballerina Cappuccina, Bombardiro Crocodilo",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-23T04:21:09.996984+00:00"
     }
   ]
 }
