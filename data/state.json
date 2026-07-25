@@ -298,7 +298,10 @@
     "brmovie:0ee4b856ed5e",
     "twitch:MiniatureRoughSoybeanTBTacoLeft-nBmOKKnOHIIE8y0C",
     "story:503ad849a5a0",
-    "brmovie:d25e67b4dc27"
+    "brmovie:d25e67b4dc27",
+    "twitch:PeacefulModernHerringBibleThump-3NAuErLQg4jiD7fI",
+    "story:1ea11e9c4d5d",
+    "brmovie:afe6cbd679b1"
   ],
   "uploading": [],
   "posts": [
@@ -3889,6 +3892,42 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-25T04:08:43.687361+00:00"
+    },
+    {
+      "clip_id": "twitch:PeacefulModernHerringBibleThump-3NAuErLQg4jiD7fI",
+      "video_id": "lfr1jiHxrWw",
+      "url": "https://youtube.com/shorts/lfr1jiHxrWw",
+      "title": "PlaqueBoyMax CRASHES OUT \ud83d\udd25 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-25T06:15:09.627528+00:00"
+    },
+    {
+      "clip_id": "story:1ea11e9c4d5d",
+      "video_id": "_13hkPIFAdY",
+      "url": "https://youtube.com/shorts/_13hkPIFAdY",
+      "title": "Nobody Believed The Zoo Incident \ud83e\udd81 #Shorts",
+      "creator": "",
+      "source": "original",
+      "channel": "stories",
+      "narrated": true,
+      "voice": "af_sarah",
+      "posted_at": "2026-07-25T06:17:14.471510+00:00"
+    },
+    {
+      "clip_id": "brmovie:afe6cbd679b1",
+      "video_id": "jGURVniRqew",
+      "url": "https://youtube.com/shorts/jGURVniRqew",
+      "title": "TRALALERO vs BOMBARDIRO: 24 HOURS TO STEAL THE SPAGHETTI \ud83c\udf5d\ud83d\udca3 #Shorts",
+      "creator": "Tralalero Tralala, Bombardiro Crocodilo, Ballerina Cappuccina",
+      "source": "brainrot",
+      "channel": "characters",
+      "narrated": true,
+      "voice": "it-IT (per-character)",
+      "posted_at": "2026-07-25T06:20:45.745895+00:00"
     }
   ]
 }
