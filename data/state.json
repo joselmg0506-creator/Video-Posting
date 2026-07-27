@@ -313,7 +313,8 @@
     "brmovie:550b980dcfee",
     "twitch:MuddyTalentedCamelHassanChop-Z7riVY84Q6Zi4OwK",
     "story:6a3f25732f6f",
-    "brmovie:704d526d0c95"
+    "brmovie:704d526d0c95",
+    "twitch:HorribleCautiousHamsterCoolStoryBob-IqZIEwU6JuHNRH2L"
   ],
   "uploading": [],
   "posts": [
@@ -4084,6 +4085,18 @@
       "narrated": true,
       "voice": "it-IT (per-character)",
       "posted_at": "2026-07-26T21:03:33.113734+00:00"
+    },
+    {
+      "clip_id": "twitch:HorribleCautiousHamsterCoolStoryBob-IqZIEwU6JuHNRH2L",
+      "video_id": "PvB0SjWs_WA",
+      "url": "https://youtube.com/shorts/PvB0SjWs_WA",
+      "title": "Agent00 RECONSIDERS Little Rock \ud83e\udde2 #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-27T04:36:43.012046+00:00"
     }
   ]
 }
