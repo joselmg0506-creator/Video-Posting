@@ -315,7 +315,8 @@
     "story:6a3f25732f6f",
     "brmovie:704d526d0c95",
     "twitch:HorribleCautiousHamsterCoolStoryBob-IqZIEwU6JuHNRH2L",
-    "twitch:VictoriousTangibleCucumberPhilosoraptor-6qRtFNbEIlMsSH36"
+    "twitch:VictoriousTangibleCucumberPhilosoraptor-6qRtFNbEIlMsSH36",
+    "twitch:AwkwardSpotlessSpiderRalpherZ-s0WDNw4vVtzqh6nf"
   ],
   "uploading": [],
   "posts": [
@@ -4110,6 +4111,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-27T06:58:57.480918+00:00"
+    },
+    {
+      "clip_id": "twitch:AwkwardSpotlessSpiderRalpherZ-s0WDNw4vVtzqh6nf",
+      "video_id": "mWX81j_ipMY",
+      "url": "https://youtube.com/shorts/mWX81j_ipMY",
+      "title": "Kai ROASTS Daveon's Energy \ud83d\ude02 #Shorts",
+      "creator": "KaiCenat",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-27T21:11:51.313773+00:00"
     }
   ]
 }
