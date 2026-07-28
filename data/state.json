@@ -316,7 +316,8 @@
     "brmovie:704d526d0c95",
     "twitch:HorribleCautiousHamsterCoolStoryBob-IqZIEwU6JuHNRH2L",
     "twitch:VictoriousTangibleCucumberPhilosoraptor-6qRtFNbEIlMsSH36",
-    "twitch:AwkwardSpotlessSpiderRalpherZ-s0WDNw4vVtzqh6nf"
+    "twitch:AwkwardSpotlessSpiderRalpherZ-s0WDNw4vVtzqh6nf",
+    "twitch:HumbleKawaiiAnteaterBleedPurple-Fxbe6SKbxAybDXFg"
   ],
   "uploading": [],
   "posts": [
@@ -4123,6 +4124,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-27T21:11:51.313773+00:00"
+    },
+    {
+      "clip_id": "twitch:HumbleKawaiiAnteaterBleedPurple-Fxbe6SKbxAybDXFg",
+      "video_id": "EG1C2dvX_uE",
+      "url": "https://youtube.com/shorts/EG1C2dvX_uE",
+      "title": "Streamer Confronts CRUSH IRL \ud83d\ude2d #Shorts",
+      "creator": "totaamc",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-28T04:03:05.385416+00:00"
     }
   ]
 }
