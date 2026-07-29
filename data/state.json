@@ -321,7 +321,8 @@
     "twitch:IcyPoisedChinchillaDuDudu-APqVAKHjE1G90-50",
     "twitch:ExcitedHilariousMagpieChefFrank-gPldfejJ9s6AKEU7",
     "twitch:PeacefulThirstyPassionfruitTheRinger-X2Q4bQzPelE7BFPA",
-    "twitch:StormyProudNeanderthalFeelsBadMan-oYKpi0BGlgeB-X37"
+    "twitch:StormyProudNeanderthalFeelsBadMan-oYKpi0BGlgeB-X37",
+    "twitch:ZealousSuccessfulShallotPicoMause-tlk5zwRjyZwL4SO7"
   ],
   "uploading": [],
   "posts": [
@@ -4188,6 +4189,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-29T06:40:06.891720+00:00"
+    },
+    {
+      "clip_id": "twitch:ZealousSuccessfulShallotPicoMause-tlk5zwRjyZwL4SO7",
+      "video_id": "7pJA0DryQ64",
+      "url": "https://youtube.com/shorts/7pJA0DryQ64",
+      "title": "Tota Meets Marcelo at DEF JAM \u26bd #Shorts",
+      "creator": "totaamc",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-29T20:55:44.342627+00:00"
     }
   ]
 }
