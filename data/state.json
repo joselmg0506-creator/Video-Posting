@@ -324,7 +324,8 @@
     "twitch:StormyProudNeanderthalFeelsBadMan-oYKpi0BGlgeB-X37",
     "twitch:ZealousSuccessfulShallotPicoMause-tlk5zwRjyZwL4SO7",
     "twitch:FlirtyOpenCrabsUWot-DGfWD3ceOD38mrIz",
-    "twitch:BetterBlazingSaladGingerPower-EwmfDQNvArnO34PT"
+    "twitch:BetterBlazingSaladGingerPower-EwmfDQNvArnO34PT",
+    "twitch:ProtectiveSpotlessKimchiCeilingCat-00eJ07vExQENbEpO"
   ],
   "uploading": [],
   "posts": [
@@ -4227,6 +4228,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-30T06:20:23.879637+00:00"
+    },
+    {
+      "clip_id": "twitch:ProtectiveSpotlessKimchiCeilingCat-00eJ07vExQENbEpO",
+      "video_id": "3jCaYbd6gYA",
+      "url": "https://youtube.com/shorts/3jCaYbd6gYA",
+      "title": "2xRaKai FORCES Water \ud83d\udc80 #Shorts",
+      "creator": "2xRaKai",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-30T21:08:19.422751+00:00"
     }
   ]
 }
