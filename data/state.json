@@ -322,7 +322,8 @@
     "twitch:ExcitedHilariousMagpieChefFrank-gPldfejJ9s6AKEU7",
     "twitch:PeacefulThirstyPassionfruitTheRinger-X2Q4bQzPelE7BFPA",
     "twitch:StormyProudNeanderthalFeelsBadMan-oYKpi0BGlgeB-X37",
-    "twitch:ZealousSuccessfulShallotPicoMause-tlk5zwRjyZwL4SO7"
+    "twitch:ZealousSuccessfulShallotPicoMause-tlk5zwRjyZwL4SO7",
+    "twitch:FlirtyOpenCrabsUWot-DGfWD3ceOD38mrIz"
   ],
   "uploading": [],
   "posts": [
@@ -4201,6 +4202,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-29T20:55:44.342627+00:00"
+    },
+    {
+      "clip_id": "twitch:FlirtyOpenCrabsUWot-DGfWD3ceOD38mrIz",
+      "video_id": "HbJ5Xwx5JZE",
+      "url": "https://youtube.com/shorts/HbJ5Xwx5JZE",
+      "title": "Fanum Rates JuicyJacob 8+ \ud83d\udcaf #Shorts",
+      "creator": "Fanum",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-07-30T03:54:50.562002+00:00"
     }
   ]
 }
