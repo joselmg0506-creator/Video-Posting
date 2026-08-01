@@ -328,7 +328,8 @@
     "twitch:ProtectiveSpotlessKimchiCeilingCat-00eJ07vExQENbEpO",
     "twitch:GorgeousFaithfulCaterpillarArsonNoSexy--TZLMKzUPWNQqTx5",
     "twitch:FlaccidVainWombatArgieB8-RrCr0e8BIb33QQcT",
-    "twitch:BigGoldenSpaghettiBatChest-pE5vnwf3vGIsde9Y"
+    "twitch:BigGoldenSpaghettiBatChest-pE5vnwf3vGIsde9Y",
+    "twitch:ThankfulDeadOrangeKappaRoss-f4NsLtW_AIOeZu7p"
   ],
   "uploading": [],
   "posts": [
@@ -4279,6 +4280,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-07-31T21:02:08.183394+00:00"
+    },
+    {
+      "clip_id": "twitch:ThankfulDeadOrangeKappaRoss-f4NsLtW_AIOeZu7p",
+      "video_id": "57l8e8ZRMh0",
+      "url": "https://youtube.com/shorts/57l8e8ZRMh0",
+      "title": "Agent00 SPOTS Someone \ud83d\udc40 #Shorts",
+      "creator": "Agent00",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-08-01T04:22:17.883232+00:00"
     }
   ]
 }
