@@ -331,7 +331,8 @@
     "twitch:BigGoldenSpaghettiBatChest-pE5vnwf3vGIsde9Y",
     "twitch:ThankfulDeadOrangeKappaRoss-f4NsLtW_AIOeZu7p",
     "twitch:LaconicTangentialCaterpillarPMSTwin-f2IB54gPZF5X27Xp",
-    "twitch:ArtsySmallLadiesKappaWealth-fyKyZhWC_E6CB3co"
+    "twitch:ArtsySmallLadiesKappaWealth-fyKyZhWC_E6CB3co",
+    "twitch:HumbleObliqueLasagnaKeepo-TzsSNajwaoaFNiEW"
   ],
   "uploading": [],
   "posts": [
@@ -4318,6 +4319,18 @@
       "narrated": false,
       "voice": "",
       "posted_at": "2026-08-01T20:45:27.295549+00:00"
+    },
+    {
+      "clip_id": "twitch:HumbleObliqueLasagnaKeepo-TzsSNajwaoaFNiEW",
+      "video_id": "tU4tCxxXMOM",
+      "url": "https://youtube.com/shorts/tU4tCxxXMOM",
+      "title": "PlaqueBoyMax DIVA Moment \ud83d\ude02 #Shorts",
+      "creator": "PlaqueBoyMax",
+      "source": "twitch",
+      "channel": "clips",
+      "narrated": false,
+      "voice": "",
+      "posted_at": "2026-08-02T04:26:03.297338+00:00"
     }
   ]
 }
